@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SilverSucks - Ruby</title><meta name="author" content="Johnson Liam"><meta name="copyright" content="Johnson Liam"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="千万不要懒，懒习惯了，稍微努力一下，就会以为自己在拼命！">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SilverSucks">
+<meta property="og:url" content="https://github.com/weiswift/index.html">
+<meta property="og:site_name" content="SilverSucks">
+<meta property="og:description" content="千万不要懒，懒习惯了，稍微努力一下，就会以为自己在拼命！">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://space.liam10086.ink/12342.jpg">
+<meta property="article:author" content="Johnson Liam">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://space.liam10086.ink/12342.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://github.com/weiswift/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: {"path":"search.xsml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isSidebar: false,
+  postUpdate: '2020-11-01 07:00:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><link rel="stylesheet" href="/css/iconfont/iconfont.css"><script src="/live2d-widget/autoload.js"></script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">Loading...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="http://space.liam10086.ink/12342.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">10</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">11</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-gamepad"></i><span> Games</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/mikutap/"><i class="fa-fw fa fa-music"></i><span> MikuTap 初音未来</span></a></li><li><a class="site-page" href="/starbattle/"><i class="fa-fw fa fa-space-shuttle"></i><span> StartBattle 星际大战</span></a></li><li><a class="site-page" href="/2048/"><i class="fa-fw fa fa-flag"></i><span> 2048 经典游戏</span></a></li><li><a class="site-page" href="/battlecity/"><i class="fa-fw fa fa-arrow-circle-left"></i><span> BattleCity 坦克大战</span></a></li><li><a class="site-page" href="/pacman/"><i class="fa-fw fa fa-bolt"></i><span> PacMan  吃豆人</span></a></li><li><a class="site-page" href="/tetris/"><i class="fa-fw fa fa-arrows-alt"></i><span> Tetris 俄罗斯方块</span></a></li><li><a class="site-page" href="/smallcat/"><i class="fa-fw fa fa-paw"></i><span> CatchCat 困住小猫</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-leaf"></i><span> Moments</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/diary/"><i class="fa-fw fas fa-bookmark"></i><span> Diary</span></a></li><li><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-hourglass-half"></i><span> Gallery</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-check-square"></i><span> Messages</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(http://space.liam10086.ink/0KGhj.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">SilverSucks</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Links</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-gamepad"></i><span> Games</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/mikutap/"><i class="fa-fw fa fa-music"></i><span> MikuTap 初音未来</span></a></li><li><a class="site-page" href="/starbattle/"><i class="fa-fw fa fa-space-shuttle"></i><span> StartBattle 星际大战</span></a></li><li><a class="site-page" href="/2048/"><i class="fa-fw fa fa-flag"></i><span> 2048 经典游戏</span></a></li><li><a class="site-page" href="/battlecity/"><i class="fa-fw fa fa-arrow-circle-left"></i><span> BattleCity 坦克大战</span></a></li><li><a class="site-page" href="/pacman/"><i class="fa-fw fa fa-bolt"></i><span> PacMan  吃豆人</span></a></li><li><a class="site-page" href="/tetris/"><i class="fa-fw fa fa-arrows-alt"></i><span> Tetris 俄罗斯方块</span></a></li><li><a class="site-page" href="/smallcat/"><i class="fa-fw fa fa-paw"></i><span> CatchCat 困住小猫</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-leaf"></i><span> Moments</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/diary/"><i class="fa-fw fas fa-bookmark"></i><span> Diary</span></a></li><li><a class="site-page" href="/gallery/"><i class="fa-fw fa fa-hourglass-half"></i><span> Gallery</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-check-square"></i><span> Messages</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site-title">SilverSucks</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/weiswift/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://www.facebook.com/profile.php?id=JunweiLi" target="_blank" title=""><i class="iconfont  icon-span icon-facebook-fill"></i></a><a class="social-icon" href="https://telegram.org/18625517682" target="_blank" title=""><i class="iconfont  icon-span icon-telegram"></i></a><a class="social-icon" href="https://space.bilibili.com/393810586" target="_blank" title=""><i class="iconfont  icon-span icon-bilibili-fill"></i></a><a class="social-icon" href="mailto:swiftjunwei@yahoo.co.jp" target="_blank" title=""><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout_page" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/11/01/Hexo/" title="Hexo Butterfly Extension(拓展)">     <img class="post_bg" src="http://space.liam10086.ink/hexo1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo Butterfly Extension(拓展)"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/11/01/Hexo/" title="Hexo Butterfly Extension(拓展)">Hexo Butterfly Extension(拓展)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-10-31T23:35:58.506Z" title="Created 2020-11-01 06:35:58">2020-11-01</time></span></div><div class="content">Live2d+butterfly配置+valine在网上随处都可以搜到有关hexo的各种主题的文章，相关的教程数不胜数，可能有些从0开始的人就像我当初看了很多教程但是仍旧一样迷茫，而且有些人仍然对butterfly主题情有独钟，就像博主我一样。这篇文章将是一套完整的流程。（本篇文章是基于配置好了hexo和butterfly主题之后来进行后续的一系列操作的。若没有配置好可以参考上一篇文章）
+看板娘配置看板娘是什么？？
+看板娘是一种动态的可互动的二维图像，采用目前最先进的live2d技术，Live2d是一种应用于电子游戏的绘图渲染技术，由日本Cybernoids公司开发，通过一系列的连续图像和人物建模来生成一种类似二维图像的三维模型，现阶段已用于web。
+从github官网上看，目前星星最多的是这一位作者，在经过一番搜索发现，国内已经有很多相关对live2d web进行实践的先驱，但是追根溯源从资源来看，貌似都是出自一人之手。很多的作品都是基于这位作者进行的再创作，也可以叫魔改。
+二次元都会懂。这里就不过多解释了。
+1，从github上下载文件首先去作者的的网站下载看板娘部署文件，点击co ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/10/30/selenium/" title="部署Selenium到Scrapy">     <img class="post_bg" src="http://space.liam10086.ink/Selenium.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="部署Selenium到Scrapy"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/10/30/selenium/" title="部署Selenium到Scrapy">部署Selenium到Scrapy</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-10-29T17:00:00.000Z" title="Created 2020-10-30 00:00:00">2020-10-30</time></span></div><div class="content">Selenium简介官方介绍：网址https://www.selenium.dev/
+Selenium 是一个用于Web应用程序测试的工具。
+Selenium的核心Selenium Core基于JsUnit，完全由JavaScript编写，因此可以用于任何支持JavaScript的浏览器上。
+Selenium可以模拟真实浏览器，自动化测试工具，支持多种浏览器，爬虫中主要用来解决JavaScript渲染问题，例如京东的网页只请求HTML时候，给你返回的没有价格等参数，这个时候Selenium就可以模拟用户将js加载后的source_page传递到爬虫中，这就是一种反反爬策略。
+集成Selenium一，简易集成优点：简单便捷，方便配置。不容易出错。
+方法：
+1，首先在Middlewares中：
+123456789101112131415161718192021from selenium import webdriverfrom scrapy.http import HtmlResponseclass JSPageMiddleware(object):    # JSPageMiddlewa ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/10/20/Note01/" title="日记01">     <img class="post_bg" src="http://space.liam10086.ink/pusheen.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记01"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/10/20/Note01/" title="日记01">日记01</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-10-19T17:00:00.000Z" title="Created 2020-10-20 00:00:00">2020-10-20</time></span></div><div class="content">该文章已加密, 请输入密码查看。266aa076f2876f249dc3073a8b4a7005a4c64a4a7defbf0fe28b1adcc596d055b96602cd03de128286dea252cb006ae5b3cfe0cfbbb2f20af4d5126074e2e26fd853b8fa54d9916c20c1def7c5f9283db2ce354bae2fa4f18005aea6a770205f4eb19600a0ed21fdfbff69d63af2269d19e2f59cacd8580a1494ce87d823780ebdb7696746bdf1908caeb14c55a3fe886ec0043dec0aeb88db06acd50511236e5a203b437d9c3d1dc13ec869bb93de8c96af0ce81ae1f72787693fabaf194cce5aaacf2deeb282460e1a10b1723f381516c164c4c0b823aaefed66f9ab794a2807d69e77d67e44aa3206e917e1025b154bc7 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/10/08/useragent/" title="优雅地使用Fake-UserAgent">     <img class="post_bg" src="http://space.liam10086.ink/pythoss.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="优雅地使用Fake-UserAgent"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/10/08/useragent/" title="优雅地使用Fake-UserAgent">优雅地使用Fake-UserAgent</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-10-07T17:00:00.000Z" title="Created 2020-10-08 00:00:00">2020-10-08</time></span></div><div class="content">
+本文是基于拥有一整套完整的Spider虚拟开发环境的基础上，进行的对scrapy的框架的再优化。
+User-Agent介绍 : User Agent中文名为用户代理， 是HTTP的请求头，是Http协议中的一部分，属于头域的组成部分，User Agent也简称UA。它是一个特殊字符串头，是一种向访问网站提供你所使用的浏览器类型及版本、操作系统及版本、浏览器内核、等信息的标识。
+
+集成UserAgent到scrapy方法1：Firstly: 在setting中加上这么一行代码：
+1234user_agent_list = [			&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:78.0) Gecko/20100101 Firefox/78.0&quot;,			&quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36&quot;]
+
+Secondly:  ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/08/20/Dairy04/" title="Github Tutorial">     <img class="post_bg" src="http://space.liam10086.ink/githubs.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Github Tutorial"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/08/20/Dairy04/" title="Github Tutorial">Github Tutorial</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-08-19T17:00:00.000Z" title="Created 2020-08-20 00:00:00">2020-08-20</time></span></div><div class="content">Setting NetworkThe GitHub Network is a basic settings that helps  and avaliable your social network here on GitHub!
+Firstly, we should find the hosts file in /etc/hosts .so lets try to open the terminal and edit the hosts file.
+
+If terminal appears “You are not the owner of the file hosts, so you do not have permission to write to the file”.And If you find that you cannot modify it, unlock the small lock in the lower right corner first It can be modified after opening.
+
+Edit the hosts file and a ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/07/21/Dairy03/" title="Start your Python project!">     <img class="post_bg" src="http://space.liam10086.ink/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-10-17%20%E4%B8%8B%E5%8D%883.56.08.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Start your Python project!"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/21/Dairy03/" title="Start your Python project!">Start your Python project!</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-07-20T17:00:00.000Z" title="Created 2020-07-21 00:00:00">2020-07-21</time></span></div><div class="content">
+Summary： 最近删掉了win8虚拟机，给我整了一天，最后各种虚拟环境才搭建好。
+　　 以后再做一个决定之前，一定要考虑这个决定的后果，带来的影响和后果。
+
+原文，我的博客园      Python的虚拟环境搭建（踩坑日记）        1，安装Python安装成功后要在环境变量path中添加python和pip的两个环境变量。
+​    分别为：C:\MyApplications\Python;C:\MyApplications\Python\Scripts​    检查：在CMD中输入python，pip来检查是否安装成功
+配置环境变量：
+
+1.在桌面上找到计算机图标 ( win7系统显示为计算机，win10系统显示为此电脑)。
+2，使用鼠标左键点击选中图标，然后点击右键,在右键菜单中选择属性。
+3，.在弹出的新窗口中，找到左边的高级系统设置单击打开系统属性窗口，确认选中的是高级选项卡面板,然后 点击窗口下方的环境变量，打开环境变量窗口。
+4，在系统变量的列表中【这里以Win7为例】，找到path，点击编辑打开开编辑窗口，在变量值处填写Python的安装目录所有一定要记好自 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/07/09/MyExperience/" title="部署Hexo最全面的方法，就交给你了~">     <img class="post_bg" src="http://space.liam10086.ink/hexo2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="部署Hexo最全面的方法，就交给你了~"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/09/MyExperience/" title="部署Hexo最全面的方法，就交给你了~">部署Hexo最全面的方法，就交给你了~</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-07-08T17:00:00.000Z" title="Created 2020-07-09 00:00:00">2020-07-09</time></span></div><div class="content">
+When it’s time to move on, I hope you don’t back down.
+Hexo是什么？（这个我就不多BB了，去官网看看吧，介绍什么的真的不适合我……）你可能需要有如下准备：1，一台电脑（Windows或Linux均可，差别不大）
+2，拥有自己的域名，没有的话可以在腾讯云或者阿里云上申请。（国内的便宜但是需要备案）
+3，一个带有Page服务的仓库（推荐Github，Coding）
+4，最后就是耐心（这个过程可能会很枯燥的说~）
+正式文章之前1，障碍扫除。在其他Hexo 和 Github 搭建博客的文章中你肯定见过这些：Hexo、Github Pages、SSH 配置、域名解析、A 记录、CNAME。这些究竟是什么东西？有时候真的会很懵，搞得自己晕头转向，我曾今在搭建博客的路上走了不少弯路，我只是希望你能少走些弯路。这一部分就是先帮我们理清思路的。
+2，模块区分。这里将 Hexo 和 Github Pages 搭建博客的流程一共分为如下 3 大模块：
+
+Hexo 本地建站：这一模块利用 Hexo 在本地（你的电脑）内生成你的网站，可以通过 http ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/06/18/hello-world/" title="你好,世界!">     <img class="post_bg" src="http://space.liam10086.ink/suanf.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="你好,世界!"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/06/18/hello-world/" title="你好,世界!">你好,世界!</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-06-17T17:00:00.000Z" title="Created 2020-06-18 00:00:00">2020-06-18</time></span></div><div class="content">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
+
+More info: Writing
+Run server1$ hexo server
+
+More info: Server
+Generate static files1$ hexo generate
+
+More info: Generating
+Deploy to remote sites1$ hexo deploy
+
+More info: Deployment
+</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/06/15/Dairy01/" title="Socket编程模拟初代QQ(Pycharm)">     <img class="post_bg" src="http://space.liam10086.ink/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-10-17%20%E4%B8%8B%E5%8D%883.56.08.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Socket编程模拟初代QQ(Pycharm)"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/06/15/Dairy01/" title="Socket编程模拟初代QQ(Pycharm)">Socket编程模拟初代QQ(Pycharm)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-06-14T17:00:00.000Z" title="Created 2020-06-15 00:00:00">2020-06-15</time></span></div><div class="content">自定义消息协议实现基本客户端服务器通信。
+产品需求说明：
+1,实现消息的转发（服务器为客户转发消息）        2,处理登录（服务器能够监听客户请求登陆的action）        3,处理退出 （退出动作能够被服务器接收到）        4,维护历史消息，维护在线用户，维护在线用户的连接
+
+x
+详细细节：1, 多线程去处理每个用户连接，防止主线程阻塞
+ 2，自定义了消息协议，并且自己完成了消息协议的解析
+代码客户端：
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596import socketimport jsonimport threadingclient = socket.socket()client.connect((&quot;10.211.55.31&qu ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/06/07/Dairy02/" title="基于Python的Socket服务器和客户端通信（Pycharm）">     <img class="post_bg" src="http://space.liam10086.ink/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-10-17%20%E4%B8%8B%E5%8D%883.56.08.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于Python的Socket服务器和客户端通信（Pycharm）"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/06/07/Dairy02/" title="基于Python的Socket服务器和客户端通信（Pycharm）">基于Python的Socket服务器和客户端通信（Pycharm）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2020-06-06T17:00:00.000Z" title="Created 2020-06-07 00:00:00">2020-06-07</time></span></div><div class="content">最近在玩python，通过学习socket，就想试试服务器和客户端的通信。^_^
+ip和端口这俩有点东西，一顿乱整摸出点门路，也算是为我下学期的计算机网络打下了铺垫了^_^
+情景1：写了客户端和服务器的代码，先运行的客户端，一直在提示如下图
+
+出现这种情况具体是因为，服务器还没有先执行，都没有listen（监听端口），所以出现了这种情况。
+解决办法：先运行服务器的代码，再跑客户端
+情景2：
+这种情况是运行了两次服务器代码,多次占用一个端口号，而Python只有一个端口号（眼神不好就不要乱运行！！）
+不要默认点运行的第一个按钮，要不总是运行的都是上一次的代码。以后一定注意。
+情景3：说说ip地址，通常客户端连接的是自己机器上的ipv4地址，服务器输入（0.0.0.0）就好了。
+Windows下查看在cmd中输入ipconfig
+Mac和Linux在终端中输入：ifconfig
+最后放两张运行成功的图片
+
+
+最后：上代码：
+客户端：12345import socketclient &#x3D; socket.socket()client.connect((&#39;10.211.55.31 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="http://space.liam10086.ink/12342.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Johnson Liam</div><div class="author-info__description">千万不要懒，懒习惯了，稍微努力一下，就会以为自己在拼命！</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">11</div></a></div></div><a class="button--animated" id="card-info-btn" href="https://github.com/weiswift/"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/weiswift/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://www.facebook.com/profile.php?id=JunweiLi" target="_blank" title=""><i class="iconfont  icon-span icon-facebook-fill"></i></a><a class="social-icon" href="https://telegram.org/18625517682" target="_blank" title=""><i class="iconfont  icon-span icon-telegram"></i></a><a class="social-icon" href="https://space.bilibili.com/393810586" target="_blank" title=""><i class="iconfont  icon-span icon-bilibili-fill"></i></a><a class="social-icon" href="mailto:swiftjunwei@yahoo.co.jp" target="_blank" title=""><i class="fas fa-envelope"></i></a></div></div></div><div class="sticky_layout"><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content"></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/11/01/Hexo/" title="Hexo Butterfly Extension(拓展)"><img src="http://space.liam10086.ink/hexo1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo Butterfly Extension(拓展)"/></a><div class="content"><a class="title" href="/2020/11/01/Hexo/" title="Hexo Butterfly Extension(拓展)">Hexo Butterfly Extension(拓展)</a><time datetime="2020-10-31T23:35:58.506Z" title="Created 2020-11-01 06:35:58">2020-11-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/10/30/selenium/" title="部署Selenium到Scrapy"><img src="http://space.liam10086.ink/Selenium.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="部署Selenium到Scrapy"/></a><div class="content"><a class="title" href="/2020/10/30/selenium/" title="部署Selenium到Scrapy">部署Selenium到Scrapy</a><time datetime="2020-10-29T17:00:00.000Z" title="Created 2020-10-30 00:00:00">2020-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/10/20/Note01/" title="日记01"><img src="http://space.liam10086.ink/pusheen.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="日记01"/></a><div class="content"><a class="title" href="/2020/10/20/Note01/" title="日记01">日记01</a><time datetime="2020-10-19T17:00:00.000Z" title="Created 2020-10-20 00:00:00">2020-10-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/10/08/useragent/" title="优雅地使用Fake-UserAgent"><img src="http://space.liam10086.ink/pythoss.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="优雅地使用Fake-UserAgent"/></a><div class="content"><a class="title" href="/2020/10/08/useragent/" title="优雅地使用Fake-UserAgent">优雅地使用Fake-UserAgent</a><time datetime="2020-10-07T17:00:00.000Z" title="Created 2020-10-08 00:00:00">2020-10-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/08/20/Dairy04/" title="Github Tutorial"><img src="http://space.liam10086.ink/githubs.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Github Tutorial"/></a><div class="content"><a class="title" href="/2020/08/20/Dairy04/" title="Github Tutorial">Github Tutorial</a><time datetime="2020-08-19T17:00:00.000Z" title="Created 2020-08-20 00:00:00">2020-08-20</time></div></div></div></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fa fa-tags" aria-hidden="true"></i><span>Tags</span><script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script><script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script><div class="widget tagcloud" id="myCanvasContainer" align="center"><canvas id="resCanvas" width="200" height="200" style="width=100%"><a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Pycharm/" style="font-size: 17.5px;">Pycharm</a> <a href="/tags/Python/" style="font-size: 17.5px;">Python</a> <a href="/tags/butterfly/" style="font-size: 10px;">butterfly</a> <a href="/tags/valine/" style="font-size: 10px;">valine</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0tag/" style="font-size: 10px;">加密文章tag</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 15px;">日记</a> <a href="/tags/%E7%9C%8B%E6%9D%BF%E5%A8%98/" style="font-size: 10px;">看板娘</a> <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 15px;">踩坑</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a></canvas><a href="/tags/Github/" style="font-size: 16px; color: #999">Github</a> <a href="/tags/Hexo/" style="font-size: 18px; color: #999da3">Hexo</a> <a href="/tags/Pycharm/" style="font-size: 22px; color: #99a5b6">Pycharm</a> <a href="/tags/Python/" style="font-size: 22px; color: #99a5b6">Python</a> <a href="/tags/butterfly/" style="font-size: 16px; color: #999">butterfly</a> <a href="/tags/valine/" style="font-size: 16px; color: #999">valine</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0tag/" style="font-size: 16px; color: #999">加密文章tag</a> <a href="/tags/%E6%97%A5%E8%AE%B0/" style="font-size: 20px; color: #99a1ac">日记</a> <a href="/tags/%E7%9C%8B%E6%9D%BF%E5%A8%98/" style="font-size: 16px; color: #999">看板娘</a> <a href="/tags/%E8%B8%A9%E5%9D%91/" style="font-size: 20px; color: #99a1ac">踩坑</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 24px; color: #99a9bf">随笔</a></div></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/11/"><span class="card-archive-list-date">2020年11月</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">2020年10月</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">2020年08月</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/07/"><span class="card-archive-list-date">2020年07月</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/06/"><span class="card-archive-list-date">2020年06月</span><span class="card-archive-list-count">3</span></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">10</div></div><div class="webinfo-item"><div class="item-name">Total Count :</div><div class="item-count">12.5k</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2020-11-01T00:00:37.669Z"></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(http://space.liam10086.ink/0KGhj.jpg)"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2020 By Johnson Liam</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">butterfly</a></div><div class="footer_custom_text">Welcome to 小威の <a target="_blank" rel="noopener" href="http://liam10086.ink/">Blog</a>!</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>Powered by</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "行至水穷&#183;坐看云起,Reading&#183;Coding&#183;Cooking&#38;Eating".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '行至水穷&#183;坐看云起'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') subtitleType()
+  else $.getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js', subtitleType)
+} else {
+  subtitleType()
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div>
+        <script src="//cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
+        <script>
+        const hasAttr = (e,a) => a.some(_=> e.attr(_)!==undefined);
+        $('a').each(function() {
+          const $this = $(this);
+          if(hasAttr($this,["data-fancybox","ignore-external-link"])) return;
+          const href = $this.attr('href');
+          if (href && href.match('^((http|https|thunder|qqdl|ed2k|Flashget|qbrowser|ftp|rtsp|mms)://)')) {
+            const strs = href.split('/');
+            if (strs.length >= 3) {
+                const host = strs[2];
+                if (host !== '' || window.location.host) {
+                    $this.attr('href', '/go.html?u='+href+'').attr('rel', 'external nofollow noopener noreferrer');
+                    if (true) {
+                        $this.attr('target', '_blank');
+                    }
+                }
+            }
+          }
+        });
+        </script></body></html>
