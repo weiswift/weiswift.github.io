@@ -175,20 +175,9 @@ const io = new IntersectionObserver((entries)=>{
 },{threshold:.15});
 document.querySelectorAll(".project").forEach(el=>io.observe(el));
 
-/* ---------- Strands (OGL) 复刻 React Bits 的 Strands 组件 ---------- */
+/* ---------- Strands 复刻 React Bits 的 Strands 组件（原生 WebGL2，零外部依赖） ---------- */
 (function(){
-  const C = "C0,C1,C2,C3,C4,C5,C6,C7".split(",");
-  const script = document.createElement("script");
-  script.src = "https://unpkg.com/ogl@1.0.11/dist/ogl.min.js";
-  script.onload = initStrands;
-  script.onerror = ()=>{ document.getElementById("strands").innerHTML =
-    '<div style="display:grid;place-items:center;height:100%;color:#8b8b99">WebGL/网络不可用，Strands 效果已跳过</div>'; };
-  document.head.appendChild(script);
-
-  function initStrands(){
-    const ogl = window.ogl;
-    const {Renderer, Program, Mesh, Triangle, RenderTarget, Color} = ogl;
-    const MAX_STRANDS = 12, MAX_COLORS = 8;
+  const MAX_STRANDS = 12, MAX_COLORS = 8;
     const VERT = `#version 300 es
 in vec2 position; void main(){ gl_Position=vec4(position,0.0,1.0); }`;
     const FRAG = `#version 300 es
@@ -221,44 +210,87 @@ void main(){
   float lum=max(max(col.r,col.g),col.b); float alpha=clamp(lum,0.0,1.0)*uOpacity;
   fragColor=vec4(col*uOpacity,alpha);
 }`;
-    const buildPalette = colors=>{
-      const filled = colors&&colors.length?colors:["#ffffff"]; const out=[];
-      for(let i=0;i<MAX_COLORS;i++){ const hex=filled[i]??filled[filled.length-1]; const c=new Color(hex); out.push([c.r,c.g,c.b]); }
+    /* hex -> [r,g,b] (0..1)，替代 ogl 的 Color */
+    function hexToRGB(hex){
+      let h = hex.replace("#","");
+      if(h.length===3) h = h.split("").map(c=>c+c).join("");
+      const n = parseInt(h,16);
+      return [ ((n>>16)&255)/255, ((n>>8)&255)/255, (n&255)/255 ];
+    }
+    function buildPalette(colors){
+      const filled = (colors&&colors.length)?colors:["#ffffff"]; const out=[];
+      for(let i=0;i<MAX_COLORS;i++){ const hex=filled[i]??filled[filled.length-1]; out.push(hexToRGB(hex)); }
       return out;
-    };
+    }
+
     const ctn = document.getElementById("strands");
-    const renderer = new Renderer({alpha:true,premultipliedAlpha:true,antialias:true});
-    const gl = renderer.gl; gl.clearColor(0,0,0,0); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
-    gl.canvas.style.backgroundColor="transparent"; ctn.appendChild(gl.canvas);
-    const geometry = new Triangle(gl); if(geometry.attributes.uv) delete geometry.attributes.uv;
+    const canvas = document.createElement("canvas");
+    canvas.style.width="100%"; canvas.style.height="100%"; canvas.style.display="block";
+    canvas.style.backgroundColor="transparent";
+    ctn.appendChild(canvas);
+    const gl = canvas.getContext("webgl2",{alpha:true,premultipliedAlpha:true,antialias:true});
+    if(!gl){
+      ctn.innerHTML = '<div style="display:grid;place-items:center;height:100%;color:#8b8b99">此浏览器不支持 WebGL2，Strands 效果已跳过</div>';
+      return;
+    }
+    gl.clearColor(0,0,0,0); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+    function compile(type,src){
+      const s = gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s);
+      if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){ console.error(gl.getShaderInfoLog(s)); return null; }
+      return s;
+    }
+    const vs = compile(gl.VERTEX_SHADER, VERT), fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    if(!vs||!fs){ ctn.innerHTML='<div style="display:grid;place-items:center;height:100%;color:#8b8b99">着色器编译失败</div>'; return; }
+    const prog = gl.createProgram(); gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){ console.error(gl.getProgramInfoLog(prog)); return; }
+    gl.useProgram(prog);
+
+    /* 全屏三角形（等价于 ogl 的 Triangle） */
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(prog,"position");
+    gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+
+    /* 缓存 uniform 位置 */
+    const U = {};
+    ["uTime","uResolution","uColors","uColorCount","uStrandCount","uSpeed","uAmplitude","uWaviness",
+     "uThickness","uGlow","uTaper","uSpread","uHueShift","uIntensity","uOpacity","uScale","uSaturation"]
+      .forEach(n=>{ U[n]=gl.getUniformLocation(prog,n); });
+
     const colors = ["#F97316","#7C3AED","#06B6D4","#EAB308"];
-    const P = {
-      colors, count:4, speed:0.5, amplitude:1, waviness:1, thickness:0.7, glow:2.6,
-      taper:3, spread:1, hueShift:0, intensity:0.7, saturation:1.5, opacity:1, scale:1.5
+    const P = { colors, count:4, speed:0.5, amplitude:1, waviness:1, thickness:0.7, glow:2.6,
+      taper:3, spread:1, hueShift:0, intensity:0.7, saturation:1.5, opacity:1, scale:1.5 };
+
+    function resize(){
+      const dpr = Math.min(window.devicePixelRatio||1, 2);
+      const w = Math.max(1, Math.floor(ctn.offsetWidth*dpr));
+      const h = Math.max(1, Math.floor(ctn.offsetHeight*dpr));
+      canvas.width=w; canvas.height=h;
+      gl.viewport(0,0,w,h);
+    }
+    window.addEventListener("resize", resize); resize();
+
+    let raf=0;
+    const update = t=>{
+      raf = requestAnimationFrame(update);
+      gl.useProgram(prog);
+      gl.uniform1f(U.uTime, t*0.001);
+      gl.uniform2f(U.uResolution, canvas.width, canvas.height);
+      const pal = buildPalette(P.colors);
+      gl.uniform3fv(U.uColors, new Float32Array(pal.flat()));
+      gl.uniform1i(U.uColorCount, Math.min(P.colors.length, MAX_COLORS));
+      gl.uniform1i(U.uStrandCount, Math.min(Math.max(P.count,1), MAX_STRANDS));
+      gl.uniform1f(U.uSpeed, P.speed); gl.uniform1f(U.uAmplitude, P.amplitude);
+      gl.uniform1f(U.uWaviness, P.waviness); gl.uniform1f(U.uThickness, P.thickness);
+      gl.uniform1f(U.uGlow, P.glow); gl.uniform1f(U.uTaper, P.taper);
+      gl.uniform1f(U.uSpread, P.spread); gl.uniform1f(U.uHueShift, P.hueShift);
+      gl.uniform1f(U.uIntensity, P.intensity); gl.uniform1f(U.uOpacity, P.opacity);
+      gl.uniform1f(U.uScale, P.scale); gl.uniform1f(U.uSaturation, P.saturation);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
-    const program = new Program(gl,{vertex:VERT,fragment:FRAG,uniforms:{
-      uTime:{value:0}, uResolution:{value:[ctn.offsetWidth,ctn.offsetHeight]},
-      uColors:{value:buildPalette(P.colors)}, uColorCount:{value:Math.min(P.colors.length,MAX_COLORS)},
-      uStrandCount:{value:Math.min(P.count,MAX_STRANDS)}, uSpeed:{value:P.speed}, uAmplitude:{value:P.amplitude},
-      uWaviness:{value:P.waviness}, uThickness:{value:P.thickness}, uGlow:{value:P.glow}, uTaper:{value:P.taper},
-      uSpread:{value:P.spread}, uHueShift:{value:P.hueShift}, uIntensity:{value:P.intensity},
-      uOpacity:{value:P.opacity}, uScale:{value:P.scale}, uSaturation:{value:P.saturation}
-    }});
-    const mesh = new Mesh(gl,{geometry,program});
-    function resize(){ const w=ctn.offsetWidth,h=ctn.offsetHeight; renderer.setSize(w,h);
-      program.uniforms.uResolution.value=[w,h]; }
-    window.addEventListener("resize",resize); resize();
-    let raf=0; const update=t=>{ raf=requestAnimationFrame(update);
-      program.uniforms.uTime.value=t*0.001; program.uniforms.uColors.value=buildPalette(P.colors);
-      program.uniforms.uColorCount.value=Math.min(P.colors.length,MAX_COLORS);
-      program.uniforms.uStrandCount.value=Math.min(Math.max(P.count,1),MAX_STRANDS);
-      program.uniforms.uSpeed.value=P.speed; program.uniforms.uAmplitude.value=P.amplitude;
-      program.uniforms.uWaviness.value=P.waviness; program.uniforms.uThickness.value=P.thickness;
-      program.uniforms.uGlow.value=P.glow; program.uniforms.uTaper.value=P.taper; program.uniforms.uSpread.value=P.spread;
-      program.uniforms.uHueShift.value=P.hueShift; program.uniforms.uIntensity.value=P.intensity;
-      program.uniforms.uOpacity.value=P.opacity; program.uniforms.uScale.value=P.scale; program.uniforms.uSaturation.value=P.saturation;
-      renderer.render({scene:mesh}); };
-    raf=requestAnimationFrame(update);
-  }
+    raf = requestAnimationFrame(update);
 })();
 </script>
