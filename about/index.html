@@ -7,7 +7,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
 <meta property="article:published_time" content="2023-10-10T08:27:03.000Z">
-<meta property="article:modified_time" content="2026-08-03T15:19:48.466Z">
+<meta property="article:modified_time" content="2026-08-03T15:22:32.279Z">
 <meta property="article:author" content="Jason">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/%E4%B9%A6%20(1).png"><link rel="canonical" href="https://weiswift.github.io/about/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
@@ -57,7 +57,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2026-08-03 23:19:48'
+  postUpdate: '2026-08-03 23:22:32'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -199,15 +199,16 @@
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  #about-stage{position:relative;z-index:1;min-height:100vh;width:100%;overflow:hidden;
+  /* 背景层全屏 fixed，脱离 butterfly 栅格，避免被主题布局挤偏 */
+  #about-stage{position:fixed;inset:0;z-index:1;width:100vw;height:100vh;overflow:hidden;
     background:radial-gradient(120% 120% at 50% 0%,#160d22 0%,#06060a 60%);}
 
   /* 粒子画布铺满整屏，鼠标交互 */
-  .antigravity{position:fixed;inset:0;z-index:0;pointer-events:none;}
-  .antigravity canvas{display:block;}
+  .antigravity{position:fixed;inset:0;z-index:0;pointer-events:none;width:100vw;height:100vh;}
+  .antigravity canvas{display:block;width:100%!important;height:100%!important;}
 
   /* 内容层全屏 fixed，脱离 butterfly 栅格，保证水平垂直居中 */
-  .about-overlay{position:fixed;inset:0;z-index:2;
+  .about-overlay{position:fixed;inset:0;z-index:2;width:100vw;height:100vh;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;padding:120px 24px;gap:18px;pointer-events:none;}
   .about-overlay > *{pointer-events:auto;}
@@ -240,11 +241,11 @@
   #page .page-title,.page-title{display:none!important;}
   #page .aside-content,#recent-posts,#page-header .mask,
   #pagination,.comment-head,.console-card-group,#footer-wrap,#page-header,#sideNav,#nav,#sidebar-menus,#sidebar,#rightside,#toggle-sidebar,#web_bg{display:none!important;}
-  #about-stage{margin-top:0!important;min-height:100vh;}
+  #about-stage{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;}
   /* 粒子画布作为背景层（在内容之下），保证文字清晰且不被遮挡 */
-  .antigravity{z-index:0!important;pointer-events:none!important;}
-  .about-overlay{z-index:2!important;}
-  @media(max-width:900px){#about-stage{margin-top:0!important;}}
+  .antigravity{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:0!important;pointer-events:none!important;}
+  .about-overlay{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:2!important;}
+  @media(max-width:900px){#about-stage{margin:0!important;}}
 </style>
 
 <script>
