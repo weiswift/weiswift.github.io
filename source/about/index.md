@@ -1,4 +1,4 @@
-﻿---
+---
 title: 关于
 date: 2023-10-10 16:27:03
 layout: page
@@ -36,7 +36,6 @@ top_img: false
 </div>
 
 {% raw %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" id="three-cdn">
 <style>
   :root{
     --bg:#06060a;
@@ -48,20 +47,22 @@ top_img: false
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  #about-stage{position:relative;min-height:100vh;width:100%;overflow:hidden;
+  /* about-stage 全屏固定铺满，作为背景+内容容器；z-index 低于 header，使导航栏浮于其上 */
+  #about-stage{position:fixed;inset:0;z-index:1;width:100vw;height:100vh;overflow:hidden;
     background:radial-gradient(120% 120% at 50% 0%,#160d22 0%,#06060a 60%);}
 
-  /* 粒子画布铺满整屏，鼠标交互 */
-  .antigravity{position:fixed;inset:0;z-index:0;}
-  .antigravity canvas{display:block;}
+  /* 粒子画布作为 about-stage 的 absolute 全屏背景 */
+  .antigravity{position:absolute;inset:0;z-index:0;pointer-events:none;width:100%;height:100%;}
+  .antigravity canvas{display:block;width:100%!important;height:100%!important;}
 
+  /* 内容层相对定位，在 about-stage 内垂直水平居中；顶部留出导航栏安全区 */
   .about-overlay{position:relative;z-index:2;min-height:100vh;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    text-align:center;padding:120px 24px;gap:18px;pointer-events:none;}
+    text-align:center;padding:90px 24px 60px;gap:20px;pointer-events:none;}
   .about-overlay > *{pointer-events:auto;}
 
   .about-kicker{letter-spacing:.55em;font-size:12px;color:var(--muted);margin:0;}
-  .about-title{font-size:clamp(48px,12vw,128px);line-height:.95;margin:0;font-weight:800;
+  .about-title{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:0;font-weight:700;
     background:linear-gradient(120deg,#fff,#FF9FFC 45%,#7c5cff 80%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
     background-size:200% 200%;animation:hue 9s ease infinite;}
@@ -82,13 +83,27 @@ top_img: false
 
   .about-foot{margin-top:40px;color:var(--muted);font-size:13px;letter-spacing:.04em;}
 
-  /* 屏蔽 butterfly 默认布局干扰，实现沉浸式 */
-  body{max-width:none!important;}
+  /* 隐藏侧边栏、页面默认标题、主题页脚等干扰，仅保留顶部导航 */
+  body{max-width:none!important;background:var(--bg)!important;overflow-x:hidden!important;}
   #page .page-title,.page-title{display:none!important;}
   #page .aside-content,#recent-posts,#page-header .mask,
-  #pagination,.comment-head,.console-card-group,#footer-wrap{display:none!important;}
-  #about-stage{margin-top:-62px;}
-  @media(max-width:900px){#about-stage{margin-top:-56px;}}
+  #pagination,.comment-head,.console-card-group,#sideNav,#sidebar-menus,#sidebar,
+  #rightside,#toggle-sidebar,#web_bg,
+  #footer-wrap,#footer /* 主题页脚盖住卡片，隐藏改用页面内 own 页脚 */{display:none!important;}
+  /* about-stage 已 fixed 全屏，将主题页面容器压到背景层之下、不挡导航 */
+  #page,#page .page-content,#page #article-container,.layout,.layout_page{background:transparent!important;box-shadow:none!important;position:relative!important;z-index:0!important;padding:0!important;margin:0!important;}
+  #body-wrap,#content-inner{background:transparent!important;position:relative!important;z-index:0!important;}
+  #page-header,#nav{z-index:10!important;}
+  /* 导航栏透明浮于粒子背景之上，文字浅色保证可读 */
+  #page-header{background:transparent!important;box-shadow:none!important;}
+  #nav,#nav a,#nav .site-name,#nav .menus_item > a,
+  #nav .menus_items .menus_item > a,#nav .site-page{color:#f4f4f7!important;text-shadow:0 1px 8px rgba(0,0,0,.6);background:transparent!important;}
+  #nav .menus_item > a:hover,#nav .site-page:hover{color:var(--accent)!important;}
+  #toggle-menu{color:#f4f4f7!important;}
+  #about-stage{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;margin:0!important;z-index:1!important;overflow-y:auto!important;overflow-x:hidden!important;}
+  .antigravity{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:0!important;pointer-events:none!important;}
+  .about-overlay{position:relative!important;z-index:2!important;min-height:100vh;padding-top:90px!important;padding-bottom:60px!important;}
+  @media(max-width:900px){#about-stage{margin:0!important;}}
 </style>
 
 <script>
@@ -96,9 +111,11 @@ top_img: false
   let THREE;
   function loadThree(cb){
     if(window.THREE){ cb(window.THREE); return; }
-    const s = document.getElementById("three-cdn");
-    s.addEventListener("load", ()=>cb(window.THREE));
-    s.addEventListener("error", ()=>{ showFallback(); });
+    const s = document.createElement("script");
+    s.src = "/js/three.min.js";
+    s.onload = ()=>{ if(window.THREE) cb(window.THREE); else showFallback(); };
+    s.onerror = ()=>{ showFallback(); };
+    document.head.appendChild(s);
   }
 
   function showFallback(){
@@ -143,6 +160,15 @@ top_img: false
     const camera = new THREE.PerspectiveCamera(35, width/height, 0.1, 1000);
     camera.position.set(0,0,50);
 
+    // 计算 z=0 平面相机可视范围（世界单位），用于把屏幕坐标映射到画面内
+    function viewSize(){
+      const dist = camera.position.z;                       // 相机到 z=0 平面的距离
+      const vH = 2 * Math.tan((camera.fov*Math.PI/180)/2) * dist; // 可视高度
+      const vW = vH * camera.aspect;                        // 可视宽度
+      return { vW, vH };
+    }
+    let { vW, vH } = viewSize();
+
     const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
     renderer.setSize(width, height);
@@ -181,13 +207,14 @@ top_img: false
       if(e.touches[0]) onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
     }, {passive:true});
 
-    // ---- 初始化粒子 ----
+    // ---- 初始化粒子（使用相机可视范围内的世界坐标） ----
     const particles = [];
     for(let i=0;i<count;i++){
       const t = Math.random()*100;
       const speed = 0.01 + Math.random()/200;
-      const x = (Math.random()-0.5)*width;
-      const y = (Math.random()-0.5)*height;
+      // 归一化 -1..1，再映射到可视范围 ±vW/2、±vH/2 内
+      const x = (Math.random()-0.5) * vW * 1.2;
+      const y = (Math.random()-0.5) * vH * 1.2;
       const z = (Math.random()-0.5)*20;
       const randomRadiusOffset = (Math.random()-0.5)*2;
       particles.push({ t, speed, mx:x, my:y, mz:z, cx:x, cy:y, cz:z, randomRadiusOffset });
@@ -199,13 +226,13 @@ top_img: false
       requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
-      // 目标鼠标位置（世界坐标）
-      let destX = (ndc.x * width) / 2;
-      let destY = (ndc.y * height) / 2;
+      // 目标鼠标位置（世界坐标）：ndc ∈ [-1,1] → 可视范围 ±vW/2、±vH/2
+      let destX = ndc.x * (vW/2);
+      let destY = ndc.y * (vH/2);
 
       if(autoAnimate && Date.now() - lastMoveTime > 2000){
-        destX = Math.sin(elapsed*0.5) * (width/4);
-        destY = Math.cos(elapsed*0.5*2) * (height/4);
+        destX = Math.sin(elapsed*0.5) * (vW/4);
+        destY = Math.cos(elapsed*0.5*2) * (vH/4);
       }
 
       // 平滑跟随
@@ -271,6 +298,8 @@ top_img: false
       camera.aspect = width/height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
+      const vs = viewSize();
+      vW = vs.vW; vH = vs.vH;
     }
     window.addEventListener("resize", resize);
   }

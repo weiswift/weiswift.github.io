@@ -14,7 +14,7 @@ top_img: false
   <section class="hero">
     <div class="hero-inner">
       <p class="hero-kicker">SOUND · MOTION · LIGHT</p>
-      <h1 class="hero-title">MUSIC<span class="dot">.</span></h1>
+      <h3 class="hero-title">MUSIC<span class="dot">.</span></h3>
       <p class="hero-sub">Click any track to play — ten fluid pieces, each a different world.</p>
       <div class="hero-scroll">SCROLL ↓</div>
     </div>
@@ -63,14 +63,14 @@ top_img: false
   #music-stage{position:relative;z-index:1;}
 
   /* HERO */
-  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  .hero{min-height:62vh;display:flex;align-items:center;justify-content:center;
     background:radial-gradient(120% 120% at 50% 0%,#1a1030 0%,#08080c 60%);
     text-align:center;padding:0 24px;position:relative;overflow:hidden;}
   .hero::after{content:"";position:absolute;inset:0;
     background:radial-gradient(60% 40% at 50% 100%,rgba(255,94,122,.18),transparent 70%);}
   .hero-inner{position:relative;z-index:2;max-width:760px;}
   .hero-kicker{letter-spacing:.5em;font-size:12px;color:var(--muted);margin:0 0 18px;}
-  .hero-title{font-size:clamp(64px,16vw,180px);line-height:.9;margin:0;font-weight:800;
+  .hero-title{font-size:clamp(34px,7vw,72px);line-height:.9;margin:0;font-weight:800;
     background:linear-gradient(120deg,#fff,#ff5e7a 40%,#7c5cff 75%,#06b6d4);
     -webkit-background-clip:text;background-clip:text;color:transparent;
     background-size:200% 200%;animation:hue 8s ease infinite;}
@@ -120,23 +120,23 @@ top_img: false
     transition:transform .5s cubic-bezier(.16,1,.3,1);}
   .col-reel span{height:1em;display:block;}
   .project:hover .col-reel{transform:translateY(-100%);}
-  .project-tag{margin-left:auto;font-size:12px;color:var(--ink);opacity:.0;
-    border:1px solid rgba(255,255,255,.35);padding:6px 12px;border-radius:999px;
-    transition:opacity .4s,background .4s,color .4s;}
-  .project:hover .project-tag{opacity:1;background:#fff;color:#08080c;}
+  .project-tag{margin-left:auto;font-size:12px;color:#08080c;opacity:1;
+    background:#fff;border:1px solid #fff;padding:6px 14px;border-radius:999px;
+    transition:opacity .4s,background .4s,color .4s;pointer-events:none;}
+  .project:hover .project-tag{opacity:.85;}
   .project-arrow{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.3);
     display:grid;place-items:center;position:absolute;top:18px;right:18px;z-index:3;
     opacity:0;transform:translateY(-6px);transition:.45s cubic-bezier(.16,1,.3,1);}
   .project:hover .project-arrow{opacity:1;transform:none;}
 
   /* STRANDS */
-  .strands-section{position:relative;padding:120px 24px 0;text-align:center;
+  .strands-section{position:relative;padding:70px 24px 0;text-align:center;
     background:linear-gradient(180deg,#08080c,#0a0612);}
   .strands-head h2{font-size:clamp(30px,6vw,58px);margin:0;font-weight:800;}
   .strands-head p{color:var(--muted);margin:14px 0 0;}
-  .strands-canvas{position:relative;width:100%;height:560px;margin-top:40px;border-radius:20px;
-    overflow:hidden;background:transparent;}
-  @media(max-width:760px){.strands-canvas{height:380px;}}
+  .strands-canvas{position:relative;width:100%;height:280px;margin-top:40px;border-radius:20px;
+    overflow:hidden;background:transparent;cursor:crosshair;}
+  @media(max-width:760px){.strands-canvas{height:200px;}}
   .strands-canvas canvas{display:block;width:100%!important;height:100%!important;}
   .site-foot{display:flex;justify-content:space-between;padding:60px 0 40px;
     color:var(--muted);font-size:13px;border-top:1px solid rgba(255,255,255,.06);margin-top:60px;}
@@ -170,9 +170,16 @@ function nameReel(n){
   return n.split("").map(ch=>`<div class="col-reel"><span>${ch}</span><span>${ch}</span></div>`).join("");
 }
 
-/* 网易云外链播放器 iframe 构造 */
+/* 网易云外链播放器 iframe 构造 —— 用真实 DOM 创建，避免浏览器拦截自动播放 */
 function neteaseIframe(id){
-  return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=${id}&auto=1&height=66"></iframe>`;
+  const f = document.createElement("iframe");
+  f.setAttribute("frameborder","no"); f.setAttribute("border","0");
+  f.setAttribute("marginwidth","0"); f.setAttribute("marginheight","0");
+  f.width = "330"; f.height = "86";
+  f.setAttribute("allow","autoplay; encrypted-media");
+  f.style.display = "block";
+  f.src = `//music.163.com/outchain/player?type=2&id=${id}&auto=1&height=66`;
+  return f;
 }
 
 const grid = document.createElement("div");
@@ -213,7 +220,8 @@ document.querySelectorAll(".project").forEach(el=>{
     pbIndex.textContent = String(i+1).padStart(2,"0");
     pbName.textContent  = p.name;
     pbLine.textContent  = p.line1;
-    pbIframe.innerHTML  = neteaseIframe(p.id);
+    pbIframe.innerHTML  = "";
+    pbIframe.appendChild(neteaseIframe(p.id));
     bar.scrollIntoView({behavior:"smooth", block:"nearest"});
   });
 });
@@ -312,6 +320,30 @@ void main(){
     const P = { colors, count:4, speed:0.5, amplitude:1, waviness:1, thickness:0.7, glow:2.6,
       taper:3, spread:1, hueShift:0, intensity:0.7, saturation:1.5, opacity:1, scale:1.5 };
 
+    /* ---- 鼠标交互：根据指针位置缓动改变 strands 参数 ---- */
+    const TARGET = { amplitude:P.amplitude, speed:P.speed, hueShift:P.hueShift,
+      spread:P.spread, glow:P.glow, intensity:P.intensity };
+    const lerp = (a,b,k)=>a+(b-a)*k;
+    let hovering = false;
+    function onMove(e){
+      const r = ctn.getBoundingClientRect();
+      const nx = (e.clientX - r.left)/r.width;   // 0..1 横向
+      const ny = (e.clientY - r.top)/r.height;   // 0..1 纵向
+      hovering = true;
+      TARGET.amplitude = 0.5 + (1-ny)*1.6;        // 越靠上起伏越大
+      TARGET.speed     = 0.35 + nx*0.9;           // 越靠右流动越快
+      TARGET.hueShift  = (nx-0.5)*1.2;            // 横移转动色相
+      TARGET.spread    = 0.7 + nx*0.9;            // 横移让丝线散开
+      TARGET.glow      = 2.0 + (1-ny)*2.2;        // 越靠上辉光越强
+      TARGET.intensity = 0.55 + (1-ny)*0.5;
+    }
+    function onLeave(){ hovering=false;
+      TARGET.amplitude=P.amplitude; TARGET.speed=P.speed; TARGET.hueShift=P.hueShift;
+      TARGET.spread=P.spread; TARGET.glow=P.glow; TARGET.intensity=P.intensity;
+    }
+    ctn.addEventListener("pointermove", onMove);
+    ctn.addEventListener("pointerleave", onLeave);
+
     function resize(){
       const dpr = Math.min(window.devicePixelRatio||1, 2);
       const w = Math.max(1, Math.floor(ctn.offsetWidth*dpr));
@@ -327,6 +359,14 @@ void main(){
       gl.useProgram(prog);
       gl.uniform1f(U.uTime, t*0.001);
       gl.uniform2f(U.uResolution, canvas.width, canvas.height);
+      // 缓动逼近目标值（悬停时更跟手，离开时缓慢回落）
+      const k = hovering ? 0.12 : 0.04;
+      P.amplitude  = lerp(P.amplitude,  TARGET.amplitude,  k);
+      P.speed      = lerp(P.speed,      TARGET.speed,      k);
+      P.hueShift   = lerp(P.hueShift,   TARGET.hueShift,   k);
+      P.spread     = lerp(P.spread,     TARGET.spread,     k);
+      P.glow       = lerp(P.glow,       TARGET.glow,       k);
+      P.intensity  = lerp(P.intensity,  TARGET.intensity,  k);
       const pal = buildPalette(P.colors);
       gl.uniform3fv(U.uColors, new Float32Array(pal.flat()));
       gl.uniform1i(U.uColorCount, Math.min(P.colors.length, MAX_COLORS));
