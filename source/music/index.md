@@ -15,10 +15,20 @@ top_img: false
     <div class="hero-inner">
       <p class="hero-kicker">SOUND · MOTION · LIGHT</p>
       <h1 class="hero-title">MUSIC<span class="dot">.</span></h1>
-      <p class="hero-sub">A fluid journey through sound and gradient — scroll to feel the motion.</p>
+      <p class="hero-sub">Click any track to play — ten fluid pieces, each a different world.</p>
       <div class="hero-scroll">SCROLL ↓</div>
     </div>
   </section>
+
+  <!-- 固定播放栏 -->
+  <div id="player-bar" class="player-bar">
+    <div class="pb-meta">
+      <span class="pb-index">—</span>
+      <span class="pb-name">未选择曲目</span>
+      <span class="pb-line">点击上方卡片开始播放</span>
+    </div>
+    <div class="pb-iframe" id="pb-iframe"></div>
+  </div>
 
   <!-- PROJECTS -->
   <section class="projects" id="projects">
@@ -70,6 +80,17 @@ top_img: false
   .hero-scroll{margin-top:48px;font-size:12px;letter-spacing:.3em;color:var(--muted);animation:bob 2s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
+  /* PLAYER BAR */
+  .player-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:20px;
+    padding:14px 22px;background:rgba(10,8,18,.78);backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.08);}
+  .pb-meta{display:flex;flex-direction:column;min-width:140px;line-height:1.35;}
+  .pb-index{font-size:11px;letter-spacing:.2em;color:var(--accent);}
+  .pb-name{font-size:16px;font-weight:700;}
+  .pb-line{font-size:12px;color:var(--muted);}
+  .pb-iframe{flex:1;display:flex;justify-content:flex-end;}
+  .pb-iframe iframe{display:block;}
+
   /* PROJECTS */
   .projects{max-width:1200px;margin:0 auto;padding:120px 24px;}
   .projects-head{margin-bottom:60px;}
@@ -80,8 +101,10 @@ top_img: false
 
   .project{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/11;
     background:#0e0e15;cursor:pointer;isolation:isolate;
-    transform:translateY(40px);opacity:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .9s;}
+    transform:translateY(40px);opacity:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .9s;
+    border:1px solid rgba(255,255,255,.06);}
   .project.in{transform:none;opacity:1;}
+  .project.playing{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 18px 50px -20px rgba(255,94,122,.55);}
   .project-img{position:absolute;inset:0;background-size:cover;background-position:center;
     transform:scale(1.08);transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter 1.1s;
     filter:saturate(.9) brightness(.8);}
@@ -128,23 +151,28 @@ top_img: false
 </style>
 
 <script>
-/* ---------- 项目数据（图片用 Unsplash 免费图，可替换为你自己的） ---------- */
+/* ---------- 项目数据：10 首歌 + 网易云 id（与 iframe 一一对应） ---------- */
 const PROJECTS = [
-  {name:"NOVA",   line1:"music • visual • webgl",         img:"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80"},
-  {name:"ECHO",   line1:"audio • design • motion",        img:"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80"},
-  {name:"PULSE",  line1:"beat • code • 3d",               img:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1200&q=80"},
-  {name:"FLUX",   line1:"synth • art • dev",              img:"https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&q=80"},
-  {name:"ORBIT",  line1:"space • sound • web",            img:"https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&q=80"},
-  {name:"DRIFT",  line1:"ambient • ux • code",            img:"https://images.unsplash.com/photo-1458560871784-56d23406c091?w=1200&q=80"},
-  {name:"PRISM",  line1:"light • music • lab",            img:"https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1200&q=80"},
-  {name:"WAVE",   line1:"ocean • audio • 3d",             img:"https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=1200&q=80"},
-  {name:"EMBER",  line1:"fire • sound • dev",             img:"https://images.unsplash.com/photo-1499415479124-43c32433a620?w=1200&q=80"},
-  {name:"LUMA",   line1:"glow • visual • web",            img:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1200&q=80"}
+  {name:"NOVA",   line1:"music • visual • webgl",  id:38689097,   img:"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80"},
+  {name:"ECHO",   line1:"audio • design • motion", id:417613078,  img:"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&q=80"},
+  {name:"PULSE",  line1:"beat • code • 3d",        id:1867217766, img:"https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1200&q=80"},
+  {name:"FLUX",   line1:"synth • art • dev",       id:34723470,   img:"https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&q=80"},
+  {name:"ORBIT",  line1:"space • sound • web",     id:368223,     img:"https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&q=80"},
+  {name:"DRIFT",  line1:"ambient • ux • code",     id:362937,     img:"https://images.unsplash.com/photo-1458560871784-56d23406c091?w=1200&q=80"},
+  {name:"PRISM",  line1:"light • music • lab",     id:1911075425, img:"https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1200&q=80"},
+  {name:"WAVE",   line1:"ocean • audio • 3d",      id:1875941511, img:"https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=1200&q=80"},
+  {name:"EMBER",  line1:"fire • sound • dev",      id:419594258,  img:"https://images.unsplash.com/photo-1499415479124-43c32433a620?w=1200&q=80"},
+  {name:"LUMA",   line1:"glow • visual • web",     id:29550185,   img:"https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1200&q=80"}
 ];
 
 function nameReel(n){
   // 每个字母一列，hover 时整列上滚（复刻 lusion 的字母滚动）
   return n.split("").map(ch=>`<div class="col-reel"><span>${ch}</span><span>${ch}</span></div>`).join("");
+}
+
+/* 网易云外链播放器 iframe 构造 */
+function neteaseIframe(id){
+  return `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=${id}&auto=1&height=66"></iframe>`;
 }
 
 const grid = document.createElement("div");
@@ -157,7 +185,7 @@ grid.innerHTML = PROJECTS.map((p,i)=>`
       <div class="project-line1">${p.line1}</div>
       <div class="project-line2">
         <div class="project-name">${nameReel(p.name)}</div>
-        <span class="project-tag">VIEW</span>
+        <span class="project-tag">PLAY</span>
       </div>
     </div>
   </article>`).join("");
@@ -165,9 +193,30 @@ grid.innerHTML = PROJECTS.map((p,i)=>`
 const projects = document.getElementById("projects");
 const head = document.createElement("div");
 head.className = "projects-head";
-head.innerHTML = `<h2>Selected Works</h2><p>Ten fluid pieces — hover to feel the motion.</p>`;
+head.innerHTML = `<h2>Selected Works</h2><p>Ten fluid pieces — click a card to play.</p>`;
 projects.appendChild(head);
 projects.appendChild(grid);
+
+/* 点击卡片 → 在顶部固定播放栏加载对应网易云播放器 */
+const bar = document.getElementById("player-bar");
+const pbIndex = bar.querySelector(".pb-index");
+const pbName  = bar.querySelector(".pb-name");
+const pbLine  = bar.querySelector(".pb-line");
+const pbIframe= document.getElementById("pb-iframe");
+
+document.querySelectorAll(".project").forEach(el=>{
+  el.addEventListener("click", ()=>{
+    const i = +el.dataset.i;
+    const p = PROJECTS[i];
+    document.querySelectorAll(".project").forEach(x=>x.classList.remove("playing"));
+    el.classList.add("playing");
+    pbIndex.textContent = String(i+1).padStart(2,"0");
+    pbName.textContent  = p.name;
+    pbLine.textContent  = p.line1;
+    pbIframe.innerHTML  = neteaseIframe(p.id);
+    bar.scrollIntoView({behavior:"smooth", block:"nearest"});
+  });
+});
 
 /* 进入视口逐个浮现 */
 const io = new IntersectionObserver((entries)=>{

@@ -1,13 +1,13 @@
-# Hexo Configuration
+﻿# Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 书下酒云赠人
+title: 俊泽·Jason
 subtitle: SliverSucks
 description: ''
 keywords:
-author: JohnsonLiam
+author: Jason
 language: en
 timezone: Asia/Shanghai
 

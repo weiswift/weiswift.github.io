@@ -1,7 +1,7 @@
----
+﻿---
 title: HBase（全）
 date: 2024-06-01 00:00:00
-author: JohnsonLiam
+author: Jason
 tags: [HBase]
 top_img: https://wei-blog.oss-cn-beijing.aliyuncs.com/img/224634-171232839454f0.jpg
 comments: true
