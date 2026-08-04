@@ -45,3 +45,6 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
 
     include ./rightside.pug
     include ./additional-js.pug
+
+    if page.type !== '404'
+      script(src='/js/splash_cursor.js', defer)
