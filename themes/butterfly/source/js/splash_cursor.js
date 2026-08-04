@@ -45,11 +45,11 @@
 
   // Create canvas container
   const container = document.createElement('div');
-  container.style.cssText = 'position:fixed;top:0;left:0;z-index:50;pointer-events:none;width:100%;height:100%';
+  container.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;pointer-events:none;width:100%;height:100%';
 
   const canvas = document.createElement('canvas');
   canvas.id = 'fluid';
-  canvas.style.cssText = 'width:100vw;height:100vh;display:block';
+  canvas.style.cssText = 'width:100vw;height:100vh;display:block;pointer-events:none';
   container.appendChild(canvas);
   document.body.appendChild(container);
 
