@@ -3211,6 +3211,23 @@ h1.page-title + .tag-cloud-list {
 #page-header.full_page {
   height: 100vh;
   background-attachment: fixed;
+  isolation: isolate;
+}
+#page-header.full_page #header-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+}
+#page-header.full_page #site-info,
+#page-header.full_page #scroll-down,
+#page-header.full_page #nav {
+  position: relative;
+  z-index: 2;
 }
 #page-header.full_page #site-info {
   position: absolute;
