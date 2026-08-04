@@ -25,6 +25,9 @@ h1.page-title
 // canvas 滚动标签云（在原有文本云之后）
 #tags-canvas-cloud
   margin-top: 4rem
+  display: flex
+  flex-direction: column
+  align-items: center
   text-align: center
 
   .tags-canvas-title
@@ -35,8 +38,8 @@ h1.page-title
 
   #resCanvas
     display: block
-    margin: 0 auto
-    max-width: 100%
+    width: 100%
+    max-width: 600px
     height: auto
 
   +maxWidth768()

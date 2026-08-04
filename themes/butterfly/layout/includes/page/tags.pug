@@ -7,11 +7,11 @@
 - var counts = tagList.map(function (t) { return t.length })
 - var minC = counts.reduce(function (a, b) { return Math.min(a, b) }, Infinity)
 - var maxC = counts.reduce(function (a, b) { return Math.max(a, b) }, 0)
-- function tagSize(c) { if (maxC === minC) return 16; var minP = 12, maxP = 22; return (minP + (Math.log(c) - Math.log(minC)) / (Math.log(maxC) - Math.log(minC)) * (maxP - minP)).toFixed(2) }
+- function tagSize(c) { if (maxC === minC) return 18; var minP = 14, maxP = 24; return (minP + (Math.log(c) - Math.log(minC)) / (Math.log(maxC) - Math.log(minC)) * (maxP - minP)).toFixed(2) }
 
 #tags-canvas-cloud
   h2.tags-canvas-title 标签词云
-  canvas#resCanvas(width='600' height='420')
+  canvas#resCanvas.canvas-cloud
   - var tagsData = tagList.map(function (t) { return { name: t.name, href: url_for(t.path), size: Number(tagSize(t.length)) } })
   script(type='application/json' id='tags-cloud-data').
     !{JSON.stringify(tagsData)}
@@ -26,7 +26,10 @@ script.
       if (!data.length) return
 
       var ctx = canvas.getContext('2d')
-      var W = canvas.width, H = canvas.height
+      // 响应式：宽度跟随父容器（最大 600），高度按比例
+      var boxW = canvas.parentElement.clientWidth || 600
+      var W = Math.min(boxW, 600)
+      var H = Math.round(W * 0.7)
       var radius = Math.min(W, H) / 2.6
       var cx = W / 2, cy = H / 2
       var colors = ['#49b1f5', '#00c4b6', '#fc6421', '#ff7242', '#a67eea', '#1abc9c', '#e91e63', '#3eb8be']
@@ -86,7 +89,7 @@ script.
           var scale = (p._z + 1.6) / 2.6 // 0.23~1
           var px = cx + p._x * radius
           var py = cy + p._y * radius
-          var fs = p.size * (0.7 + scale * 0.9)
+          var fs = p.size * (0.85 + scale * 1.05)
           ctx.globalAlpha = Math.max(0.25, scale)
           ctx.fillStyle = p.color
           ctx.font = 'bold ' + fs.toFixed(1) + 'px "Microsoft YaHei", sans-serif'
@@ -121,7 +124,7 @@ script.
         for (var i = 0; i < sorted.length; i++) {
           var p = sorted[i]
           var px = cx + p._x * radius, py = cy + p._y * radius
-          var fs = p.size * (0.7 + ((p._z + 1.6) / 2.6) * 0.9)
+          var fs = p.size * (0.85 + ((p._z + 1.6) / 2.6) * 1.05)
           if (Math.abs(mx - px) < fs * 0.8 && Math.abs(my - py) < fs * 0.6) {
             window.location.href = p.href
             break
