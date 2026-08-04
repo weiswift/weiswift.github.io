@@ -51,6 +51,9 @@ disable_top_img: false
 # The banner image of home page
 index_img: https://wei-blog.oss-cn-beijing.aliyuncs.com/img/%CB%AE%20%E9%B1%BC%20%E7%8C%AB%E6%B8%B8%E6%B3%B3%204k%E5%8A%A8%E6%BC%AB%E5%A3%81%E7%BA%B8_%E5%BD%BC%E5%B2%B8%E5%9B%BE%E7%BD%91.jpg
 
+# The background video of home page (overrides index_img when set)
+index_video: https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4
+
 # If the banner of page not setting, it will show the top_img
 default_top_img: https://wei-blog.oss-cn-beijing.aliyuncs.com/img/bk.jpg
 
