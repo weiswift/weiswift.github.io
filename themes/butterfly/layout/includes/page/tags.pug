@@ -65,6 +65,19 @@ script.
       var rotX = 0, rotY = 0
       var autoX = angleX, autoY = angleY
       var dragging = false, lastX = 0, lastY = 0
+      var hoverPoint = null
+
+      // 命中检测：返回鼠标位置最靠前的标签
+      function pickPoint(mx, my) {
+        var sorted = points.slice().sort(function (a, b) { return b._z - a._z })
+        for (var i = 0; i < sorted.length; i++) {
+          var p = sorted[i]
+          var px = cx + p._x * radius, py = cy + p._y * radius
+          var fs = p.size * (0.85 + ((p._z + 1.6) / 2.6) * 1.05)
+          if (Math.abs(mx - px) < fs * 0.8 && Math.abs(my - py) < fs * 0.6) return p
+        }
+        return null
+      }
 
       function rotate() {
         for (var i = 0; i < points.length; i++) {
@@ -89,13 +102,23 @@ script.
           var scale = (p._z + 1.6) / 2.6 // 0.23~1
           var px = cx + p._x * radius
           var py = cy + p._y * radius
-          var fs = p.size * (0.85 + scale * 1.05)
-          ctx.globalAlpha = Math.max(0.25, scale)
+          // hover 时该词基础字号 +3，并提升透明度/亮度
+          var baseSize = (p === hoverPoint) ? (p.size + 3) : p.size
+          var fs = baseSize * (0.85 + scale * 1.05)
+          var isHover = (p === hoverPoint)
+          ctx.globalAlpha = isHover ? 1 : Math.max(0.25, scale)
+          if (isHover) {
+            ctx.shadowColor = p.color
+            ctx.shadowBlur = 12
+          } else {
+            ctx.shadowBlur = 0
+          }
           ctx.fillStyle = p.color
           ctx.font = 'bold ' + fs.toFixed(1) + 'px "Microsoft YaHei", sans-serif'
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
           ctx.fillText(p.name, px, py)
+          ctx.shadowBlur = 0
         }
         ctx.globalAlpha = 1
       }
@@ -110,31 +133,34 @@ script.
       canvas.addEventListener('mousedown', function (e) { dragging = true; lastX = e.clientX; lastY = e.clientY })
       window.addEventListener('mouseup', function () { dragging = false })
       window.addEventListener('mousemove', function (e) {
-        if (!dragging) return
-        rotY += (e.clientX - lastX) * 0.005
-        rotX += (e.clientY - lastY) * 0.005
-        lastX = e.clientX; lastY = e.clientY
+        if (dragging) {
+          rotY += (e.clientX - lastX) * 0.005
+          rotX += (e.clientY - lastY) * 0.005
+          lastX = e.clientX; lastY = e.clientY
+          return
+        }
+        // 非拖拽：更新 hover 命中
+        var rect = canvas.getBoundingClientRect()
+        var mx = (e.clientX - rect.left), my = (e.clientY - rect.top)
+        hoverPoint = pickPoint(mx, my)
+        canvas.style.cursor = hoverPoint ? 'pointer' : 'default'
       })
 
       // 点击跳转
       canvas.addEventListener('click', function (e) {
         var rect = canvas.getBoundingClientRect()
         var mx = (e.clientX - rect.left), my = (e.clientY - rect.top)
-        var sorted = points.slice().sort(function (a, b) { return b._z - a._z })
-        for (var i = 0; i < sorted.length; i++) {
-          var p = sorted[i]
-          var px = cx + p._x * radius, py = cy + p._y * radius
-          var fs = p.size * (0.85 + ((p._z + 1.6) / 2.6) * 1.05)
-          if (Math.abs(mx - px) < fs * 0.8 && Math.abs(my - py) < fs * 0.6) {
-            window.location.href = p.href
-            break
-          }
-        }
+        var hit = pickPoint(mx, my)
+        if (hit) window.location.href = hit.href
       })
 
       // 鼠标移入暂停自动旋转
       canvas.addEventListener('mouseenter', function () { autoX = 0; autoY = 0 })
-      canvas.addEventListener('mouseleave', function () { autoX = angleX; autoY = angleY })
+      canvas.addEventListener('mouseleave', function () {
+        autoX = angleX; autoY = angleY
+        hoverPoint = null
+        canvas.style.cursor = 'default'
+      })
 
       rotate(); draw(); loop()
     }
