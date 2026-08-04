@@ -28,7 +28,7 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
             if theme.aside.enable && page.aside !== false
               include widget/index.pug
 
-        - var footerBg = theme.footer_bg
+        - var footerBg = theme.footer_bg && !theme.footer_video
         if (footerBg)
           if (footerBg === true)
             - var footer_bg = bg_img

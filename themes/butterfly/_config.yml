@@ -646,6 +646,10 @@ background:
 # Footer Background
 footer_bg: true
 
+# Footer background video (override footer_bg image when set)
+# 设置后将使用视频作为 footer 背景（铺满，保持与图片一致尺寸/比例）
+footer_video: https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4
+
 # Add mask to header or footer (为 header 或 footer 添加黑色半透遮罩)
 mask:
   header: true

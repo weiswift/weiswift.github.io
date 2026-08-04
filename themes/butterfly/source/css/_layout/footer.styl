@@ -4,6 +4,7 @@
   background-attachment: scroll
   background-position: bottom
   background-size: cover
+  overflow: hidden
 
   if hexo-config('footer_bg') != false && hexo-config('mask.footer')
     &:before
@@ -13,11 +14,22 @@
       background-color: var(--mark-bg)
       content: ''
 
+  #footer-video
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    object-fit: cover
+    z-index: 0
+    pointer-events: none
+
 #footer-wrap
   position: relative
   padding: 40px 20px
   color: var(--light-grey)
   text-align: center
+  z-index: 1
 
   a
     color: var(--light-grey)

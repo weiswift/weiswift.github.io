@@ -1,2 +1,140 @@
+// 原有文本云（保留不动）
 .tag-cloud-list.is-center
   !=cloudTags({source: site.tags, orderby: page.orderby || 'random', order: page.order || 1, minfontsize: 1.2, maxfontsize: 2.1, limit: 0, unit: 'em'})
+
+// 在原有 tags 之后追加的标签云（纯原生 Canvas 3D 旋转，无外部依赖）
+- var tagList = site.tags.toArray()
+- var counts = tagList.map(function (t) { return t.length })
+- var minC = counts.reduce(function (a, b) { return Math.min(a, b) }, Infinity)
+- var maxC = counts.reduce(function (a, b) { return Math.max(a, b) }, 0)
+- function tagSize(c) { if (maxC === minC) return 16; var minP = 12, maxP = 22; return (minP + (Math.log(c) - Math.log(minC)) / (Math.log(maxC) - Math.log(minC)) * (maxP - minP)).toFixed(2) }
+
+#tags-canvas-cloud
+  h2.tags-canvas-title 标签词云
+  canvas#resCanvas(width='600' height='420')
+  - var tagsData = tagList.map(function (t) { return { name: t.name, href: url_for(t.path), size: Number(tagSize(t.length)) } })
+  script(type='application/json' id='tags-cloud-data').
+    !{JSON.stringify(tagsData)}
+
+script.
+  (function () {
+    function initTagsCloud() {
+      var canvas = document.getElementById('resCanvas')
+      if (!canvas || !canvas.getContext) return
+      var data = []
+      try { data = JSON.parse(document.getElementById('tags-cloud-data').textContent) } catch (e) { return }
+      if (!data.length) return
+
+      var ctx = canvas.getContext('2d')
+      var W = canvas.width, H = canvas.height
+      var radius = Math.min(W, H) / 2.6
+      var cx = W / 2, cy = H / 2
+      var colors = ['#49b1f5', '#00c4b6', '#fc6421', '#ff7242', '#a67eea', '#1abc9c', '#e91e63', '#3eb8be']
+      var dpr = window.devicePixelRatio || 1
+
+      // 高分屏适配
+      canvas.width = W * dpr
+      canvas.height = H * dpr
+      canvas.style.width = W + 'px'
+      canvas.style.height = H + 'px'
+      ctx.scale(dpr, dpr)
+
+      // 用 Fibonacci sphere 在球面上均匀分布标签
+      var N = data.length
+      var points = []
+      var phi = Math.PI * (3 - Math.sqrt(5))
+      for (var i = 0; i < N; i++) {
+        var y = 1 - (i / (N - 1)) * 2
+        var r = Math.sqrt(1 - y * y)
+        var theta = phi * i
+        points.push({
+          x: Math.cos(theta) * r,
+          y: y,
+          z: Math.sin(theta) * r,
+          name: data[i].name,
+          href: data[i].href,
+          size: data[i].size,
+          color: colors[i % colors.length]
+        })
+      }
+
+      var angleX = 0.002, angleY = 0.004
+      var rotX = 0, rotY = 0
+      var autoX = angleX, autoY = angleY
+      var dragging = false, lastX = 0, lastY = 0
+
+      function rotate() {
+        for (var i = 0; i < points.length; i++) {
+          var p = points[i]
+          // 绕 Y 轴
+          var cosY = Math.cos(rotY), sinY = Math.sin(rotY)
+          var x1 = p.x * cosY - p.z * sinY
+          var z1 = p.x * sinY + p.z * cosY
+          // 绕 X 轴
+          var cosX = Math.cos(rotX), sinX = Math.sin(rotX)
+          var y1 = p.y * cosX - z1 * sinX
+          var z2 = p.y * sinX + z1 * cosX
+          p._x = x1; p._y = y1; p._z = z2
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H)
+        var sorted = points.slice().sort(function (a, b) { return a._z - b._z })
+        for (var i = 0; i < sorted.length; i++) {
+          var p = sorted[i]
+          var scale = (p._z + 1.6) / 2.6 // 0.23~1
+          var px = cx + p._x * radius
+          var py = cy + p._y * radius
+          var fs = p.size * (0.7 + scale * 0.9)
+          ctx.globalAlpha = Math.max(0.25, scale)
+          ctx.fillStyle = p.color
+          ctx.font = 'bold ' + fs.toFixed(1) + 'px "Microsoft YaHei", sans-serif'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.fillText(p.name, px, py)
+        }
+        ctx.globalAlpha = 1
+      }
+
+      function loop() {
+        if (!dragging) { rotX += autoX; rotY += autoY }
+        rotate(); draw()
+        canvas._raf = requestAnimationFrame(loop)
+      }
+
+      // 鼠标拖拽交互
+      canvas.addEventListener('mousedown', function (e) { dragging = true; lastX = e.clientX; lastY = e.clientY })
+      window.addEventListener('mouseup', function () { dragging = false })
+      window.addEventListener('mousemove', function (e) {
+        if (!dragging) return
+        rotY += (e.clientX - lastX) * 0.005
+        rotX += (e.clientY - lastY) * 0.005
+        lastX = e.clientX; lastY = e.clientY
+      })
+
+      // 点击跳转
+      canvas.addEventListener('click', function (e) {
+        var rect = canvas.getBoundingClientRect()
+        var mx = (e.clientX - rect.left), my = (e.clientY - rect.top)
+        var sorted = points.slice().sort(function (a, b) { return b._z - a._z })
+        for (var i = 0; i < sorted.length; i++) {
+          var p = sorted[i]
+          var px = cx + p._x * radius, py = cy + p._y * radius
+          var fs = p.size * (0.7 + ((p._z + 1.6) / 2.6) * 0.9)
+          if (Math.abs(mx - px) < fs * 0.8 && Math.abs(my - py) < fs * 0.6) {
+            window.location.href = p.href
+            break
+          }
+        }
+      })
+
+      // 鼠标移入暂停自动旋转
+      canvas.addEventListener('mouseenter', function () { autoX = 0; autoY = 0 })
+      canvas.addEventListener('mouseleave', function () { autoX = angleX; autoY = angleY })
+
+      rotate(); draw(); loop()
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTagsCloud)
+    else initTagsCloud()
+  })()
