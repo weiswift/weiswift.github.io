@@ -12,9 +12,7 @@ menu:
   Home: / || fas fa-home
   Archives: /archives/ || fas fa-archive
   Tags: /tags/ || fas fa-tags
-  List||fas fa-list:
-    Music: /music/ || fas fa-music
-    Movie: /movies/ || fas fa-video
+  Music: /music/ || fas fa-music
   About: /about/ || fas fa-heart
 
 # Code Blocks (代碼相關)
@@ -38,7 +36,7 @@ social:
 # --------------------------------------
 
 # Favicon（網站圖標）
-favicon: https://wei-blog.oss-cn-beijing.aliyuncs.com/img/%E4%B9%A6%20(1).png
+favicon: /favicon.png
 
 # Avatar (頭像)
 avatar:
