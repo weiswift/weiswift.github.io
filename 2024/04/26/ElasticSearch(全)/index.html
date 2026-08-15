@@ -1,0 +1,970 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ElasticSearch(全) | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Elastic Stack Elastic Stack是一套构建在开源基础之上，可以让我们安全可靠地采集任何来源、任何格式的数据，并且实时地对数据进行搜索、分析和可视化工具链。  ELK技术栈从上面这段定义可以看出Elastic Stack的几个特点：采集、转换、搜索、分析、可视化，这些功能分别由ElasticSearch、Kibana、Beats、Logstash这几个组件来实现。 数据搜索 精">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch(全)">
+<meta property="og:url" content="https://weiswift.github.io/2024/04/26/ElasticSearch(%E5%85%A8)/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="Elastic Stack Elastic Stack是一套构建在开源基础之上，可以让我们安全可靠地采集任何来源、任何格式的数据，并且实时地对数据进行搜索、分析和可视化工具链。  ELK技术栈从上面这段定义可以看出Elastic Stack的几个特点：采集、转换、搜索、分析、可视化，这些功能分别由ElasticSearch、Kibana、Beats、Logstash这几个组件来实现。 数据搜索 精">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-04-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-27T10:41:15.980Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="ES">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/04/26/ElasticSearch(%E5%85%A8)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ElasticSearch(全)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-27 18:41:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/224634-171232839454f0.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ElasticSearch(全)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-04-25T16:00:00.000Z" title="Created 2024-04-26 00:00:00">2024-04-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-04-27T10:41:15.980Z" title="Updated 2024-04-27 18:41:15">2024-04-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ElasticSearch(全)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Elastic-Stack"><a href="#Elastic-Stack" class="headerlink" title="Elastic Stack"></a>Elastic Stack</h1><blockquote>
+<p><code>Elastic Stack</code>是一套构建在开源基础之上，可以让我们安全可靠地采集任何来源、任何格式的数据，并且实时地对数据进行搜索、分析和可视化工具链。</p>
+</blockquote>
+<h2 id="ELK技术栈"><a href="#ELK技术栈" class="headerlink" title="ELK技术栈"></a>ELK技术栈</h2><p>从上面这段定义可以看出<code>Elastic Stack</code>的几个特点：采集、转换、搜索、分析、可视化，这些功能分别由<code>ElasticSearch</code>、<code>Kibana</code>、<code>Beats</code>、<code>Logstash</code>这几个组件来实现。</p>
+<h2 id="数据搜索"><a href="#数据搜索" class="headerlink" title="数据搜索"></a>数据搜索</h2><ul>
+<li>精准查询</li>
+</ul>
+<p>查询数据表中name等于张三的数据 </p>
+<p>select * from user where name &#x3D; ‘张三’</p>
+<ul>
+<li>模糊查询</li>
+</ul>
+<p>查询数据表中name中包含张三</p>
+<p>select * from user where name like ‘%张三%’</p>
+<ul>
+<li>关联查询</li>
+</ul>
+<p>查询数据表中任何列中可能包含张三的数据</p>
+<p>select * from user where name like ‘%张三%’ or address like ‘%张三%’ or ……..</p>
+<ul>
+<li>搜索查询</li>
+</ul>
+<p>想要查询任何列跟张三有关系的数据，张哥  三叔 张三哥哥</p>
+<p>当你不确定查询条件时，我们会使用搜索</p>
+<h2 id="全文检索"><a href="#全文检索" class="headerlink" title="全文检索"></a>全文检索</h2><p>全文检索是指：</p>
+<ul>
+<li><p>通过一个程序扫描文本中的每一个单词，<strong>针对单词建立索引，并保存该单词在文本中的位置、以及出现的次数</strong></p>
+</li>
+<li><p>用户查询时，通过之前建立好的索引来查询，<strong>将索引中单词对应的文本位置、出现的次数返回给用户</strong>，因为有了具体文本的位置，所以就可以将具体内容读取出来了</p>
+</li>
+<li><p>类似于通过字典中的检索<strong>字表查字</strong>的过程（想象一下百度搜索）</p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>通过一个程序扫描文本中的每一个单词，针对单词建立<code>倒排索引</code>，并保存该单词在文本中的位置、以及出现的次数</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240427174659903.png" alt="image-20240427174659903"></p>
+<ul>
+<li><p>用户查询时，通过之前建立好的索引来查询，将索引中单词对应的文本位置、出现的次数返回给用户，因为有了具体文本的位置，所以就可以将具体内容读取出来了</p>
+</li>
+<li><p>类似于通过字典中的检索字表查字的过程</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h2><p>Lucene是一种高性能的全文检索库，在2000年开源，最初由大名鼎鼎的Doug Cutting（道格·卡丁）开发。Lucene不是一个完整的全文检索引擎，它只是提供一个基本的全文检索的架构。</p>
+<h2 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h2><p><code>Elasticsearch</code>是<code>Elastic Static</code>的核心是基于Lucene的搜索服务器，可以用<code>Elasticsearch</code>来存储我们的文档数据，利用Elasticsearch强大的搜索和分析功能为我们的网站提供支持，<code>ElasticSearch</code>是分布式搜索引擎和大数据实时分析引擎，可以实时分析计算数据并得出结果，还可以通过<code>Kibana</code>的各种图表将分析结果可视化。</p>
+<p>基于Lucene的分布式全文检索引擎, 比较出名的两个 ：</p>
+<ul>
+<li>ElasticSearch</li>
+</ul>
+<blockquote>
+<ul>
+<li>海量数据存储和处理<ul>
+<li>大型分布式集群（数百台规模服务器）</li>
+<li>处理PB级数据</li>
+<li>小公司也可以进行单机部署</li>
+</ul>
+</li>
+<li>开箱即用<ul>
+<li>简单易用，操作非常简单</li>
+<li>快速部署生产环境</li>
+</ul>
+</li>
+<li>作为传统数据库的补充<ul>
+<li>传统关系型数据库不擅长全文检索（MySQL自带的全文索引，与ES性能差距非常大）</li>
+<li>传统关系型数据库无法支持搜索排名、海量数据存储、分析等功能</li>
+<li>Elasticsearch可以作为传统关系数据库的补充，提供RDBM无法提供的功能</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>Solr</li>
+</ul>
+<blockquote>
+<ul>
+<li>solr 单独纯粹做查询的效率高于 ES</li>
+<li>如果写入的频次和读取的频次都比较多, 采用ES的效率要高于Solr</li>
+<li>ElasticSearch 和 Solr 都是基于Lucene开发的</li>
+</ul>
+</blockquote>
+<h1 id="ES核心概念"><a href="#ES核心概念" class="headerlink" title="ES核心概念"></a>ES核心概念</h1><h2 id="ES基本概念"><a href="#ES基本概念" class="headerlink" title="ES基本概念"></a>ES基本概念</h2><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230801120715040.png" alt="image-20230801120715040"></p>
+<ul>
+<li>节点（Node）</li>
+</ul>
+<p>运行了单个实例的ES主机称为节点，它是集群的一个成员，可以存储数据、参与集群索引及搜索操作。节点通过为其配置的ES集群名称确定其所要加入的集群。</p>
+<ul>
+<li>集群（cluster**）**</li>
+</ul>
+<p>ES可以作为一个独立的单个搜索服务器。不过，一般为了处理大型数据集，实现容错和高可用性，ES可以运行在许多互相合作的服务器上。这些服务器的集合称为集群。</p>
+<blockquote>
+<p>一个集群会有多个节点组成，一个节点就是一个ES服务实例，通过配置cluster.name&#x3D;‘’加入集群</p>
+<ul>
+<li>node.master&#x3D;ture（默认为ture）-候选主节点，只有成为候选主节点的实例才能参与投票选举</li>
+<li>主节点：负责索引的添加、删除，跟踪其它节点的正常运行，对数据分片的分配，收集集群中各节点的状态信息等</li>
+<li>node.data&#x3D;ture（默认为ture）数据节点：负责对数据的增、删、改、查、聚合等操作，数据的查询和存储，对机器的io cpu memory要求比较高，一般选择<code>高配置的机器作为数据节点</code></li>
+<li>协调节点：其本身不是通过配置来设置，用户的请求会随机分发给一个节点，该节点就成为了协调节点，负责分发客户端的读写请求、收集结果</li>
+</ul>
+<p><code>集群每个节点既可以是候选主节点也可以是数据节点</code></p>
+</blockquote>
+<ul>
+<li>分片（Shard）</li>
+</ul>
+<p>ES的“分片(shard)”机制可将一个索引内部的数据分布地存储于多个节点，它通过将一个索引切分为多个底层物理的Lucene索引完成索引数据的分割存储功能，这每一个物理的Lucene索引称为一个分片(shard)。</p>
+<p>这样的好处是可以把一个大的索引拆分成多个，分布到不同的节点上。降低单服务器的压力，构成分布式搜索，提高整体检索的效率（分片数的最优值与硬件参数和数据量大小有关）。<code>分片的数量只能在索引创建前指定</code>，并且索引创建后不能更改。</p>
+<p>4）副本（Replica）</p>
+<p>副本是一个分片的精确复制，每个分片可以有零个或多个副本。副本的作用一是提高系统的容错性，当某个节点某个分片损坏或丢失时可以从副本中恢复。二是提高es的查询效率，es会自动对搜索请求进行负载均衡。</p>
+<p><code>副本数不能大于节点数</code></p>
+<h2 id="ES数据架构"><a href="#ES数据架构" class="headerlink" title="ES数据架构"></a>ES数据架构</h2><p><code>Elasticsearch与数据库的类比</code></p>
+<p><code>es7之后就没了type</code></p>
+<table>
+<thead>
+<tr>
+<th>关系型数据库（比如Mysql）</th>
+<th>非关系型数据库（Elasticsearch）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据库Database</td>
+<td>索引Index</td>
+</tr>
+<tr>
+<td>表Table</td>
+<td>类型Type</td>
+</tr>
+<tr>
+<td>数据行Row</td>
+<td>文档Document</td>
+</tr>
+<tr>
+<td>数据列Column</td>
+<td>字段Field</td>
+</tr>
+<tr>
+<td>约束 Schema</td>
+<td>映射Mapping</td>
+</tr>
+</tbody></table>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230801143242790.png" alt="image-20230801143242790"></p>
+<ul>
+<li>索引（index）</li>
+</ul>
+<p>ES将数据存储于一个或多个索引中，索引是具有类似特性的文档的集合。索引相当于SQL中的一个数据库。</p>
+<ul>
+<li>类型（Type）</li>
+</ul>
+<p>类型是索引内部的逻辑分区(category&#x2F;partition)，然而其意义完全取决于用户需求。因此，一个索引内部可定义一个或多个类型(type)。类型相当于“表”。</p>
+<ul>
+<li>文档（Document）</li>
+</ul>
+<p>文档是Lucene索引和搜索的原子单位，它是包含了一个或多个域的容器，基于JSON格式进行表示。相当于mysql表中的row。</p>
+<ul>
+<li>映射（Mapping）</li>
+</ul>
+<p>映射是定义文档及其包含的字段如何存储和索引的过程。</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230801143800853.png" alt="image-20230801143800853"></p>
+<table>
+<thead>
+<tr>
+<th>一级分类</th>
+<th>二级分类</th>
+<th>具体类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心类型</td>
+<td>字符串类型</td>
+<td>string,text,keyword</td>
+</tr>
+<tr>
+<td>h</td>
+<td>整数类型</td>
+<td>integer,long,short,byte</td>
+</tr>
+<tr>
+<td>h</td>
+<td>浮点类型</td>
+<td>double,float,half_float,scaled_float</td>
+</tr>
+<tr>
+<td>h</td>
+<td>逻辑类型</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>h</td>
+<td>日期类型</td>
+<td>date</td>
+</tr>
+<tr>
+<td>h</td>
+<td>范围类型</td>
+<td>range</td>
+</tr>
+<tr>
+<td>h</td>
+<td>二进制类型</td>
+<td>binary</td>
+</tr>
+<tr>
+<td>复合类型</td>
+<td>数组类型</td>
+<td>array</td>
+</tr>
+<tr>
+<td>f</td>
+<td>对象类型</td>
+<td>object</td>
+</tr>
+<tr>
+<td>f</td>
+<td>嵌套类型</td>
+<td>nested</td>
+</tr>
+<tr>
+<td>地理类型</td>
+<td>地理坐标类型</td>
+<td>geo_point</td>
+</tr>
+<tr>
+<td>d</td>
+<td>地理地图</td>
+<td>geo_shape</td>
+</tr>
+<tr>
+<td>特殊类型</td>
+<td>IP类型</td>
+<td>ip</td>
+</tr>
+<tr>
+<td>t</td>
+<td>范围类型</td>
+<td>completion</td>
+</tr>
+<tr>
+<td>t</td>
+<td>令牌计数类型</td>
+<td>token_count</td>
+</tr>
+<tr>
+<td>t</td>
+<td>附件类型</td>
+<td>attachment</td>
+</tr>
+<tr>
+<td>t</td>
+<td>抽取类型</td>
+<td>percolator</td>
+</tr>
+</tbody></table>
+<p>bit：比特</p>
+<p>byte：一个字节&#x3D;8bit   -2^7^ ~2^7^-1</p>
+<p>short：两个字节&#x3D;16bit   -2^15^ ~ 2^15^-1</p>
+<p>integer：四个字节&#x3D;32bit</p>
+<p>long：八个字节&#x3D;64bit</p>
+<h2 id="ES集群架构"><a href="#ES集群架构" class="headerlink" title="ES集群架构"></a>ES集群架构</h2><p>一个ES集群可以有多个节点构成，一个节点就是一个ES服务实例，通过配置<code>集群名称cluster.name</code>加入集群。</p>
+<ul>
+<li><p>候选主节点：只有是候选主节点才可以参与选举投票，也只有候选主节点可以被选举为主节点。</p>
+</li>
+<li><p>主节点：负责索引的添加、删除，跟踪哪些节点是群集的一部分，对分片进行分配、收集集群中各节点的状态等，稳定的主节点对集群的健康是非常重要。</p>
+</li>
+<li><p>数据节点**：**负责对数据的增、删、改、查、聚合等操作，数据的查询和存储都是由数据节点负责，对机器的CPU，IO以及内存的要求比较高，一般选择高配置的机器作为数据节点。</p>
+</li>
+<li><p>协调节点：其本身不是通过设置来分配的，用户的请求可以随机发往任何一个节点，并由该节点负责分发请求、收集结果等操作，而不需要主节点转发。这种节点可称之为协调节点，集群中的任何节点都可以充当协调节点的角色。每个节点之间都会保持联系。</p>
+</li>
+</ul>
+<p><code>集群中单个节点既可以是候选主节点也可以是数据节点</code></p>
+<h1 id="ES安装部署"><a href="#ES安装部署" class="headerlink" title="ES安装部署"></a>ES安装部署</h1><blockquote>
+<p>参考自己整理过的文章：<a target="_blank" rel="noopener" href="https://liamjohnson-w.github.io/2023/10/17/2023.10.17/">ElasticSearch6.0.1及Azkaban3.8部署 </a></p>
+</blockquote>
+<ul>
+<li><p>配置普通用户</p>
+<ul>
+<li>首先必须创建一个普通用户</li>
+<li>然后把es所在的目录所有者设置为这个普通用户</li>
+</ul>
+</li>
+<li><p>配置es环境</p>
+<ul>
+<li><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230801151755388.png" alt="image-20230801151755388"></li>
+</ul>
+</li>
+<li><p>修改系统配置</p>
+<ul>
+<li><blockquote>
+<p>$KAFKA_HOME&#x2F;bin&#x2F;kafka-server-start.sh $KAFKA_HOME&#x2F;config&#x2F;server.properties 2&gt;&amp;1 &gt;&gt; $KAFKA_HOME&#x2F;kafka-server.log &amp;</p>
+<p>nohup &#x2F;home&#x2F;es&#x2F;elasticsearch-7.10.2&#x2F;bin&#x2F;elasticsearch 2&gt;&amp;1 &amp;</p>
+<p>nohup ：守护进程</p>
+<p>&amp; : 后台运行</p>
+<p>2&gt;&amp;1 : 2-系统错误信息  1-系统信息 &gt;&amp;输出重定向</p>
+<p>&gt;&gt; ：追加写入</p>
+</blockquote>
+</li>
+<li><p>bin&#x2F;elasticsearch -d</p>
+</li>
+</ul>
+</li>
+<li><p>安装可视化插件：elasticsearch-head</p>
+</li>
+<li><p>安装IK分词器</p>
+</li>
+<li><p>配置VSCode</p>
+</li>
+</ul>
+<h1 id="RestFul-API"><a href="#RestFul-API" class="headerlink" title="RestFul API"></a>RestFul API</h1><blockquote>
+<p>REST，表示性状态转移（representation state transfer）。简单来说，就是用URI表示资源，用HTTP方法(GET, POST, PUT, DELETE)表征对这些资源的操作。</p>
+<p>URI：uniform resource indentify 统一资源标识符</p>
+<p>URL：uniform resource locate 统一资源定位符 是URI的一个子集</p>
+</blockquote>
+<ul>
+<li>一个动作配置一个接口</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230801155320880.png" alt="image-20230801155320880"></p>
+<ul>
+<li>使用http方法类型判断执行的操作类型</li>
+</ul>
+<p>GET - SELECT</p>
+<p>POST - UPDATE</p>
+<p>PUT - INSERT</p>
+<p>DELETE - DELETE</p>
+<h2 id="ES操作使用-Kibana"><a href="#ES操作使用-Kibana" class="headerlink" title="ES操作使用(Kibana)"></a>ES操作使用(Kibana)</h2><ul>
+<li>创建索引</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PUT /my-index</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mapping&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;employee-id&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指定副本、分片数量</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建指定分片数量、副本数量的索引</span></span><br><span class="line">PUT /job_idx_shard</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;employee-id&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;index&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;settings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;number_of_shards&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;number_of_replicas&quot;</span><span class="punctuation">:</span> <span class="number">1</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>字段类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>类型名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简单类型</td>
+<td>text</td>
+<td>需要进行全文检索的字段，通常使用text类型来对应邮件的正文、产品描述或者短文等非结构化文本数据。分词器先会将文本进行分词转换为词条列表。将来就可以基于词条来进行检索了。文本字段不能用于排序、也很少用于聚合计算。</td>
+</tr>
+<tr>
+<td></td>
+<td>keyword</td>
+<td>使用keyword来对应结构化的数据，如ID、电子邮件地址、主机名、状态代码、邮政编码或标签。可以使用keyword来进行排序或聚合计算。注意：keyword是不能进行分词的。</td>
+</tr>
+<tr>
+<td></td>
+<td>date</td>
+<td>保存格式化的日期数据，例如：2015-01-01或者2015&#x2F;01&#x2F;01 12:10:30。在Elasticsearch中，日期都将以字符串方式展示。可以给date指定格式：”format”: “yyyy-MM-dd HH:mm:ss”</td>
+</tr>
+<tr>
+<td></td>
+<td>long&#x2F;integer&#x2F;short&#x2F;byte</td>
+<td>64位整数&#x2F;32位整数&#x2F;16位整数&#x2F;8位整数</td>
+</tr>
+<tr>
+<td></td>
+<td>double&#x2F;float&#x2F;half_float</td>
+<td>64位双精度浮点&#x2F;32位单精度浮点&#x2F;16位半进度浮点</td>
+</tr>
+<tr>
+<td></td>
+<td>boolean</td>
+<td>“true”&#x2F;”false”</td>
+</tr>
+<tr>
+<td></td>
+<td>ip</td>
+<td>IPV4（192.168.1.110）&#x2F;IPV6（192.168.0.0&#x2F;16）</td>
+</tr>
+<tr>
+<td>JSON分层嵌套类型</td>
+<td>object</td>
+<td>用于保存JSON对象</td>
+</tr>
+<tr>
+<td></td>
+<td>nested</td>
+<td>用于保存JSON数组</td>
+</tr>
+<tr>
+<td>特殊类型</td>
+<td>geo_point</td>
+<td>用于保存经纬度坐标</td>
+</tr>
+<tr>
+<td></td>
+<td>geo_shape</td>
+<td>用于保存地图上的多边形坐标</td>
+</tr>
+</tbody></table>
+<ul>
+<li>创建测试索引</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230802100140188.png" alt="image-20230802100140188"></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">PUT /job_idx</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;properties&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;area&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;exp&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;edu&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;salary&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;job_type&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cmp&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;pv&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;jd&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看索引</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看所有索引</span></span><br><span class="line">GET _cat/indices</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">指定索引查看</span></span><br><span class="line">GET /job_idx/_mapping</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除索引</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete /job_idx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指定分词器创建索引</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">PUT /job_idx</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;properties&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;area&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="attr">&quot;analyzer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ik_max_word&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;exp&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="attr">&quot;analyzer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ik_max_word&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;edu&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;salary&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;job_type&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cmp&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="attr">&quot;analyzer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ik_max_word&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;pv&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="attr">&quot;analyzer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ik_max_word&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;jd&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="attr">&quot;analyzer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ik_max_word&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加数据</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PUT /job_idx/_doc/<span class="number">29097</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;area&quot;</span><span class="punctuation">:</span> <span class="string">&quot;深圳-南山区&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;exp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1年经验&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;edu&quot;</span><span class="punctuation">:</span> <span class="string">&quot;大专以上&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;salary&quot;</span><span class="punctuation">:</span> <span class="string">&quot;6-8千/月&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;job_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;实习&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;cmp&quot;</span><span class="punctuation">:</span> <span class="string">&quot;乐有家&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;pv&quot;</span><span class="punctuation">:</span> <span class="string">&quot;61.6万人浏览过  / 14人评价  / 113人正在关注&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;桃园 深大销售实习 岗前培训&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;jd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;薪酬待遇】 本科薪酬7500起 大专薪酬6800起 以上无业绩要求，同时享有业绩核算比例55%~80% 人均月收入超1.3万 【岗位职责】 1.爱学习，有耐心： 通过公司系统化培训熟悉房地产基本业务及相关法律、金融知识，不功利服务客户，耐心为客户在房产交易中遇到的各类问题； 2.会聆听，会提问： 详细了解客户的核心诉求，精准匹配合适的产品信息，具备和用户良好的沟通能力，有团队协作意识和服务意识； 3.爱琢磨，善思考: 热衷于用户心理研究，善于从用户数据中提炼用户需求，利用个性化、精细化运营手段，提升用户体验。 【岗位要求】 1.18-26周岁，自考大专以上学历； 2.具有良好的亲和力、理解能力、逻辑协调和沟通能力； 3.积极乐观开朗，为人诚实守信，工作积极主动，注重团队合作； 4.愿意服务于高端客户，并且通过与高端客户面对面沟通有意愿提升自己的综合能力； 5.愿意参加公益活动，具有爱心和感恩之心。 【培养路径】 1.上千堂课程;房产知识、营销知识、交易知识、法律法规、客户维护、目标管理、谈判技巧、心理学、经济学; 2.成长陪伴：一对一的师徒辅导 3.线上自主学习平台：乐有家学院，专业团队制作，每周大咖分享 4.储备及管理课堂： 干部训练营、月度/季度管理培训会 【晋升发展】 营销【精英】发展规划：A1置业顾问-A6资深置业专家 营销【管理】发展规划：（入职次月后就可竞聘） 置业顾问-置业经理-店长-营销副总经理-营销副总裁-营销总裁 内部【竞聘】公司职能岗位：如市场、渠道拓展中心、法务部、按揭经理等都是内部竞聘 【联系人】 黄媚主任15017903212（微信同号）&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改数据</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /job_idx/_update/<span class="number">29097</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;doc&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;salary&quot;</span><span class="punctuation">:</span> <span class="string">&quot;15-20千/月&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除数据</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE /job_idx/_doc/<span class="number">29097</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>批量导入数据</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用Elasticsearch中自带的bulk接口来进行数据导入</span></span><br><span class="line">curl -H &quot;Content-Type: application/json&quot; -XPOST &quot;up01:9200/job_idx/_bulk?pretty&amp;refresh&quot; --data-binary &quot;@job_info.json&quot; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看索引状态</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET _cat/indices?index=job_idx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据ID检索数据</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /job_idx/_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &#123;</span><br><span class="line">        &quot;ids&quot;: &#123;</span><br><span class="line">            &quot;values&quot;: [&quot;46313&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据关键词搜索</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单字段搜索</span></span><br><span class="line">GET  /job_idx/_search </span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;match&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;jd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;销售&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 多字段搜索</span></span><br><span class="line">GET /job_idx/_search</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;fields&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;title&quot;</span><span class="punctuation">,</span><span class="string">&quot;jd&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;query&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;销售&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分页搜索</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /job_idx/_search</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;from&quot;</span> <span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;size&quot;</span> <span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;fields&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;title&quot;</span><span class="punctuation">,</span> <span class="string">&quot;jd&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;query&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;销售&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ES操作使用-Curl"><a href="#ES操作使用-Curl" class="headerlink" title="ES操作使用(Curl)"></a>ES操作使用(Curl)</h2><blockquote>
+<p>最原始的一种方式，搭建完ElasticSearch就能即刻开箱使用，内网环境必备技能。</p>
+</blockquote>
+<p>东西很多，先抓最主要的东西：</p>
+<ul>
+<li>查看ElasticSearch中的全部索引(查看有多少表)<ul>
+<li><code>curl -u elk http://192.168.88.161:9201/_cat/indices?v</code></li>
+</ul>
+</li>
+<li>查看指定索引的全部field(查看某张表的字段)<ul>
+<li><code>curl -XGET -u elk http://192.168.88.161:9201/testindex/_mapping?pretty</code></li>
+</ul>
+</li>
+<li>根据field进行条件过滤(根据字段进行过滤)<ul>
+<li><code>curl -XGET &quot;http://192.168.88.161:9201/testindex/_search&quot; -H &#39;Content-Type: application/json&#39; -d &#39; {   &quot;query&quot;: { &quot;bool&quot;: {   &quot;must&quot;: [     { &quot;match&quot;: { &quot;mchnt_id&quot;: &quot;1&quot; } },     { &quot;match&quot;: { &quot;mchnt_name&quot;: &quot;利耶尼亚&quot; } }   ] }   } }&#39;</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看集群状态</span></span><br><span class="line">curl -u elk http://192.168.88.161:9201/_cat/health?v</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改集群访问密码</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在集群的一个节点修改后，会自动同步到其他节点。将 elk 用户的密码更新为 “new_password” 的命令如下。</span></span><br><span class="line">curl -H &quot;Content-Type: application/json&quot; --user elk -XPUT &#x27;http://192.168.88.161:9201/_xpack/security/user/elk/_password?pretty&#x27; -d &#x27;&#123;&quot;password&quot;:&quot;123456&quot;&#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看集群中的节点状态</span></span><br><span class="line">curl -u elk http://192.168.88.161:9201</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看索引列表</span></span><br><span class="line">curl -u elk http://192.168.88.161:9201/_cat/indices?v</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除索引</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将索引 testmapping 删除的命令如下。</span></span><br><span class="line">curl -H &quot;Content-Type: application/json&quot; -u elk -XDELETE http://192.168.88.161:9201/testmapping</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建索引</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">elkSearch 索引名字须为小写。创建名为 testIndex 的索引会报错</span></span><br><span class="line">curl -H &quot;Content-Type: application/json&quot; -u elk -XPUT http://192.168.88.161:9201/testindex</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看索引结构</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建完索引后，查询索引 testindex 包含哪些 field 的命令如下所示。</span></span><br><span class="line">curl -XGET -u elk http://192.168.88.161:9201/testindex/_mapping?pretty</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">给索引 testindex 设置 2 个 filed，名字分别为 mchnt_id 和 mchnt_name</span></span><br><span class="line">curl -X PUT &#x27;http://192.168.88.161:9201/testindex/_mapping/doc&#x27; -H &quot;Content-Type: application/json&quot; -d &#x27;&#123;&quot;properties&quot;:&#123;&quot;mchnt_id&quot; : &#123;&quot;type&quot; : &quot;keyword&quot;,&quot;index&quot; : true&#125;,&quot;mchnt_name&quot; : &#123;&quot;type&quot; : &quot;text&quot;&#125;&#125;&#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">给索引 testindex 新增一个 field，名字为 amount，语句如下所示。</span></span><br><span class="line"> curl -H &quot;Content-Type: application/json&quot; -u elk -XPOST &#x27;http://192.168.88.161:9201/testindex/_mapping?pretty&#x27; -d &#x27;&#123;&quot;properties&quot;: &#123;&quot;id&quot;:&#123;&quot;type&quot;:&quot;integer&quot;&#125;&#125;&#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加文档</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">给索引 testindex 添加一条文档，文档 ID 为 1，语句如下。</span></span><br><span class="line"> curl -H &quot;Content-Type: application/json&quot; -XPOST &#x27;http://192.168.88.161:9201/testindex/doc/2?pretty&#x27; -d &#x27;&#123;&quot;mchnt_id&quot;: &quot;2&quot;,&quot;mchnt_name&quot;: &quot;颐和山庄&quot;&#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除文档</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将 testindex 索引下，文档 ID 为 3 的文档删除，命令如下。</span></span><br><span class="line"> curl -u elk -H &quot;Content-Type: application/json&quot; -XDELETE &#x27;http://192.168.88.161:9201/testindex/doc/3?pretty&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">统计索引 testindex 下的文档数</span></span><br><span class="line"> curl -s --user elk -XGET &#x27;http://192.168.88.161:9201/_cat/indices/testindex?v&#x27; | awk -F &#x27; &#x27; &#123;&#x27;print $7&#x27;&#125; | grep -v docs.count</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看索引 testindex 下的全部数据</span></span><br><span class="line"> curl -u elk -XGET &#x27;http://192.168.88.161:9201/testindex/_search?pretty=true&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">搜索 testindex 索引下的全部数据</span></span><br><span class="line"> curl --user elk -XGET &#x27;http://192.168.88.161:9201/testindex/_search?pretty&#x27; -H &#x27;Content-Type:application/json&#x27; -d &#x27;&#123;&quot;query&quot;:&#123;&quot;match_all&quot;:&#123;&#125;&#125;&#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">根据文档 ID 精准获取索引数据</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">精准查询 testindex 索引下的文档 ID 为 20200634 的数据，命令如下。</span></span><br><span class="line"> curl -H &quot;Content-Type:application/json&quot; -u elk -XGET http://192.168.88.161:9201/testindex/doc/20200634?pretty</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">向某个索引添加field，并指定field的类型</span></span><br><span class="line">curl -X PUT &quot;http://192.168.88.161:9201/testindex/_mapping/doc&quot; -H &#x27;Content-Type: application/json&#x27; -d &#x27;&#123; &quot;properties&quot;:&#123;&quot;newslot&quot; : &#123;&quot;type&quot; : &quot;float&quot;&#125;&#125; &#125;&#x27;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">条件查询（如果该fields不支持索引[index]则会查询报错）</span></span><br><span class="line">curl -XGET &quot;http://192.168.88.161:9201/testindex/_search&quot; -H &#x27;Content-Type: application/json&#x27; -d &#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123; &quot;match&quot;: &#123; &quot;mchnt_id&quot;: &quot;1&quot; &#125; &#125;,</span><br><span class="line">        &#123; &quot;match&quot;: &#123; &quot;mchnt_name&quot;: &quot;利耶尼亚&quot; &#125; &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p>为什么直接写IP？因为没有配置hosts。</p>
+</li>
+<li><p>为什么是9201端口？这是在ElasticSearch安装目录下的config配置文件中配置的，可以自己定义。</p>
+</li>
+<li><p>若集群未添加用户安全认证，“-u elk” 或 “- -user elk” 可以缺省，回车后也无需输入密码。</p>
+</li>
+<li><p>若ElasticSearch 集群添加了用户安全认证功能，curl 命令中的 “-u elk” 代表以 elk 用户访问 elkSearch 集群，也可以修改为 “- -user elk”，命令回车后需要输入密码。</p>
+</li>
+<li><p>如果碰到什么问题，及时参考官方文档，ElasticSearch社区太有活力了！</p>
+</li>
+</ul>
+<h2 id="ES评分模型"><a href="#ES评分模型" class="headerlink" title="ES评分模型"></a>ES评分模型</h2><p>Elasticsearch是基于Lucene的，所以它的评分机制也是基于Lucene的。在Lucene中把这种相关性称为得分（score），确定文档和查询有多大相关性的过程被称为打分（scoring）。</p>
+<p>ES最常用的评分模型是 <code>TF/IDF</code>和<code>BM25</code>，TF-IDF属于向量空间模型，而BM25属于概率模型，但是他们的评分公式差别并不大，都使用IDF方法和TF方法的某种乘积来定义单个词项的权重，然后把和查询匹配的词项的权重相加作为整篇文档的分数。</p>
+<p>在ES 5.0版本之前使用了TF&#x2F;IDF算法实现，而在5.0之后默认使用BM25方法实现。</p>
+<ul>
+<li>Term Frequency(TF)词频：即单词在该文档中出现的次数，词频越高，相关度越高。</li>
+<li>Document Frequency(DF)文档频率：即单词出现的文档数。</li>
+<li>Inverse Document Frequency(IDF)逆向文档频率：与文档频率相反，简单理解为1&#x2F;DF。即单词出现的文档数越少，相关度越高。</li>
+<li>Field-length Norm：文档越短，相关性越高，field长度，field越长，相关度越弱</li>
+</ul>
+<p>TF&#x2F;IDF模型是Lucene的经典模型，其计算公式如下：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/13587608-9cfdcee52bbeb848.png" alt="img"></p>
+<p>BM25 模型中BM指的Best Match，25指的是在BM25中的计算公式是第25次迭代优化，是针对TF&#x2F;IDF的一个优化，其计算公式如下：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/13587608-26ea90d42b067b7a.png" alt="img"></p>
+<ul>
+<li>通过执行计划查看打分过程</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">GET /job_idx/_search</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;explain&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;from&quot;</span> <span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;size&quot;</span> <span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;fields&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;title&quot;</span><span class="punctuation">,</span> <span class="string">&quot;jd&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;query&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;销售&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ES编程实现"><a href="#ES编程实现" class="headerlink" title="ES编程实现"></a>ES编程实现</h2><ul>
+<li>创建虚拟环境</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n es_env python==3.7.13</span><br><span class="line">并在此环境中安装elasticsearch库:</span><br><span class="line">进入虚拟环境: conda activate es_env</span><br><span class="line">安装python操作ES的库: pip install elasticsearch==7.17.3 -i 清华源</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>pycharm连接远程环境</li>
+<li>python操作es</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">JobClazz</span>():</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, <span class="built_in">id</span>, area, exp, edu, salary, job_type, cmp, pv, title, jd</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        全参构造函数</span></span><br><span class="line"><span class="string">        :param id:</span></span><br><span class="line"><span class="string">        :param area:</span></span><br><span class="line"><span class="string">        :param exp:</span></span><br><span class="line"><span class="string">        :param edu:</span></span><br><span class="line"><span class="string">        :param salary:</span></span><br><span class="line"><span class="string">        :param job_type:</span></span><br><span class="line"><span class="string">        :param cmp:</span></span><br><span class="line"><span class="string">        :param pv:</span></span><br><span class="line"><span class="string">        :param title:</span></span><br><span class="line"><span class="string">        :param jd:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.<span class="built_in">id</span> = <span class="built_in">id</span></span><br><span class="line">        self.area = area</span><br><span class="line">        self.exp = exp</span><br><span class="line">        self.edu = edu</span><br><span class="line">        self.salary = salary</span><br><span class="line">        self.job_type = job_type</span><br><span class="line">        self.cmp = cmp</span><br><span class="line">        self.pv = pv</span><br><span class="line">        self.title = title</span><br><span class="line">        self.jd = jd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getJobClazzDict</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span> : self.<span class="built_in">id</span>,</span><br><span class="line">            <span class="string">&quot;area&quot;</span>: self.area,</span><br><span class="line">            <span class="string">&quot;exp&quot;</span>: self.exp,</span><br><span class="line">            <span class="string">&quot;edu&quot;</span>: self.edu,</span><br><span class="line">            <span class="string">&quot;salary&quot;</span>: self.salary,</span><br><span class="line">            <span class="string">&quot;job_type&quot;</span>: self.job_type,</span><br><span class="line">            <span class="string">&quot;cmp&quot;</span>: self.cmp,</span><br><span class="line">            <span class="string">&quot;pv&quot;</span>: self.pv,</span><br><span class="line">            <span class="string">&quot;title&quot;</span>: self.title,</span><br><span class="line">            <span class="string">&quot;jd&quot;</span>: self.jd</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> com.itheima.es.JobClazz <span class="keyword">import</span> JobClazz</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建连接</span></span><br><span class="line">    es = Elasticsearch(hosts=<span class="string">&#x27;192.168.88.166&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(es)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 添加数据</span></span><br><span class="line">    document = &#123;<span class="string">&quot;area&quot;</span>: <span class="string">&quot;工作地区：郑州-航空港区&quot;</span>,</span><br><span class="line">                <span class="string">&quot;exp&quot;</span>: <span class="string">&quot;应届毕业生&quot;</span>,</span><br><span class="line">                <span class="string">&quot;edu&quot;</span>: <span class="string">&quot;博士&quot;</span>,</span><br><span class="line">                <span class="string">&quot;salary&quot;</span>: <span class="string">&quot;¥ 2千/月&quot;</span>,</span><br><span class="line">                <span class="string">&quot;job_type&quot;</span>: <span class="string">&quot;全职&quot;</span>,</span><br><span class="line">                <span class="string">&quot;cmp&quot;</span>: <span class="string">&quot;链家&quot;</span>,</span><br><span class="line">                <span class="string">&quot;pv&quot;</span>: <span class="number">963</span>,</span><br><span class="line">                <span class="string">&quot;title&quot;</span>: <span class="string">&quot;销售姐姐&quot;</span>,</span><br><span class="line">                <span class="string">&quot;jd&quot;</span>: <span class="string">&quot;做销售选链家五大理由 一、百分百真房源，放心买房找链家 二、科技化平台支持：链家网、贝壳找房网 三、市场占有率全市前列 四、没有空降兵，所有的管理者都是内部员工晋升 五、我们的理念：客户至上.诚实可信&quot;</span>&#125;</span><br><span class="line">    job_clazz = JobClazz(<span class="string">&quot;00001&quot;</span>, <span class="string">&quot;工作地区：郑州-航空港区&quot;</span>, <span class="string">&quot;应届毕业生&quot;</span>, <span class="string">&quot;博士&quot;</span>, <span class="string">&quot;¥ 2千/月&quot;</span>, <span class="string">&quot;全职&quot;</span>, <span class="string">&quot;链家&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;9236人浏览过  / 8000人正在关注&quot;</span>, <span class="string">&quot;销售姐姐&quot;</span>,</span><br><span class="line">                         <span class="string">&quot;做销售选链家五大理由 一、百分百真房源，放心买房找链家 二、科技化平台支持：链家网、贝壳找房网 三、市场占有率全市前列 四、没有空降兵，所有的管理者都是内部员工晋升 五、我们的理念：客户至上.诚实可信&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(job_clazz.getJobClazzDict())</span><br><span class="line">    res1 = es.index(index=<span class="string">&#x27;job_idx&#x27;</span>, <span class="built_in">id</span>=<span class="string">&#x27;00001&#x27;</span>, document=job_clazz.getJobClazzDict())</span><br><span class="line">    <span class="built_in">print</span>(res1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 删除数据</span></span><br><span class="line">    <span class="comment"># 不存在的数据会报错</span></span><br><span class="line">    <span class="comment"># res2 = es.delete(index=&#x27;job_idx&#x27;, id=&#x27;46313&#x27;)</span></span><br><span class="line">    <span class="comment"># print(res2)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 修改数据</span></span><br><span class="line">    res3 = es.update(index=<span class="string">&#x27;job_idx&#x27;</span>, <span class="built_in">id</span>=<span class="string">&#x27;00001&#x27;</span>, doc=&#123;<span class="string">&#x27;salary&#x27;</span>: <span class="string">&#x27;$ 2千/月&#x27;</span>&#125;)</span><br><span class="line">    <span class="built_in">print</span>(res3)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据ID查询</span></span><br><span class="line">    res4 = es.get(index=<span class="string">&#x27;job_idx&#x27;</span>, <span class="built_in">id</span>=<span class="string">&#x27;00001&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(res4)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据字段进行搜索</span></span><br><span class="line">    res5 = es.search(index=<span class="string">&#x27;job_idx&#x27;</span>, query=&#123;</span><br><span class="line">        <span class="string">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;title&quot;</span>: <span class="string">&quot;经理&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, from_=<span class="number">0</span>, size=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(res5)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 高亮显示</span></span><br><span class="line">    res6 = es.search(index=<span class="string">&#x27;job_idx&#x27;</span>, query=&#123;<span class="string">&quot;match&quot;</span>: &#123;<span class="string">&quot;title&quot;</span>: <span class="string">&quot;经理&quot;</span>&#125;&#125;, highlight=&#123;<span class="string">&quot;fields&quot;</span>: &#123;<span class="string">&quot;jd&quot;</span>: &#123;&#125;, <span class="string">&quot;title&quot;</span>: &#123;&#125;&#125;&#125;)</span><br><span class="line">    <span class="built_in">print</span>(res6)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>高亮显示</li>
+</ul>
+<p>1、负责公司产品<em>销</em><em>售</em>线索和机会挖掘</p>
+<blockquote>
+<p>1、负责公司产品<em>销</em><em>售</em>线索和机会挖掘</p>
+</blockquote>
+<h2 id="ES读写流程"><a href="#ES读写流程" class="headerlink" title="ES读写流程"></a>ES读写流程</h2><h3 id="写入ES"><a href="#写入ES" class="headerlink" title="写入ES"></a>写入ES</h3><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240427174820571.png" alt="image-20240427174820571"></p>
+<ul>
+<li>客户端选择一个DataNode（node2）节点，发起写入请求，此时node2就是一个协调节点</li>
+<li>协调节点会进行路由（hash(routing) % num of primary shard）routing默认每个document的id</li>
+<li>对到对应的主分片处理写入请求，将数据写入到index中（将数据保存在_source字段，根据分词构建倒排索引）</li>
+<li>副本分片从主分片同步数据</li>
+<li>当主分片和副本分片数据都写入成功将结果返回给客户端</li>
+</ul>
+<h3 id="检索ES"><a href="#检索ES" class="headerlink" title="检索ES"></a>检索ES</h3><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230511172503772.png" alt="image-20230511172503772"></p>
+<ul>
+<li>客户端选择一个DataNode（node2）节点，发起查询请求，此时node2就是一个协调节点</li>
+<li>协调节点将查询请求进行广播</li>
+<li>每个节点会对每个分片（多个文件，每个文件对应一个倒排索引）根据倒排索引进行查询，将查询的文档ID、分数、分片信息返回给协调节点</li>
+<li>协调节点汇总（排序）每个数据节点发来的文档信息发送get(根据ID)请求，获取最终结果返回给客户端</li>
+</ul>
+<h3 id="准实时索引实现"><a href="#准实时索引实现" class="headerlink" title="准实时索引实现"></a>准实时索引实现</h3><ul>
+<li>溢写到文件系统缓存</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230511173001417.png" alt="image-20230511173001417"></p>
+<p>当数据写入到ES分片时，会首先写入到内存中，然后通过内存的buffer生成一个segment（每个segment对应一个倒排索引），并刷到文件系统缓存中，数据可以被检索（注意不是直接刷到磁盘）</p>
+<p>ES中默认1秒，refresh一次</p>
+<ul>
+<li>写translog保障容错</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230511173118524.png" alt="image-20230511173118524"></p>
+<p>在写入到内存中的同时，也会记录translog日志，在refresh期间出现异常，会根据translog来进行数据恢复</p>
+<p>等到文件系统缓存中的segment数据都刷到磁盘中，清空translog文件</p>
+<ul>
+<li>flush到磁盘</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230511173133044.png" alt="image-20230511173133044"></p>
+<p>ES默认每隔30分钟会将文件系统缓存的数据刷入到磁盘</p>
+<ul>
+<li>segment合并</li>
+</ul>
+<p>Segment太多时，ES定期会将多个segment合并成为大的segment，减少索引查询时IO开销，此阶段ES会真正的物理删除（之前执行过的delete的数据）</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230802144141483.png" alt="image-20230802144141483"></p>
+<h1 id="ES支持SQL"><a href="#ES支持SQL" class="headerlink" title="ES支持SQL"></a>ES支持SQL</h1><ul>
+<li>Elasticsearch SQL特点：</li>
+</ul>
+<blockquote>
+<ul>
+<li>本地集成</li>
+<li>Elasticsearch SQL是专门为Elasticsearch构建的。每个SQL查询都根据底层存储对相关节点有效执行。</li>
+<li>没有额外的要求</li>
+<li>不依赖其他的硬件、进程、运行时库，Elasticsearch SQL可以直接运行在Elasticsearch集群上</li>
+<li>轻量且高效</li>
+<li>像SQL那样简洁、高效地完成查询</li>
+</ul>
+</blockquote>
+<ul>
+<li>SQL与Elasticsearch对应关系</li>
+</ul>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>SQL</th>
+<th>Elasticsearch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>column（列）</td>
+<td>field（字段）</td>
+</tr>
+<tr>
+<td>row（行）</td>
+<td>document（文档）</td>
+</tr>
+<tr>
+<td>table（表）</td>
+<td>index（索引）</td>
+</tr>
+<tr>
+<td>schema（模式）</td>
+<td>mapping（映射）</td>
+</tr>
+<tr>
+<td>database（数据库）</td>
+<td>Elasticsearch集群实例</td>
+</tr>
+</tbody></table>
+</blockquote>
+<ul>
+<li>Elasticsearch SQL语法</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> select_expr [, ...]</span><br><span class="line">[ <span class="keyword">FROM</span> table_name ]</span><br><span class="line">[ <span class="keyword">WHERE</span> <span class="keyword">condition</span> ]</span><br><span class="line">[ <span class="keyword">GROUP</span> <span class="keyword">BY</span> grouping_element [, ...] ]</span><br><span class="line">[ <span class="keyword">HAVING</span> <span class="keyword">condition</span>]</span><br><span class="line">[ <span class="keyword">ORDER</span> <span class="keyword">BY</span> expression [ <span class="keyword">ASC</span> <span class="operator">|</span> <span class="keyword">DESC</span> ] [, ...] ]</span><br><span class="line">[ LIMIT [ count ] ]</span><br><span class="line">[ PIVOT ( aggregation_expr <span class="keyword">FOR</span> <span class="keyword">column</span> <span class="keyword">IN</span> ( <span class="keyword">value</span> [ [ <span class="keyword">AS</span> ] alias ] [, ...] ) ) ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 分页查询</span></span><br><span class="line"><span class="keyword">GET</span> <span class="operator">/</span>_sql?format<span class="operator">=</span>txt</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &quot;SELECT * FROM job_idx limit 1&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">-- 将SQL转化为DSL</span></span><br><span class="line"><span class="keyword">GET</span> <span class="operator">/</span>_sql<span class="operator">/</span>translate</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &quot;SELECT * FROM job_idx limit 1&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 匹配查询</span></span><br><span class="line"><span class="keyword">GET</span> <span class="operator">/</span>_sql?format<span class="operator">=</span>txt</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &quot;select * from job_idx where MATCH(title, &#x27;hadoop&#x27;) or MATCH(jd, &#x27;hadoop&#x27;) limit 10&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>案例实现</p>
+<ul>
+<li>创建索引</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">PUT /order_idx/</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;pay_money&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;double&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;payway&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;byte&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;userid&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;operation_date&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;date&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;category&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keyword&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;store&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span>	</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>导入测试数据</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &quot;Content-Type: application/json&quot; -XPOST &quot;up01:9200/order_idx/_bulk?pretty&amp;refresh&quot; --data-binary &quot;@order_data.json&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>统计不同支付方式的的订单数量</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- SQL方式</span></span><br><span class="line"><span class="keyword">GET</span> <span class="operator">/</span>_sql?format<span class="operator">=</span>txt</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot;: &quot;select payway, count(*) as order_cnt from order_idx group by payway&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- DSL 方式</span></span><br><span class="line"><span class="keyword">GET</span> <span class="operator">/</span>order_idx<span class="operator">/</span>_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;size&quot;: <span class="number">0</span>,</span><br><span class="line">    &quot;aggs&quot;: &#123;</span><br><span class="line">        &quot;group_by_state&quot;: &#123;</span><br><span class="line">            &quot;terms&quot;: &#123;</span><br><span class="line">                &quot;field&quot;: &quot;payway&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><code>目前Elasticsearch SQL还存在一些限制。例如：目前from只支持一个表、不支持JOIN、不支持较复杂的子查询。所以，有一些相对复杂一些的功能，还得借助于DSL方式来实现。</code></p>
+<h1 id="ES整合HIVE"><a href="#ES整合HIVE" class="headerlink" title="ES整合HIVE"></a>ES整合HIVE</h1><h2 id="搭建离线数仓"><a href="#搭建离线数仓" class="headerlink" title="搭建离线数仓"></a>搭建离线数仓</h2><p>将Mysql中的业务数据导入至Hive：</p>
+<blockquote>
+<p>用户表：tbl_users   950</p>
+<p>订单数据表：tbl_orders 120125</p>
+<p>订单商品表：tbl_goods 1</p>
+<p>行为日志表：tbl_logs 376983</p>
+</blockquote>
+<h2 id="通过sqoop建表"><a href="#通过sqoop建表" class="headerlink" title="通过sqoop建表"></a>通过sqoop建表</h2><ul>
+<li>创建用户表</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">create-hive-table 创建一个Hive表, 读取mysql的表结构, 使用这个结构来创建Hive表</span></span><br><span class="line">/export/server/sqoop/bin/sqoop create-hive-table \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--table tbl_users \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--hive-table tags_dat2.tbl_users \</span><br><span class="line">--fields-terminated-by &#x27;\t&#x27; \</span><br><span class="line">--lines-terminated-by &#x27;\n&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>订单表</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/export/server/sqoop/bin/sqoop create-hive-table \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--table tbl_orders \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--hive-table tags_dat2.tbl_orders \</span><br><span class="line">--fields-terminated-by &#x27;\t&#x27; \</span><br><span class="line">--lines-terminated-by &#x27;\n&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>商品表 \001 \x01</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/export/server/sqoop/bin/sqoop create-hive-table \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--table tbl_goods \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--hive-table tags_dat2.tbl_goods \</span><br><span class="line">--fields-terminated-by &#x27;\t&#x27; \</span><br><span class="line">--lines-terminated-by &#x27;\n&#x27;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>日志表</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/export/server/sqoop/bin/sqoop create-hive-table \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--table tbl_logs \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--hive-table tags_dat2.tbl_logs \</span><br><span class="line">--fields-terminated-by &#x27;\t&#x27; \</span><br><span class="line">--lines-terminated-by &#x27;\n&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="sqoop导入数据"><a href="#sqoop导入数据" class="headerlink" title="sqoop导入数据"></a>sqoop导入数据</h2><ul>
+<li>用户数据</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">  direct 直接导出模式 会加快导出速度 使用关系型数据库自带的导出工具(mysql 会使用mysqldump命令)</span></span><br><span class="line">/export/server/sqoop/bin/sqoop import \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--table tbl_users --direct --hive-overwrite --delete-target-dir --fields-terminated-by &#x27;\t&#x27; --lines-terminated-by &#x27;\n&#x27; --hive-table tags_dat2.tbl_users --hive-import --num-mappers 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>订单数据</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/export/server/sqoop/bin/sqoop import \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--table tbl_orders --direct --hive-overwrite --delete-target-dir --fields-terminated-by &#x27;\t&#x27; --lines-terminated-by &#x27;\n&#x27; --hive-table tags_dat2.tbl_orders --hive-import --num-mappers 10</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>商品数据</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/export/server/sqoop/bin/sqoop import \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--table tbl_goods --direct --hive-overwrite --delete-target-dir --fields-terminated-by &#x27;\t&#x27; --lines-terminated-by &#x27;\n&#x27; --hive-table tags_dat2.tbl_goods --hive-import --num-mappers 5</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>行为日志</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/export/server/sqoop/bin/sqoop import \</span><br><span class="line">--connect jdbc:mysql://up01:3306/tags_dat \</span><br><span class="line">--username root \</span><br><span class="line">--password 123456 \</span><br><span class="line">--table tbl_logs --direct --hive-overwrite --delete-target-dir --fields-terminated-by &#x27;\t&#x27; --lines-terminated-by &#x27;\n&#x27; --hive-table tags_dat2.tbl_logs --hive-import --num-mappers 20</span><br></pre></td></tr></table></figure>
+
+<h2 id="HIVE写入ES"><a href="#HIVE写入ES" class="headerlink" title="HIVE写入ES"></a>HIVE写入ES</h2><p>把Hive数据导入ES 要借助一个工具，es-hadoop 是一个jar 工具也有版本号, 要跟Elasticsearch的版本对应, 当前用的是7.10的ES es-hadoop也要用7.10版本的es-hadoop，使用ES-Hadoop 既可以和Hadoop相关组件交互, 也可以和Spark之间进行交互。</p>
+<p>hive数据导入ES步骤</p>
+<ul>
+<li>① 把es-hadoop的jar包放到hdfs上,当前的虚拟机是放到了&#x2F;libs&#x2F;es-hadoop&#x2F;这个目录下</li>
+<li>② 在hive的命令行里执行</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add</span> jar hdfs:<span class="operator">/</span><span class="operator">/</span><span class="operator">/</span>libs<span class="operator">/</span>es<span class="operator">-</span>hadoop<span class="operator">/</span>elasticsearch<span class="operator">-</span>hadoop<span class="number">-7.10</span><span class="number">.2</span>.jar;</span><br><span class="line"># 只对当前的连接生效</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>③ 创建一个外部表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> XXX (...)</span><br><span class="line">stored <span class="keyword">by</span> <span class="string">&#x27;org.elasticsearch.hadoop.hive.EsStorageHandler&#x27;</span>  <span class="comment">-- 指定了使用eshadoop 中哪个文件来处理数的导入</span></span><br><span class="line">    tblproperties(<span class="string">&#x27;es.resource&#x27;</span><span class="operator">=</span><span class="string">&#x27;tfec_tbl_goods&#x27;</span>,  <span class="comment">-- 数据要导入到哪个ES的索引中</span></span><br><span class="line">    <span class="string">&#x27;es.nodes&#x27;</span><span class="operator">=</span><span class="string">&#x27;up01:9200&#x27;</span>,              <span class="comment">-- es集群的ip地址</span></span><br><span class="line">    <span class="string">&#x27;es.index.auto.create&#x27;</span><span class="operator">=</span><span class="string">&#x27;TRUE&#x27;</span>,     <span class="comment">-- 如果es中没有对应的index 自动创建一个</span></span><br><span class="line">    <span class="string">&#x27;es.index.refresh_interval&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;-1&#x27;</span>,   <span class="comment">-- 关掉refresh 导入数据的时候先不创建索引</span></span><br><span class="line">    <span class="string">&#x27;es.index.number_of_replicas&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;0&#x27;</span>,   <span class="comment">-- 设置副本数量 es8才会起作用 当前es7 这个没用</span></span><br><span class="line">    <span class="string">&#x27;es.batch.write.retry.count&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;6&#x27;</span>,   <span class="comment">-- 传输出现问题的时候, 重试的次数</span></span><br><span class="line">    <span class="string">&#x27;es.batch.write.retry.wait&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;60s&#x27;</span>,  <span class="comment">-- 传输等待多久没有响应进行重试 60s没有响应, 就重新连接</span></span><br><span class="line">    <span class="string">&#x27;es.mapping.names&#x27;</span> <span class="operator">=</span>   <span class="string">&#x27;id:id,siteid:siteid&#x27;</span> <span class="comment">-- hive字段和ES字段之间的映射关系, 如果hive字段和es字段名字一样, 这个不需要设置, 默认es会使用hive的字段名字和数据类型, 如果需要修改映射关系 hive字段1名字:es字段1名字,hive字段2名字:es字段2名字 ...</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>④ 查询hive 表的数据,插入到上面创建的外部表中</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> 外部表 <span class="keyword">select</span> 字段 <span class="keyword">from</span> hive表;</span><br></pre></td></tr></table></figure>
+
+<p>问题：集群告警</p>
+<p>解决方案：修改副本数为0</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.es集群告警的问题，可以通过命令解决，官方解决方式，测试后确认无法通过配置文件方式解决：</span><br><span class="line">curl -XPUT http://192.168.88.166:9200/_settings?pretty -d &#x27;&#123; &quot;index&quot;: &#123; &quot;number_of_replicas&quot;: 0 &#125; &#125;&#x27; -H &quot;Content-Type: application/json&quot;</span><br></pre></td></tr></table></figure>
+
+<p>问题：数据重复</p>
+<p>解决方案：开启upsert模式</p>
+<blockquote>
+<ul>
+<li>‘es.write.operation’ &#x3D; ‘upsert’</li>
+<li>使用upsert模式, 需要指定id</li>
+<li>‘es.mapping.id’ &#x3D; ‘id’ 可以选择数据中, 没有重复数据的字段, 做为_id</li>
+<li>如果不指定es.mapping.id，es会默认自动生成一个不重复的数据作为_id</li>
+</ul>
+</blockquote>
+<p>问题：索引不刷新</p>
+<p>解决方案：修改refresh</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">PUT ec_tbl_orders/_settings</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;index&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;refresh_interval&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1m&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">PUT ec_tbl_goods/_settings</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;index&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;refresh_interval&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1m&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">PUT ec_tbl_logs/_settings</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;index&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;refresh_interval&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1m&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line">PUT ec_tbl_users/_settings</span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;index&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;refresh_interval&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;1m&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="ES整合SPARK"><a href="#ES整合SPARK" class="headerlink" title="ES整合SPARK"></a>ES整合SPARK</h1><p><code>spark 整合 ES , 先把ES-Hadoop的jar包放到 spark的jars目录下</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/root/anaconda3/envs/pyspark_env/lib/python3.7/site-packages/pyspark/jars</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Spark读取ES代码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.read.<span class="built_in">format</span>(<span class="string">&#x27;es&#x27;</span>).option()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>必选参数</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">es.resource</span> <span class="string">读取的index名称</span></span><br><span class="line"><span class="attr">es.nodes</span> <span class="string">es集群的连接地址</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可选参数</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">es.index.auto.create</span> <span class="string">(default yes)</span></span><br><span class="line"><span class="attr">Whether</span> <span class="string">elasticsearch-hadoop should create an index (if its missing) when writing data to Elasticsearch or fail.当将数据到es中的时候是否会自动创建索引，默认会自动创建索引或索引库</span></span><br><span class="line"><span class="attr">---------------------------------------------------------------</span></span><br><span class="line"><span class="attr">es.index.read.missing.as.empty</span> <span class="string">(default no)</span></span><br><span class="line"><span class="attr">Whether</span> <span class="string">elasticsearch-hadoop will allow reading of non existing indices (and return an empty data set) or not (and throw an exception)是否可以读取空索引，默认是no不读取</span></span><br><span class="line"><span class="attr">---------------------------------------------------------------</span></span><br><span class="line"><span class="attr">es.query</span> <span class="string">(default none)</span></span><br><span class="line"><span class="attr">Holds</span> <span class="string">the query used for reading data from the specified es.resource. By default it is not set/empty, meaning the entire data under the specified index/type is returned. es.query can have three forms:</span></span><br><span class="line"><span class="attr">保存用于从指定es读取数据的查询。资源默认情况下，它不设置/为空，这意味着返回指定索引/类型下的整个数据。查询可以</span></span><br><span class="line"><span class="attr">uri</span> <span class="string">query 作为上述的参数</span></span><br><span class="line"><span class="attr">using</span> <span class="string">the form ?uri_query, one can specify a query string. Notice the leading ?.</span></span><br><span class="line"><span class="attr">----------------------------------------------------------------------</span></span><br><span class="line"><span class="attr">es.write.operation</span> <span class="string">(default index)</span></span><br><span class="line"><span class="attr">The</span> <span class="string">write operation elasticsearch-hadoop should perform - can be any of:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">（1）index</span> <span class="string">(default)</span></span><br><span class="line"><span class="attr">new</span> <span class="string">data is added while existing data (based on its id) is replaced (reindexed).</span></span><br><span class="line"><span class="attr">添加新数据的同时替换（重新索引）现有数据（基于其id）。</span></span><br><span class="line"><span class="attr">（2）create</span></span><br><span class="line"><span class="attr">添加新数据-如果数据已经存在（基于其id），将引发异常。</span></span><br><span class="line"><span class="attr">adds</span> <span class="string">new data - if the data already exists (based on its id), an exception is thrown.</span></span><br><span class="line"><span class="attr">（3）update</span></span><br><span class="line"><span class="attr">updates</span> <span class="string">existing data (based on its id). If no data is found, an exception is thrown.</span></span><br><span class="line"><span class="attr">更新现有数据（基于其id）。如果找不到数据，将引发异常。</span></span><br><span class="line"><span class="attr">（4）upsert</span></span><br><span class="line"><span class="attr">known</span> <span class="string">as merge or insert if the data does not exist, updates if the data exists (based on its id).</span></span><br><span class="line"><span class="attr">如果数据不存在，则称为合并或插入；如果数据存在，则更新（基于其id）。</span></span><br><span class="line"><span class="attr">（5）delete</span></span><br><span class="line"><span class="attr">deletes</span> <span class="string">existing data (based on its id). If no data is found, an exception is thrown.</span></span><br><span class="line"><span class="attr">删除现有数据（基于其id）。如果找不到数据，将引发异常。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><ul>
+<li><p>python操作es</p>
+<ul>
+<li>from elasticsearch import Elasticsearch  (pip安装对应版本依赖)</li>
+<li>es &#x3D; Elasticsearch(hosts&#x3D;‘up01:9200’)</li>
+</ul>
+</li>
+<li><p>sql操作es</p>
+<ul>
+<li>本地原生支持</li>
+<li>目前不支持join操作</li>
+</ul>
+</li>
+<li><p>es读写流程</p>
+<ul>
+<li>写入数据<ul>
+<li>客户端发送写入请求协调节点（随机选择）</li>
+<li>协调节点根据数据的routing(_id)计算hash值，并根据主分片的数量进行路由</li>
+<li>找到对应主分片将数据写入保存并创建倒排索引</li>
+<li>副本分片从主分片上同步数据</li>
+<li>当数据保存完毕后由协调节点向客户端返回结果</li>
+</ul>
+</li>
+<li>读取数据<ul>
+<li>客户端发送读取数据的请求给协调节点</li>
+<li>协调节点对读取请求进行广播</li>
+<li>所有分片都会进行数据查询</li>
+<li>将查询结果（文档ID、分片信息、分数等）在协调节点上进行汇总（全局排序）</li>
+<li>按照汇总的结果向对应的分片发送get请求获取数据并返回给客户端</li>
+</ul>
+</li>
+<li>索引实现<ul>
+<li>数据首先写入内存的buffer中，同时会写一份数据到磁盘上translog中，用来保证数据的安全</li>
+<li>默认1秒进行一次refresh，将内存buffer中的数据写入到文件缓冲区生成一个segment，同时生成对应的倒排索引</li>
+<li>默认30分钟进行一次flush，将文件缓冲区中的segment刷新到磁盘上进行持久化保存，同时清空内存和translog中持久化后的数据 </li>
+<li>由于segment会生成很多小文件，会定期进行小segment合并成大segment，同时会将之前delete过的数据做真正物理上的删除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>es整合hive</p>
+<ul>
+<li>上传elasticsearch-hadoop.xx对应的版本jar包至hdfs</li>
+<li>在当前hive会话 add jar jar的路径（只在当前会话生效）</li>
+<li>使用hive创建一个映射es的外部表，create external table 表名(schema) sorted by “xxxx”  tblproperties(key&#x3D;value)</li>
+<li>hive-&gt;es ： insert overwrite 外部表 from hive表</li>
+</ul>
+</li>
+<li><p>es整合spark</p>
+<ul>
+<li>需要将elasticsearch-hadoop.xxx.jar放到pyspark运行环境下</li>
+<li>sparkSession.read.format(‘es’).option(‘es.nodes’, xxx).option(‘es.resource’, xxxx).option(‘es.read.field.include’, xxxx)</li>
+<li>sparkSession.write.format(‘es’)</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/04/26/ElasticSearch(%E5%85%A8)/">https://weiswift.github.io/2024/04/26/ElasticSearch(%E5%85%A8)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ES/">ES</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(CDH%E7%89%88)/" title="大数据集群环境搭建(CDH版)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">大数据集群环境搭建(CDH版)</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/24/DolphinScheduler(%E5%85%A8)/" title="DolphinScheduler（全）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">DolphinScheduler（全）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/10/17/2023.10.17/" title="【Linux】ElasticSearch6.0.1及Azkaban3.8部署"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-17</div><div class="title">【Linux】ElasticSearch6.0.1及Azkaban3.8部署</div></div></a></div><div><a href="/2023/10/25/2023.10.25/" title="【ElasticSearch】ES基本功"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-25</div><div class="title">【ElasticSearch】ES基本功</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Elastic-Stack"><span class="toc-number">1.</span> <span class="toc-text">Elastic Stack</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ELK%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-number">1.1.</span> <span class="toc-text">ELK技术栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%90%9C%E7%B4%A2"><span class="toc-number">1.2.</span> <span class="toc-text">数据搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-number">1.3.</span> <span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E"><span class="toc-number">1.4.</span> <span class="toc-text">搜索引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticSearch"><span class="toc-number">1.5.</span> <span class="toc-text">ElasticSearch</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">ES核心概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">ES基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E6%95%B0%E6%8D%AE%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">ES数据架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">ES集群架构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2"><span class="toc-number">3.</span> <span class="toc-text">ES安装部署</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RestFul-API"><span class="toc-number">4.</span> <span class="toc-text">RestFul API</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E6%93%8D%E4%BD%9C%E4%BD%BF%E7%94%A8-Kibana"><span class="toc-number">4.1.</span> <span class="toc-text">ES操作使用(Kibana)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E6%93%8D%E4%BD%9C%E4%BD%BF%E7%94%A8-Curl"><span class="toc-number">4.2.</span> <span class="toc-text">ES操作使用(Curl)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">4.2.1.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E8%AF%84%E5%88%86%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.3.</span> <span class="toc-text">ES评分模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E7%BC%96%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.4.</span> <span class="toc-text">ES编程实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B"><span class="toc-number">4.5.</span> <span class="toc-text">ES读写流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5ES"><span class="toc-number">4.5.1.</span> <span class="toc-text">写入ES</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2ES"><span class="toc-number">4.5.2.</span> <span class="toc-text">检索ES</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%AE%9E%E6%97%B6%E7%B4%A2%E5%BC%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.5.3.</span> <span class="toc-text">准实时索引实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E6%94%AF%E6%8C%81SQL"><span class="toc-number">5.</span> <span class="toc-text">ES支持SQL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E6%95%B4%E5%90%88HIVE"><span class="toc-number">6.</span> <span class="toc-text">ES整合HIVE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BF%E6%95%B0%E4%BB%93"><span class="toc-number">6.1.</span> <span class="toc-text">搭建离线数仓</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87sqoop%E5%BB%BA%E8%A1%A8"><span class="toc-number">6.2.</span> <span class="toc-text">通过sqoop建表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sqoop%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">6.3.</span> <span class="toc-text">sqoop导入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HIVE%E5%86%99%E5%85%A5ES"><span class="toc-number">6.4.</span> <span class="toc-text">HIVE写入ES</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ES%E6%95%B4%E5%90%88SPARK"><span class="toc-number">7.</span> <span class="toc-text">ES整合SPARK</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">8.</span> <span class="toc-text">注意</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/15/%E7%97%87%E7%8A%B6%E6%8B%86%E8%A7%A3_%E5%A4%9A%E5%9B%A0/" title="First-健康-02-症状拆解">First-健康-02-症状拆解</a><time datetime="2026-08-14T16:00:00.000Z" title="Created 2026-08-15 00:00:00">2026-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/07/%E4%B8%89%E8%A7%82AIO/" title="三观AIO">三观AIO</a><time datetime="2026-08-06T16:00:00.000Z" title="Created 2026-08-07 00:00:00">2026-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/04/2026.08.03-%E9%81%93%E8%B7%AF%E9%A9%BE%E9%A9%B6%E6%8A%80%E8%83%BD/" title="Third-技能-01-科目三">Third-技能-01-科目三</a><time datetime="2026-08-03T16:00:00.000Z" title="Created 2026-08-04 00:00:00">2026-08-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/03/2026.08.03-%E4%BC%A4%E5%AF%92%E6%9D%82%E7%97%85%E8%AE%BA/" title="First-健康-01-伤寒杂病论">First-健康-01-伤寒杂病论</a><time datetime="2026-08-02T16:00:00.000Z" title="Created 2026-08-03 00:00:00">2026-08-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验">【Flink】TableAPI和DataStreamAPI初体验</a><time datetime="2024-06-11T16:00:00.000Z" title="Created 2024-06-12 00:00:00">2024-06-12</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

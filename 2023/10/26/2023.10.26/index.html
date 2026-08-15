@@ -1,0 +1,444 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【Redis】Redis常用命令 | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="说明：这是一个不太成熟的博客，Redis算是初次接触，很多东西都不会，路还很长，很多东西要学。 参考：  Redis命令大全（超详细）博客园  Redis 常用操作命令，非常详细！ 知乎    启动和关闭12345678# 关闭Redis：&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-cli shutdown# Redis 启动！: &#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-server &#x2F;etc&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Redis】Redis常用命令">
+<meta property="og:url" content="https://weiswift.github.io/2023/10/26/2023.10.26/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="说明：这是一个不太成熟的博客，Redis算是初次接触，很多东西都不会，路还很长，很多东西要学。 参考：  Redis命令大全（超详细）博客园  Redis 常用操作命令，非常详细！ 知乎    启动和关闭12345678# 关闭Redis：&#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-cli shutdown# Redis 启动！: &#x2F;usr&#x2F;local&#x2F;bin&#x2F;redis-server &#x2F;etc&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2023-10-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-03T14:43:51.187Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2023/10/26/2023.10.26/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Redis】Redis常用命令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-08-03 22:43:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/bk.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【Redis】Redis常用命令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-10-25T16:00:00.000Z" title="Created 2023-10-26 00:00:00">2023-10-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-08-03T14:43:51.187Z" title="Updated 2026-08-03 22:43:51">2026-08-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【Redis】Redis常用命令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>说明：这是一个不太成熟的博客，Redis算是初次接触，很多东西都不会，路还很长，很多东西要学。</p>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/antLaddie/p/15362191.html#_label4">Redis命令大全（超详细）博客园 </a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47692277">Redis 常用操作命令，非常详细！ 知乎 </a></li>
+</ul>
+</blockquote>
+<h1 id="启动和关闭"><a href="#启动和关闭" class="headerlink" title="启动和关闭"></a><font size=6 color='red' face='华文楷体'>启动和关闭</font></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">关闭Redis：</span></span><br><span class="line">/usr/local/bin/redis-cli shutdown</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Redis 启动！:</span> </span><br><span class="line">/usr/local/bin/redis-server /etc/redis.conf</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">后台启动：</span></span><br><span class="line">nohup /usr/local/bin/redis-server /etc/redis.conf &amp;</span><br></pre></td></tr></table></figure>
+
+<h1 id="远程连接Redis"><a href="#远程连接Redis" class="headerlink" title="远程连接Redis"></a><font size=6 color='red' face='华文楷体'>远程连接Redis</font></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">连接Redi：</span></span><br><span class="line">redis-cli -h 主机ip -p 6379（端口是可以说设置的）</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">登陆Redi：</span></span><br><span class="line">auth yourpassword</span><br></pre></td></tr></table></figure>
+
+<h1 id="key操作命令"><a href="#key操作命令" class="headerlink" title="key操作命令"></a><font size=6 color='red' face='华文楷体'>key操作命令</font></h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取所有键</span></span><br><span class="line">keys *</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取键总数: 语法：dbsize</span></span><br><span class="line">127.0.0.1:6379&gt; dbsize</span><br><span class="line">(integer) 6</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询键是否存在 语法：exists key</span></span><br><span class="line">127.0.0.1:6379&gt; exists  java</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">删除键 语法：del key</span> </span><br><span class="line">127.0.0.1:6379&gt; del java </span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询键类型 语法： <span class="built_in">type</span> key</span></span><br><span class="line">127.0.0.1:6379&gt; type javastack</span><br><span class="line">string</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移动键 语法：move key db</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">如把javastack移到2号数据库。</span></span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; move javastack 2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; select 2</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379[2]&gt; keys *</span><br><span class="line">1) &quot;javastack&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查询key的生命周期（秒）</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">秒语法：ttl key</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">毫秒语法：pttl key</span></span><br><span class="line">127.0.0.1:6379[2]&gt; ttl javastack</span><br><span class="line">(integer) -1</span><br><span class="line">-1：永远不过期。</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置过期时间</span></span><br><span class="line">秒语法：expire key seconds</span><br><span class="line">毫秒语法：pexpire key milliseconds</span><br><span class="line">127.0.0.1:6379[2]&gt; expire javastack 60</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379[2]&gt; ttl javastack</span><br><span class="line">(integer) 55</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置永不过期 语法：persist key</span></span><br><span class="line">127.0.0.1:6379[2]&gt; persist javastack</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">更改键名称 语法：rename key newkey</span></span><br><span class="line">127.0.0.1:6379[2]&gt; rename javastack javastack123</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redis批量删除key值"><a href="#Redis批量删除key值" class="headerlink" title="Redis批量删除key值"></a>Redis批量删除key值</h2><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wen3qin/article/details/120789060">redis如何优雅删除大量的key？</a></p>
+<ul>
+<li>方式一：<ul>
+<li>redis-cli -h 地址 -p 6379 -a 密码 keys “匹配内容” | xargs .&#x2F;redis-cli -h 地址 -p 6379 -a 密码 del</li>
+</ul>
+</li>
+<li>方式二：（由于方式一可能会引起CPU资源的大量消耗，可能会对别的服务造成挤压）<ul>
+<li>redis-cli -h 地址 -a 密码 -n 操作DB scan 0 match “匹配内容” count 扫描数量 | xargs -t  redis-cli -h 地址 -a 密码 -n 操作DB del</li>
+<li>弊端：有可能扫描不完整个库</li>
+</ul>
+</li>
+<li>最终解决方案：<ul>
+<li>scan命令会返回2个值。第一个为游标移动后的新位置，第二个是匹配到的key值</li>
+<li>Shell脚本</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">定义变量《根据个人需要填写》</span></span><br><span class="line">redis_url=地址</span><br><span class="line">redis_pass=密码</span><br><span class="line">redis_db=操作DB</span><br><span class="line">scan_patten=匹配字符串</span><br><span class="line">scan_count=扫描数量</span><br><span class="line"></span><br><span class="line">yb=0</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">0：循环获取游标进行遍历</span></span><br><span class="line">while 1&gt;0</span><br><span class="line">do</span><br><span class="line"></span><br><span class="line">count=0</span><br><span class="line">declare -a array</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1：扫描获取结果</span></span><br><span class="line">declare -a result</span><br><span class="line">for i in `redis-cli -h $redis_url -a $redis_pass -n $redis_db scan $yb match $scan_patten count $scan_count`;do</span><br><span class="line"><span class="meta prompt_">		result[$</span><span class="language-bash">&#123;count&#125;]=<span class="variable">$&#123;i&#125;</span></span></span><br><span class="line">    count=$(expr $&#123;count&#125; + 1)</span><br><span class="line">done</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">2：设置游标值</span></span><br><span class="line">yb=$&#123;result[0]&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">3：赋值array,打印寻找到的key值</span></span><br><span class="line">for j in $&#123;!result[@]&#125;</span><br><span class="line">do		</span><br><span class="line">		if [ $j -gt 0 ]</span><br><span class="line">    then echo $&#123;result[$j]&#125;</span><br><span class="line">    array[$&#123;count&#125;]=$&#123;result[$j]&#125;</span><br><span class="line">    fi</span><br><span class="line">done    </span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">4：批量删除key值</span></span><br><span class="line">		if [ $&#123;#array[@]&#125; -gt 0 ]</span><br><span class="line">    then </span><br><span class="line">    #$&#123;result[$j]&#125;</span><br><span class="line">    echo $&#123;array[@]&#125; | xargs -t redis-cli -h $redis_url -a $redis_pass -n $redis_db del </span><br><span class="line">    fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">5：判断条件结束循环</span></span><br><span class="line">if [ $yb -eq 0 ]</span><br><span class="line">then break</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">unset result</span><br><span class="line">unset array    </span><br><span class="line">    </span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<h1 id="字符串操作命令"><a href="#字符串操作命令" class="headerlink" title="字符串操作命令"></a><font size=6 color='red' face='华文楷体'>字符串操作命令</font></h1><blockquote>
+<p>字符串是Redis中最基本的数据类型，单个数据能存储的最大空间是512M。</p>
+</blockquote>
+<h2 id="存放键值"><a href="#存放键值" class="headerlink" title="存放键值"></a>存放键值</h2><blockquote>
+<p>语法：set key value [EX seconds] [PX milliseconds] [NX|XX]</p>
+</blockquote>
+<p>nx：如果key不存在则建立，xx：如果key存在则修改其值，也可以直接使用setnx&#x2F;setex命令。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set javastack 666</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取键值"><a href="#获取键值" class="headerlink" title="获取键值"></a>获取键值</h2><blockquote>
+<p>语法：get key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[2]&gt; get javastack</span><br><span class="line">&quot;666&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="值递增-递减"><a href="#值递增-递减" class="headerlink" title="值递增&#x2F;递减"></a>值递增&#x2F;递减</h2><p>如果字符串中的值是数字类型的，可以使用incr命令每次递增，不是数字类型则报错。</p>
+<blockquote>
+<p>语法：incr key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[2]&gt; incr javastack</span><br><span class="line">(integer) 667</span><br></pre></td></tr></table></figure>
+
+<p>一次想递增N用incrby命令，如果是浮点型数据可以用incrbyfloat命令递增。</p>
+<p>同样，递减使用decr、decrby命令。</p>
+<h2 id="批量存放键值"><a href="#批量存放键值" class="headerlink" title="批量存放键值"></a>批量存放键值</h2><blockquote>
+<p>语法：mset key value [key value …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[2]&gt; mset java1 1 java2 2 java3 3</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="连续获取键值"><a href="#连续获取键值" class="headerlink" title="连续获取键值"></a>连续获取键值</h2><blockquote>
+<p>语法：mget key [key …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[2]&gt; mget java1 java2</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Redis接收的是UTF-8的编码，如果是中文一个汉字将占3位返回。</p>
+<h2 id="获取值长度"><a href="#获取值长度" class="headerlink" title="获取值长度"></a>获取值长度</h2><blockquote>
+<p>语法：strlen key<br>127.0.0.1:6379[2]&gt; strlen javastack (integer) 3</p>
+</blockquote>
+<h2 id="追加内容"><a href="#追加内容" class="headerlink" title="追加内容"></a>追加内容</h2><blockquote>
+<p>语法：append key value</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379[2]&gt; append javastack hi</span><br><span class="line">(integer) 5</span><br></pre></td></tr></table></figure>
+
+<p>向键值尾部添加，如上命令执行后由666变成666hi</p>
+<h2 id="获取部分字符"><a href="#获取部分字符" class="headerlink" title="获取部分字符"></a>获取部分字符</h2><blockquote>
+<p>语法：getrange key start end</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; 127.0.0.1:6379[2]&gt; getrange javastack 0 4</span><br><span class="line">&quot;javas&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="集合操作命令"><a href="#集合操作命令" class="headerlink" title="集合操作命令"></a><font size=6 color='red' face='华文楷体'>集合操作命令</font></h1><h2 id="存储值"><a href="#存储值" class="headerlink" title="存储值"></a>存储值</h2><blockquote>
+<p>语法：sadd key member [member …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 这里有8个值（2个java），只存了7个</span><br><span class="line">127.0.0.1:6379&gt; sadd langs java php c++ go ruby python kotlin java</span><br><span class="line">(integer) 7</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取元素"><a href="#获取元素" class="headerlink" title="获取元素"></a>获取元素</h2><blockquote>
+<p>获取所有元素语法：smembers key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; smembers langs</span><br><span class="line">1) &quot;php&quot;</span><br><span class="line">2) &quot;kotlin&quot;</span><br><span class="line">3) &quot;c++&quot;</span><br><span class="line">4) &quot;go&quot;</span><br><span class="line">5) &quot;ruby&quot;</span><br><span class="line">6) &quot;python&quot;</span><br><span class="line">7) &quot;java&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>随机获取语法：srandmember langs count</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; srandmember langs 3</span><br><span class="line">1) &quot;c++&quot;</span><br><span class="line">2) &quot;java&quot;</span><br><span class="line">3) &quot;php&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断集合是否存在元素"><a href="#判断集合是否存在元素" class="headerlink" title="判断集合是否存在元素"></a>判断集合是否存在元素</h2><blockquote>
+<p>语法：sismember key member</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sismember langs go</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取集合元素个数"><a href="#获取集合元素个数" class="headerlink" title="获取集合元素个数"></a>获取集合元素个数</h2><blockquote>
+<p>语法：scard key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; scard langs</span><br><span class="line">(integer) 7</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除集合元素"><a href="#删除集合元素" class="headerlink" title="删除集合元素"></a>删除集合元素</h2><blockquote>
+<p>语法：srem key member [member …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; srem langs ruby kotlin</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+<h2 id="弹出元素"><a href="#弹出元素" class="headerlink" title="弹出元素"></a>弹出元素</h2><blockquote>
+<p>语法：spop key [count]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; spop langs 2</span><br><span class="line">1) &quot;go&quot;</span><br><span class="line">2) &quot;java&quot;</span><br></pre></td></tr></table></figure>
+
+<h1 id="有序集合操作命令"><a href="#有序集合操作命令" class="headerlink" title="有序集合操作命令"></a><font size=6 color='red' face='华文楷体'>有序集合操作命令</font></h1><blockquote>
+<p>和列表的区别：</p>
+<p>1、列表使用链表实现，两头快，中间慢。有序集合是散列表和跳跃表实现的，即使读取中间的元素也比较快。</p>
+<p>2、列表不能调整元素位置，有序集合能。</p>
+<p>3、有序集合比列表更占内存。</p>
+</blockquote>
+<h2 id="存储值-1"><a href="#存储值-1" class="headerlink" title="存储值"></a>存储值</h2><blockquote>
+<p>语法：zadd key [NX|XX] [CH] [INCR] score member [score member …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd footCounts 16011 tid 20082 huny 2893 nosy</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取元素分数"><a href="#获取元素分数" class="headerlink" title="获取元素分数"></a>获取元素分数</h2><blockquote>
+<p>语法：zscore key member</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zscore footCounts tid</span><br><span class="line">&quot;16011&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>获取排名范围排名语法：zrange key start stop [WITHSCORES]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 获取所有，没有分数</span><br><span class="line">127.0.0.1:6379&gt; zrange footCounts 0 -1</span><br><span class="line">1) &quot;nosy&quot;</span><br><span class="line">2) &quot;tid&quot;</span><br><span class="line">3) &quot;huny&quot;</span><br><span class="line"></span><br><span class="line">// 获取所有及分数</span><br><span class="line">127.0.0.1:6379&gt; zrange footCounts 0 -1 Withscores</span><br><span class="line">1) &quot;nosy&quot;</span><br><span class="line">2) &quot;2893&quot;</span><br><span class="line">3) &quot;tid&quot;</span><br><span class="line">4) &quot;16011&quot;</span><br><span class="line">5) &quot;huny&quot;</span><br><span class="line">6) &quot;20082&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>获取指定分数范围排名语法：zrangebyscore key min max [WITHSCORES] [LIMIT offset count]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrangebyscore footCounts 3000 30000 withscores limit 0 1</span><br><span class="line">1) &quot;tid&quot;</span><br><span class="line">2) &quot;16011&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="增加指定元素分数"><a href="#增加指定元素分数" class="headerlink" title="增加指定元素分数"></a>增加指定元素分数</h2><blockquote>
+<p>语法：zincrby key increment member</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zincrby footCounts 2000 tid</span><br><span class="line">&quot;18011&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取集合元素个数-1"><a href="#获取集合元素个数-1" class="headerlink" title="获取集合元素个数"></a>获取集合元素个数</h2><blockquote>
+<p>语法：zcard key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zcard footCounts</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取指定范围分数个数"><a href="#获取指定范围分数个数" class="headerlink" title="获取指定范围分数个数"></a>获取指定范围分数个数</h2><blockquote>
+<p>语法：zcount key min max</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zcount footCounts 2000 20000</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除指定元素"><a href="#删除指定元素" class="headerlink" title="删除指定元素"></a>删除指定元素</h2><blockquote>
+<p>语法：zrem key member [member …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrem footCounts huny</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取元素排名"><a href="#获取元素排名" class="headerlink" title="获取元素排名"></a>获取元素排名</h2><blockquote>
+<p>语法：zrank key member</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrank footCounts tid</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h1 id="列表操作命令"><a href="#列表操作命令" class="headerlink" title="列表操作命令"></a><font size=6 color='red' face='华文楷体'>列表操作命令</font></h1><p>列表类型是一个有序的字段串列表，内部是使用双向链表实现，所有可以向两端操作元素，获取两端的数据速度快，通过索引到具体的行数比较慢。</p>
+<p>列表类型的元素是有序且可以重复的。</p>
+<h2 id="存储值-2"><a href="#存储值-2" class="headerlink" title="存储值"></a>存储值</h2><blockquote>
+<p>左端存值语法：lpush key value [value …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpush list lily sandy</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>右端存值语法：rpush key value [value …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpush list tom kitty</span><br><span class="line">(integer) 4</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>索引存值语法：lset key index value</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lset list 3 uto</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="弹出元素-1"><a href="#弹出元素-1" class="headerlink" title="弹出元素"></a>弹出元素</h2><blockquote>
+<p>左端弹出语法：lpop key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpop list</span><br><span class="line">&quot;sandy&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>右端弹出语法：rpop key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; rpop list</span><br><span class="line">&quot;kitty&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取元素个数"><a href="#获取元素个数" class="headerlink" title="获取元素个数"></a>获取元素个数</h2><blockquote>
+<p>语法：llen key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; llen list</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取列表元素"><a href="#获取列表元素" class="headerlink" title="获取列表元素"></a>获取列表元素</h2><blockquote>
+<p>两边获取语法：lrange key start stop</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpush users tom kitty land pony jack maddy</span><br><span class="line">(integer) 6</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lrange users 0 3</span><br><span class="line">1) &quot;maddy&quot;</span><br><span class="line">2) &quot;jack&quot;</span><br><span class="line">3) &quot;pony&quot;</span><br><span class="line">4) &quot;land&quot;</span><br><span class="line"></span><br><span class="line">// 获取所有</span><br><span class="line">127.0.0.1:6379&gt; lrange users 0 -1</span><br><span class="line">1) &quot;maddy&quot;</span><br><span class="line">2) &quot;jack&quot;</span><br><span class="line">3) &quot;pony&quot;</span><br><span class="line">4) &quot;land&quot;</span><br><span class="line">5) &quot;kitty&quot;</span><br><span class="line">6) &quot;tom&quot;</span><br><span class="line"></span><br><span class="line">// 从右端索引</span><br><span class="line">127.0.0.1:6379&gt; lrange users -3 -1</span><br><span class="line">1) &quot;land&quot;</span><br><span class="line">2) &quot;kitty&quot;</span><br><span class="line">3) &quot;tom&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>索引获取语法：lindex key index</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lindex list 2</span><br><span class="line">&quot;ketty&quot;</span><br><span class="line"></span><br><span class="line">// 从右端获取</span><br><span class="line">127.0.0.1:6379&gt; lindex list -5</span><br><span class="line">&quot;sady&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h2><blockquote>
+<p>根据值删除语法：lrem key count value</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lpush userids 111 222 111 222 222 333 222 222</span><br><span class="line">(integer) 8</span><br><span class="line"></span><br><span class="line">// count=0 删除所有</span><br><span class="line">127.0.0.1:6379&gt; lrem userids 0 111</span><br><span class="line">(integer) 2</span><br><span class="line"></span><br><span class="line">// count &gt; 0 从左端删除前count个</span><br><span class="line">127.0.0.1:6379&gt; lrem userids 3 222</span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">// count &lt; 0 从右端删除前count个</span><br><span class="line">127.0.0.1:6379&gt; lrem userids -3 222</span><br><span class="line">(integer) 2</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>范围删除语法：ltrim key start stop</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 只保留2-4之间的元素</span><br><span class="line">127.0.0.1:6379&gt; ltrim list 2 4</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="散列操作命令"><a href="#散列操作命令" class="headerlink" title="散列操作命令"></a>散列操作命令</h2><p>redis字符串类型键和值是字典结构形式，这里的散列类型其值也可以是字典结构。</p>
+<h2 id="存放键值-1"><a href="#存放键值-1" class="headerlink" title="存放键值"></a>存放键值</h2><blockquote>
+<p>单个语法：hset key field value</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hset user name javastack</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>多个语法：hmset key field value [field value …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hmset user name javastack age 20 address china</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>不存在时语法：hsetnx key field value</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hsetnx user tall 180</span><br><span class="line">(integer) 0</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取字段值"><a href="#获取字段值" class="headerlink" title="获取字段值"></a>获取字段值</h2><blockquote>
+<p>单个语法：hget key field</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hget user age</span><br><span class="line">&quot;20&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>多个语法：hmget key field [field …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hmget user name age address</span><br><span class="line">1) &quot;javastack&quot;</span><br><span class="line">2) &quot;20&quot;</span><br><span class="line">3) &quot;china&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>获取所有键与值语法：hgetall key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hgetall user</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;javastack&quot;</span><br><span class="line">3) &quot;age&quot;</span><br><span class="line">4) &quot;20&quot;</span><br><span class="line">5) &quot;address&quot;</span><br><span class="line">6) &quot;china&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>获取所有字段语法：hkeys key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hkeys user</span><br><span class="line">1) &quot;name&quot;</span><br><span class="line">2) &quot;address&quot;</span><br><span class="line">3) &quot;tall&quot;</span><br><span class="line">4) &quot;age&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>获取所有值语法：hvals key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hvals user</span><br><span class="line">1) &quot;javastack&quot;</span><br><span class="line">2) &quot;china&quot;</span><br><span class="line">3) &quot;170&quot;</span><br><span class="line">4) &quot;20&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断字段是否存在"><a href="#判断字段是否存在" class="headerlink" title="判断字段是否存在"></a>判断字段是否存在</h2><blockquote>
+<p>语法：hexists key field</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hexists user address</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取字段数量"><a href="#获取字段数量" class="headerlink" title="获取字段数量"></a>获取字段数量</h2><blockquote>
+<p>语法：hlen key</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hlen user</span><br><span class="line">(integer) 4</span><br></pre></td></tr></table></figure>
+
+<h2 id="递增-减"><a href="#递增-减" class="headerlink" title="递增&#x2F;减"></a>递增&#x2F;减</h2><blockquote>
+<p>语法：hincrby key field increment</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hincrby user tall -10</span><br><span class="line">(integer) 170</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除字段"><a href="#删除字段" class="headerlink" title="删除字段"></a>删除字段</h2><blockquote>
+<p>语法：hdel key field [field …]</p>
+</blockquote>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hdel user age</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2023/10/26/2023.10.26/">https://weiswift.github.io/2023/10/26/2023.10.26/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/10/27/2023.10.27/" title="【Python】Submit tasks to Redis"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【Python】Submit tasks to Redis</div></div></a></div><div class="next-post pull-right"><a href="/2023/10/25/2023.10.25/" title="【ElasticSearch】ES基本功"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【ElasticSearch】ES基本功</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%92%8C%E5%85%B3%E9%97%AD"><span class="toc-number">1.</span> <span class="toc-text">启动和关闭</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5Redis"><span class="toc-number">2.</span> <span class="toc-text">远程连接Redis</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#key%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">key操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4key%E5%80%BC"><span class="toc-number">3.1.</span> <span class="toc-text">Redis批量删除key值</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">字符串操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E6%94%BE%E9%94%AE%E5%80%BC"><span class="toc-number">4.1.</span> <span class="toc-text">存放键值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%94%AE%E5%80%BC"><span class="toc-number">4.2.</span> <span class="toc-text">获取键值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%BC%E9%80%92%E5%A2%9E-%E9%80%92%E5%87%8F"><span class="toc-number">4.3.</span> <span class="toc-text">值递增&#x2F;递减</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%AD%98%E6%94%BE%E9%94%AE%E5%80%BC"><span class="toc-number">4.4.</span> <span class="toc-text">批量存放键值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E8%8E%B7%E5%8F%96%E9%94%AE%E5%80%BC"><span class="toc-number">4.5.</span> <span class="toc-text">连续获取键值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%80%BC%E9%95%BF%E5%BA%A6"><span class="toc-number">4.6.</span> <span class="toc-text">获取值长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%BD%E5%8A%A0%E5%86%85%E5%AE%B9"><span class="toc-number">4.7.</span> <span class="toc-text">追加内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%83%A8%E5%88%86%E5%AD%97%E7%AC%A6"><span class="toc-number">4.8.</span> <span class="toc-text">获取部分字符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">集合操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%80%BC"><span class="toc-number">5.1.</span> <span class="toc-text">存储值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0"><span class="toc-number">5.2.</span> <span class="toc-text">获取元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E5%85%83%E7%B4%A0"><span class="toc-number">5.3.</span> <span class="toc-text">判断集合是否存在元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%9B%86%E5%90%88%E5%85%83%E7%B4%A0%E4%B8%AA%E6%95%B0"><span class="toc-number">5.4.</span> <span class="toc-text">获取集合元素个数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%9B%86%E5%90%88%E5%85%83%E7%B4%A0"><span class="toc-number">5.5.</span> <span class="toc-text">删除集合元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%B9%E5%87%BA%E5%85%83%E7%B4%A0"><span class="toc-number">5.6.</span> <span class="toc-text">弹出元素</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">有序集合操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%80%BC-1"><span class="toc-number">6.1.</span> <span class="toc-text">存储值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E5%88%86%E6%95%B0"><span class="toc-number">6.2.</span> <span class="toc-text">获取元素分数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E6%8C%87%E5%AE%9A%E5%85%83%E7%B4%A0%E5%88%86%E6%95%B0"><span class="toc-number">6.3.</span> <span class="toc-text">增加指定元素分数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%9B%86%E5%90%88%E5%85%83%E7%B4%A0%E4%B8%AA%E6%95%B0-1"><span class="toc-number">6.4.</span> <span class="toc-text">获取集合元素个数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E5%88%86%E6%95%B0%E4%B8%AA%E6%95%B0"><span class="toc-number">6.5.</span> <span class="toc-text">获取指定范围分数个数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%8C%87%E5%AE%9A%E5%85%83%E7%B4%A0"><span class="toc-number">6.6.</span> <span class="toc-text">删除指定元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E6%8E%92%E5%90%8D"><span class="toc-number">6.7.</span> <span class="toc-text">获取元素排名</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">列表操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%80%BC-2"><span class="toc-number">7.1.</span> <span class="toc-text">存储值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%B9%E5%87%BA%E5%85%83%E7%B4%A0-1"><span class="toc-number">7.2.</span> <span class="toc-text">弹出元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E4%B8%AA%E6%95%B0"><span class="toc-number">7.3.</span> <span class="toc-text">获取元素个数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%97%E8%A1%A8%E5%85%83%E7%B4%A0"><span class="toc-number">7.4.</span> <span class="toc-text">获取列表元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0"><span class="toc-number">7.5.</span> <span class="toc-text">删除元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%A3%E5%88%97%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-number">7.6.</span> <span class="toc-text">散列操作命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E6%94%BE%E9%94%AE%E5%80%BC-1"><span class="toc-number">7.7.</span> <span class="toc-text">存放键值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E6%AE%B5%E5%80%BC"><span class="toc-number">7.8.</span> <span class="toc-text">获取字段值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%AD%97%E6%AE%B5%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="toc-number">7.9.</span> <span class="toc-text">判断字段是否存在</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F"><span class="toc-number">7.10.</span> <span class="toc-text">获取字段数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%92%E5%A2%9E-%E5%87%8F"><span class="toc-number">7.11.</span> <span class="toc-text">递增&#x2F;减</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%AD%97%E6%AE%B5"><span class="toc-number">7.12.</span> <span class="toc-text">删除字段</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/15/%E7%97%87%E7%8A%B6%E6%8B%86%E8%A7%A3_%E5%A4%9A%E5%9B%A0/" title="First-健康-02-症状拆解">First-健康-02-症状拆解</a><time datetime="2026-08-14T16:00:00.000Z" title="Created 2026-08-15 00:00:00">2026-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/07/%E4%B8%89%E8%A7%82AIO/" title="三观AIO">三观AIO</a><time datetime="2026-08-06T16:00:00.000Z" title="Created 2026-08-07 00:00:00">2026-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/04/2026.08.03-%E9%81%93%E8%B7%AF%E9%A9%BE%E9%A9%B6%E6%8A%80%E8%83%BD/" title="Third-技能-01-科目三">Third-技能-01-科目三</a><time datetime="2026-08-03T16:00:00.000Z" title="Created 2026-08-04 00:00:00">2026-08-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/03/2026.08.03-%E4%BC%A4%E5%AF%92%E6%9D%82%E7%97%85%E8%AE%BA/" title="First-健康-01-伤寒杂病论">First-健康-01-伤寒杂病论</a><time datetime="2026-08-02T16:00:00.000Z" title="Created 2026-08-03 00:00:00">2026-08-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验">【Flink】TableAPI和DataStreamAPI初体验</a><time datetime="2024-06-11T16:00:00.000Z" title="Created 2024-06-12 00:00:00">2024-06-12</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

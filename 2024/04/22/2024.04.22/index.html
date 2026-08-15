@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【Java高级】单元测试、注解、反射、动态代理 | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="junit  概述  是第三方公司编写的一个用于帮助程序员测试代码的框架;   特点  可以直接运行带 @Test注解的方法;(相当于main方法的功能) 可以自动生成测试报告; 可以批量运行多个方法,且部分方法出异常不会影响其他的测试;   使用步骤     入门代码12345678910111213141516171819202122232425&#x2F;*    练习junit入门 *&#x2F;public">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java高级】单元测试、注解、反射、动态代理">
+<meta property="og:url" content="https://weiswift.github.io/2024/04/22/2024.04.22/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="junit  概述  是第三方公司编写的一个用于帮助程序员测试代码的框架;   特点  可以直接运行带 @Test注解的方法;(相当于main方法的功能) 可以自动生成测试报告; 可以批量运行多个方法,且部分方法出异常不会影响其他的测试;   使用步骤     入门代码12345678910111213141516171819202122232425&#x2F;*    练习junit入门 *&#x2F;public">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-04-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-03T14:43:51.393Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/04/22/2024.04.22/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Java高级】单元测试、注解、反射、动态代理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-08-03 22:43:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/indexPic.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【Java高级】单元测试、注解、反射、动态代理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-04-21T16:00:00.000Z" title="Created 2024-04-22 00:00:00">2024-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-08-03T14:43:51.393Z" title="Updated 2026-08-03 22:43:51">2026-08-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【Java高级】单元测试、注解、反射、动态代理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="junit"><a href="#junit" class="headerlink" title="junit"></a>junit</h2><blockquote>
+<ul>
+<li><p>概述</p>
+<ul>
+<li>是第三方公司编写的一个用于帮助程序员测试代码的框架;</li>
+</ul>
+</li>
+<li><p>特点</p>
+<ul>
+<li>可以直接运行带 @Test注解的方法;(相当于main方法的功能)</li>
+<li>可以自动生成测试报告;</li>
+<li>可以批量运行多个方法,且部分方法出异常不会影响其他的测试;</li>
+</ul>
+</li>
+<li><p>使用步骤</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601093239118.png" alt="image-20230601093239118"></p>
+</blockquote>
+<h3 id="入门代码"><a href="#入门代码" class="headerlink" title="入门代码"></a>入门代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    练习junit入门</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyTest</span> &#123;</span><br><span class="line">    <span class="comment">// 1: 导jar包</span></span><br><span class="line">    <span class="comment">// 2: 编写被测试的方法</span></span><br><span class="line">    <span class="comment">// 3: 在想测的方法上面添加固定的注解</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">a</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;a方法执行了...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">b</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;b方法执行了...&quot;</span>);</span><br><span class="line">        <span class="type">int</span> i=<span class="number">1</span>/<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">c</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;c方法执行了...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">d</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;d方法执行了...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><ul>
+<li><p>概述</p>
+<ul>
+<li><code>可以对某件事情的结果进行预测,如果将来真实的结果和预测的结果一致,那么断言就成功了,否则断言就失败了,因此断言的结果必定是boolean值;</code></li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>可以检测程序中存在的逻辑问题;</li>
+</ul>
+</li>
+<li><p>使用方式</p>
+<ul>
+<li>直接利用Assret类的静态方法assertEquals(提示信息,预计结果,真实结果)即可;</li>
+</ul>
+</li>
+</ul>
+<h4 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    练习junit断言</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    断言:</span></span><br><span class="line"><span class="comment">        可以对某件事情的结果进行预测,如果将来真实的结果和预测的结果一致,那么断言就成功了,否则断言就失败了,因此断言的结果必定是boolean值;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    作用:</span></span><br><span class="line"><span class="comment">        可以检测程序中存在的逻辑问题;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyTest3</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">a</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">// 直接调用 getIndex方法,传递参数,得到结果</span></span><br><span class="line">        <span class="type">int</span>[] arr = &#123;<span class="number">2</span>,<span class="number">5</span>,<span class="number">8</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> getIndex(arr, <span class="number">5</span>);</span><br><span class="line">        <span class="comment">// 我们预测(期望)得到一个 1,实际得到的是  index,可以利用断言,让junit框架帮我们比较预测的结果和真实的结果是否一致</span></span><br><span class="line">        Assert.assertEquals(<span class="string">&quot;嚣张啊,还得继续努力呀&quot;</span>,<span class="number">1</span>,index);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 被测试的业务方法,模拟根据元素,找数组中该元素出现的索引位置</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getIndex</span><span class="params">(<span class="type">int</span>[] arr,<span class="type">int</span> key)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">null</span>==arr)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;数组不能为null&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[i]==key)&#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><ul>
+<li><p>概述</p>
+<ul>
+<li>是一种可以在代码运行期间动态获取类的”组成部分”,并单独让这些”组成部分”执行起来的技术;</li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>配合多态的技术,可以处理很多通用的流程,是编写框架和工具非常常用的技术;</li>
+</ul>
+</li>
+<li><p>相关类</p>
+<ol>
+<li>Class 表示所有类的字节码文件对象的类型</li>
+<li>Construct 表示所有类中单独”抽取”出来的构造方法对象;</li>
+<li>Field  表示所有类中单独抽取出来的成员变量对象;</li>
+<li>Method  表示所有类中单独抽取出来的方法对象;</li>
+</ol>
+</li>
+<li><p>反射的通用步骤</p>
+<ul>
+<li>获取类的字节码文件对象;</li>
+<li>利用字节码文件对象,反射得到构造方法对象;</li>
+<li>利用构造方法对象执行后得到一个普通对象;(等同于以前new的对象)</li>
+<li>利用字节码文件对象,反射得到成员变量对象和方法对象;</li>
+<li>让反射得到的成员变量或方法对象执行起来;</li>
+</ul>
+</li>
+</ul>
+<h3 id="获取字节码文件对象的三种方式"><a href="#获取字节码文件对象的三种方式" class="headerlink" title="获取字节码文件对象的三种方式"></a>获取字节码文件对象的三种方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    反射入门-- 获取类的字节码文件对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1: 方式1,利用Class类的静态方法获取</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c1</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;com.itheima.demo02_fanShe.Phone&quot;</span>);</span><br><span class="line">        <span class="comment">// 2: 方式2, 直接使用类名.class即可</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c2</span> <span class="operator">=</span> Phone.class;</span><br><span class="line">        <span class="comment">// 3: 方式3.通过对象,调用方法获取</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Phone</span>().getClass();</span><br><span class="line"></span><br><span class="line">        System.out.println(c1==c2);</span><br><span class="line">        System.out.println(c3==c2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="反射构造器"><a href="#反射构造器" class="headerlink" title="反射构造器"></a>反射构造器</h3><ul>
+<li><p>目的</p>
+<ul>
+<li>为了通过构造器创建出普通的对象;</li>
+</ul>
+</li>
+<li><p>相关方法</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601111942096.png" alt="image-20230601111942096"></p>
+<h4 id="参考代码-1"><a href="#参考代码-1" class="headerlink" title="参考代码"></a>参考代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    反射-- 获取类的构造器对象</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1: 方式1,利用Class类的静态方法获取</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c1</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;com.itheima.demo02_fanShe.Phone&quot;</span>);</span><br><span class="line">      <span class="comment">// 2: 利用 c1获取里面所有的public的构造方法</span></span><br><span class="line">        Constructor[] arr = c1.getConstructors();</span><br><span class="line">        <span class="keyword">for</span> (Constructor constructor : arr) &#123;</span><br><span class="line">            System.out.println(constructor);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;=================&quot;</span>);</span><br><span class="line">        <span class="comment">// 获取所有构造方法,包含私有的</span></span><br><span class="line">        Constructor[] arr2 = c1.getDeclaredConstructors();</span><br><span class="line">        <span class="keyword">for</span> (Constructor constructor : arr2) &#123;</span><br><span class="line">            System.out.println(constructor);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;------------------------------&quot;</span>);</span><br><span class="line">        <span class="comment">// 精确反射具体的某个构造方法,带name的私有构造方法,带两个参数的构造方法</span></span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructor</span> <span class="operator">=</span> c1.getConstructor(String.class, <span class="type">double</span>.class);</span><br><span class="line">        System.out.println(constructor);</span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructor2</span> <span class="operator">=</span> c1.getDeclaredConstructor(String.class);</span><br><span class="line">        System.out.println(constructor2);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>让构造器执行</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601113458780.png" alt="image-20230601113458780"></p>
+<ul>
+<li>注意事项<ul>
+<li>如果是暴力反射的私有内容,执行前必须忽略权限检查,否则执行失败!</li>
+</ul>
+</li>
+</ul>
+<h3 id="反射成员变量"><a href="#反射成员变量" class="headerlink" title="反射成员变量"></a>反射成员变量</h3><ul>
+<li><p>目的</p>
+<ul>
+<li>绕过多态,给指定的对象中的成员变量存值或取值;</li>
+</ul>
+</li>
+<li><p>相关方法</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601121047407.png" alt="image-20230601121047407"></p>
+<h4 id="参考代码-2"><a href="#参考代码-2" class="headerlink" title="参考代码"></a>参考代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyField</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1: 获取类的字节码文件对象</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Phone.class;</span><br><span class="line">        <span class="comment">// 2: 获取所有的成员变量</span></span><br><span class="line">        Field[] arr = c.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span> (Field field : arr) &#123;</span><br><span class="line">            System.out.println(field);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;------------------------&quot;</span>);</span><br><span class="line">        <span class="comment">// 精确反射</span></span><br><span class="line">        <span class="type">Field</span> <span class="variable">name</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">        <span class="comment">// 由于成员变量是随着对象的创建而存在,所以要想操作成员变量,必须提前创建出一个包含该成员变量的那个类的对象(Phone对象)</span></span><br><span class="line">        <span class="comment">// 如果一个类中有空参数的public权限的构造方法,可以直接利用字节码文件对象,一步到位直接创建普通对象</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> c.newInstance();<span class="comment">// 此时的o就是以多态的形式存在的手机对象</span></span><br><span class="line">        <span class="comment">// 面向name,操作 o</span></span><br><span class="line">        <span class="comment">// 忽略权限检查</span></span><br><span class="line">        name.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        name.set(o,<span class="string">&quot;盗个&quot;</span>);</span><br><span class="line">        System.out.println(o);</span><br><span class="line"></span><br><span class="line">        <span class="type">Field</span> <span class="variable">price</span> <span class="operator">=</span> c.getField(<span class="string">&quot;price&quot;</span>);</span><br><span class="line">        price.set(o,<span class="number">8.8</span>);</span><br><span class="line">        System.out.println(o);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">o1</span> <span class="operator">=</span> name.get(o);</span><br><span class="line">        System.out.println(o1);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意事项<ul>
+<li>如果是暴力反射的私有内容,执行前必须忽略权限检查,否则执行失败!</li>
+<li>成员变量是随着对象的创建而存在,所以要想操作成员变量,必须提前创建出一个包含该成员变量的那个类的对象;</li>
+</ul>
+</li>
+</ul>
+<h3 id="反射成员方法-重点"><a href="#反射成员方法-重点" class="headerlink" title="反射成员方法[重点]"></a>反射成员方法[重点]</h3><ul>
+<li><p>目的</p>
+<ul>
+<li>希望让类中的某个方法,单独运行起来,可以绕过多态的限制和泛型的限制;</li>
+</ul>
+</li>
+<li><p>相关方法</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601142042469.png" alt="image-20230601142042469"></p>
+<h4 id="参考代码-3"><a href="#参考代码-3" class="headerlink" title="参考代码"></a>参考代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    练习反射成员方法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestMethod</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1: 获取字节码文件对象</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Phone.class;</span><br><span class="line">        <span class="comment">// 2: 暴力反射,只能获取本类中所有的方法  包含私有</span></span><br><span class="line">        Method[] methods = c.getDeclaredMethods();</span><br><span class="line">        <span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;-----------------------&quot;</span>);</span><br><span class="line">        <span class="comment">//3: 非暴力反射,能获取本类中所有的public权限和父类public权限的方法</span></span><br><span class="line">        Method[] methods1 = c.getMethods();</span><br><span class="line">        <span class="keyword">for</span> (Method method : methods1) &#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;======================================================&quot;</span>);</span><br><span class="line">        <span class="comment">// 4: 精确反射 toString方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">toString</span> <span class="operator">=</span> c.getMethod(<span class="string">&quot;toString&quot;</span>);</span><br><span class="line">        System.out.println(toString);</span><br><span class="line">        <span class="comment">// 5: 精确反射带参数的方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">setNames</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;setName&quot;</span>, String.class);</span><br><span class="line">        System.out.println(setNames);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="让反射得到的方法执行"><a href="#让反射得到的方法执行" class="headerlink" title="让反射得到的方法执行"></a>让反射得到的方法执行</h4><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601143348771.png" alt="image-20230601143348771"></p>
+<h4 id="参考代码-4"><a href="#参考代码-4" class="headerlink" title="参考代码"></a>参考代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestMethod2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1: 获取字节码文件对象</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> Phone.class;</span><br><span class="line">        <span class="comment">// 2: 精确反射 toString方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">toString</span> <span class="operator">=</span> c.getMethod(<span class="string">&quot;toString&quot;</span>);</span><br><span class="line">        <span class="comment">// 3: 准备一个用于执行方法的对象</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> c.newInstance();</span><br><span class="line">        <span class="comment">// 4: 面向 toString 让它执行起来</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">res</span> <span class="operator">=</span> toString.invoke(o);</span><br><span class="line">        <span class="comment">// 此时的res代表的就是 toString方法返回的结果</span></span><br><span class="line">        System.out.println(res);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5: 精确反射带参数的方法</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">setNames</span> <span class="operator">=</span> c.getDeclaredMethod(<span class="string">&quot;setName&quot;</span>, String.class);</span><br><span class="line">        <span class="comment">// 6: 忽略权限检查</span></span><br><span class="line">        setNames.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">Object</span> <span class="variable">res2</span> <span class="operator">=</span> setNames.invoke(o, <span class="string">&quot;菠萝&quot;</span>);</span><br><span class="line">        System.out.println(res2);</span><br><span class="line"></span><br><span class="line">        System.out.println(o);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="反射的应用场景"><a href="#反射的应用场景" class="headerlink" title="反射的应用场景"></a>反射的应用场景</h3><ol>
+<li>反射可以绕过泛型的限制;</li>
+<li>反射可以绕过多态的限制;</li>
+<li>反射可以结合IO流技术,完成对象文件内容的操作;</li>
+<li>反射可以动态的让多个类中的方法执行起来;</li>
+<li>…….</li>
+</ol>
+<h4 id="示例代码1-绕过泛型和多态"><a href="#示例代码1-绕过泛型和多态" class="headerlink" title="示例代码1-绕过泛型和多态"></a>示例代码1-绕过泛型和多态</h4><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601145821657.png" alt="image-20230601145821657"></p>
+<h4 id="示例代码2-模拟idea自动生成gettersetter方法"><a href="#示例代码2-模拟idea自动生成gettersetter方法" class="headerlink" title="示例代码2-模拟idea自动生成gettersetter方法"></a>示例代码2-模拟idea自动生成gettersetter方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    传递一个类路径,自动生成idea中的空参数,全参数,getter和setter方法</span></span><br><span class="line"><span class="comment">    大体思路:</span></span><br><span class="line"><span class="comment">        1:先将指定的java文件中所有内容读取到内存中,使用StringBuilder对象保存;</span></span><br><span class="line"><span class="comment">        2:利用反射技术读取字节码文件中所有的成员变量名称和数据类型保存到map集合中,名做键,类型做值;</span></span><br><span class="line"><span class="comment">        3:利用字符串拼接功能,根据map中的成员变量和对应的数据类型,拼接出对应的空参数和全参数构造方法,使用StringBuilder对象保存;</span></span><br><span class="line"><span class="comment">        4:利用字符串拼接功能,根据map中的成员变量和对应的数据类型,拼接出对应的getter和setter方法,使用StringBuilder对象保存;</span></span><br><span class="line"><span class="comment">        5:将生成的构造方法,getter和setter方法插入到原始java文件对应的StringBuilder对象的正确位置;</span></span><br><span class="line"><span class="comment">        6:利用IO流技术将最终的StringBuilder对象重新写入java文件;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyIdeaInsert</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1:先将指定的java文件中所有内容读取到内存中,使用StringBuilder对象保存;</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">jpath</span> <span class="operator">=</span> <span class="string">&quot;com.itheima.demo02_fanShe.Phone&quot;</span>;</span><br><span class="line">        <span class="comment">// 1.1:获取项目路径</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">ppath</span> <span class="operator">=</span> MyIdeaInsert.class.getResource(<span class="string">&quot;/&quot;</span>).getPath().replace(<span class="string">&quot;/out/production&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="comment">// 1.2: 拼接java文件的硬盘绝对路径</span></span><br><span class="line">        <span class="type">File</span> <span class="variable">f</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(ppath + <span class="string">&quot;/src/&quot;</span> + jpath.replace(<span class="string">&quot;.&quot;</span>, <span class="string">&quot;/&quot;</span>) + <span class="string">&quot;.java&quot;</span>);</span><br><span class="line">        <span class="comment">// 1.3: 将指定的java文件中所有内容读取到内存中,使用StringBuilder对象保存;</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="type">BufferedReader</span> <span class="variable">br</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(<span class="keyword">new</span> <span class="title class_">FileReader</span>(f));</span><br><span class="line">        String line;</span><br><span class="line">        <span class="keyword">while</span> ((line = br.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">            sb.append(line).append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        br.close();</span><br><span class="line">        <span class="comment">//System.out.println(sb);</span></span><br><span class="line">        <span class="comment">// -----------------------读文件内容结束--------------------------------</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//2:利用反射技术读取字节码文件中所有的成员变量名称和数据类型保存到map集合中,名做键,类型做值;</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">aClass</span> <span class="operator">=</span> Class.forName(jpath);</span><br><span class="line">        Field[] fields = aClass.getDeclaredFields();</span><br><span class="line">        Map&lt;String, String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>();</span><br><span class="line">        <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">            map.put(field.getName(), field.getType().getName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//System.out.println(map);</span></span><br><span class="line">        <span class="comment">// -----------------------读成员变量存map结束--------------------------------</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//3:利用字符串拼接功能,根据map中的成员变量和对应的数据类型,拼接出对应的空参数和全参数构造方法,使用StringBuilder对象保存;</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">kong</span> <span class="operator">=</span> <span class="string">&quot;public &quot;</span> + aClass.getSimpleName() + <span class="string">&quot;()&#123;&#125;\r\n&quot;</span>;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">quan</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;public &quot;</span> + aClass.getSimpleName() + <span class="string">&quot;(&quot;</span>);</span><br><span class="line">        map.forEach((k, v) -&gt; &#123;</span><br><span class="line">            <span class="comment">// 将map中的成员变量拼接成带参数构造方法的形参列表</span></span><br><span class="line">            quan.append(v).append(<span class="string">&quot; &quot;</span>).append(k).append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 删除参数列表中多余的逗号</span></span><br><span class="line">        quan.deleteCharAt(quan.length() - <span class="number">1</span>);</span><br><span class="line">        quan.append(<span class="string">&quot;)&#123;\r\n&quot;</span>);</span><br><span class="line">        map.forEach((k, v) -&gt; &#123;</span><br><span class="line">            <span class="comment">// 拼接构造方法的方法体</span></span><br><span class="line">            quan.append(<span class="string">&quot;this.&quot;</span> + k + <span class="string">&quot;=&quot;</span> + k + <span class="string">&quot;;\r\n&quot;</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        quan.append(<span class="string">&quot;&#125;\r\n&quot;</span>);</span><br><span class="line">        <span class="comment">//System.out.println(kong);</span></span><br><span class="line">        <span class="comment">//System.out.println(quan);</span></span><br><span class="line">        <span class="comment">//----------------------拼接构造方法结束--------------------------------</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//4:利用字符串拼接功能,根据map中的成员变量和对应的数据类型,拼接出对应的getter和setter方法,使用StringBuilder对象保存;</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">setAll</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        map.forEach((name, type) -&gt; &#123;</span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">set</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;public void set&quot;</span>);</span><br><span class="line">            <span class="comment">// 拼接set方法</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> name.substring(<span class="number">0</span>, <span class="number">1</span>).toUpperCase();</span><br><span class="line">            set.append(s).append(name.substring(<span class="number">1</span>)).append(<span class="string">&quot;(&quot;</span>).append(type)</span><br><span class="line">                    .append(<span class="string">&quot; &quot;</span>).append(name).append(<span class="string">&quot;)&#123;\r\n&quot;</span>).append(<span class="string">&quot;this.&quot;</span>)</span><br><span class="line">                    .append(name).append(<span class="string">&quot;=&quot;</span>).append(name).append(<span class="string">&quot;;\r\n&#125;\r\n&quot;</span>);</span><br><span class="line">            setAll.append(set);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//System.out.println(setAll);</span></span><br><span class="line">        <span class="comment">//----------------------拼接set方法结束--------------------------------</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">getAll</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        map.forEach((name, type) -&gt; &#123;</span><br><span class="line">            <span class="type">StringBuilder</span> <span class="variable">get</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;public &quot;</span>+type+<span class="string">&quot; get&quot;</span>);</span><br><span class="line">            <span class="comment">// 拼接set方法</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> name.substring(<span class="number">0</span>, <span class="number">1</span>).toUpperCase();<span class="comment">//截取首字母变大写</span></span><br><span class="line">            get.append(s).append(name.substring(<span class="number">1</span>)).append(<span class="string">&quot;()&#123;\r\n&quot;</span>).append(<span class="string">&quot;return &quot;</span>).append(name).append(<span class="string">&quot;;\r\n&#125;\r\n&quot;</span>);</span><br><span class="line">            getAll.append(get);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//System.out.println(getAll);</span></span><br><span class="line">        <span class="comment">//----------------------拼接get方法结束--------------------------------</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//5:将生成的构造方法,getter和setter方法插入到原始java文件对应的StringBuilder对象的正确位置;</span></span><br><span class="line">        sb.insert(sb.lastIndexOf(<span class="string">&quot;&#125;&quot;</span>)-<span class="number">1</span>,kong);</span><br><span class="line">        sb.insert(sb.lastIndexOf(<span class="string">&quot;&#125;&quot;</span>)-<span class="number">1</span>,quan);</span><br><span class="line">        sb.insert(sb.lastIndexOf(<span class="string">&quot;&#125;&quot;</span>)-<span class="number">1</span>,setAll);</span><br><span class="line">        sb.insert(sb.lastIndexOf(<span class="string">&quot;&#125;&quot;</span>)-<span class="number">1</span>,getAll);</span><br><span class="line">        <span class="comment">//System.out.println(sb);</span></span><br><span class="line">        <span class="comment">//----------------------拼接所有内容结束--------------------------------</span></span><br><span class="line">        <span class="comment">//6:利用IO流技术将最终的StringBuilder对象重新写入java文件;</span></span><br><span class="line">        <span class="type">FileWriter</span> <span class="variable">fout</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileWriter</span>(f);</span><br><span class="line">        <span class="type">BufferedWriter</span> <span class="variable">bf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(fout);</span><br><span class="line">        bf.write(sb.toString());</span><br><span class="line">        bf.close();</span><br><span class="line">        System.out.println(<span class="string">&quot;已经生成完毕&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="示例代码3-通用框架-将对象的所有成员变量写入文件"><a href="#示例代码3-通用框架-将对象的所有成员变量写入文件" class="headerlink" title="示例代码3-通用框架-将对象的所有成员变量写入文件"></a>示例代码3-通用框架-将对象的所有成员变量写入文件</h4><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601153737056.png" alt="image-20230601153737056"></p>
+<h2 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h2><ul>
+<li><p>概述</p>
+<ul>
+<li>就是一个自定义的标记,将来我们可以通过反射的技术,获取这些标记,并进行相应的操作即可;</li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>可以给类或变量或方法添加注解,以便于将来对带有标记的内容进行解析;</li>
+<li>也可以通过注解传递一些数据值,供方法或类或变量使用;</li>
+</ul>
+</li>
+<li><p>语法格式</p>
+<ul>
+<li>定义注解使用 @Interface表示;</li>
+<li>定义属性时,使用 权限修饰符  数据类型 变量名()  default  默认值;的形式表示;</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240422223151841.png" alt="image-20240422223151841"></p>
+<h3 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h3><ul>
+<li><p>概述</p>
+<ul>
+<li>注解注解的注解就是元注解;元注解是java提前写好的,可以对我们自定义的注解进行限制;</li>
+</ul>
+</li>
+<li><p>常用的元注解</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601163110317.png" alt="image-20230601163110317"></p>
+<ul>
+<li>具体作用</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601163135629.png" alt="image-20230601163135629"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601163145208.png" alt="image-20230601163145208"></p>
+<h3 id="注解解析"><a href="#注解解析" class="headerlink" title="注解解析"></a>注解解析</h3><ul>
+<li>概述<ul>
+<li>就是通过反射的技术,可以获取某个组件上面的注解对象及注解对象中保存的数据;</li>
+</ul>
+</li>
+<li>相关方法</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601170003637.png" alt="image-20230601170003637"></p>
+<ul>
+<li><p>注意事项</p>
+<ul>
+<li>以上方法可以通过字节码文件(Class)对象,属性对象(Field),方法对象(Method)均可以调用;</li>
+<li>自定义的注解必须使用元注解指定生命周期为 Runtime,否则代码运行的时候,自定义的注解会消失;</li>
+</ul>
+</li>
+<li><p>参考代码</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240422223543404.png" alt="image-20240422223543404"></p>
+<ul>
+<li>应用场景介绍<ul>
+<li>模拟Junit的@Test功能</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601173011298.png" alt="image-20230601173011298"></p>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><ul>
+<li><p>概述</p>
+<ul>
+<li>专门负责将java的类加载的内存中并形成字节码文件对象的东西;</li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>帮我们创建字节码文件对象的,目的是为了避免同一个类被多次加载!</li>
+</ul>
+</li>
+<li><p>分类</p>
+</li>
+</ul>
+<blockquote>
+<p>一共有3种类加载器:</p>
+<ol>
+<li>应用类加载器: AppClassLoader作用主要是加载程序员自定义的类及第三方jar包的类;</li>
+<li>平台类加载器: PlatformClassLoader 主要作用是加载java中已经提前准备好的API及扩展的类;</li>
+<li>核心类加载器: 无法在java中直接获取使用(null);</li>
+</ol>
+</blockquote>
+<ul>
+<li>获取方式<ul>
+<li>可以通过字节码文件对象的 getClassLoader方法即可获取类加载器;</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考代码-5"><a href="#参考代码-5" class="headerlink" title="参考代码"></a>参考代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    测试类加载器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 1: 获取当前类的字节码文件对象</span></span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">classLoader</span> <span class="operator">=</span> Test.class.getClassLoader();</span><br><span class="line">        System.out.println(classLoader);</span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">parent</span> <span class="operator">=</span> classLoader.getParent();</span><br><span class="line">        System.out.println(parent);</span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">parent1</span> <span class="operator">=</span> parent.getParent();</span><br><span class="line">        System.out.println(parent1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><ul>
+<li><p>概述</p>
+<ul>
+<li>在代码运行期间,动态的给某个类(目标类)生成一个代理类(可以对目标类进行增强的类)的技术,就是动态代理技术;</li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>可以在不改变已有类的功能的基础上对原有功能进行增强;</li>
+</ul>
+</li>
+<li><p>相关API</p>
+<ul>
+<li>jdk提供的Proxy类可以帮我们生成代理对象;</li>
+</ul>
+</li>
+<li><p>使用前提</p>
+<ul>
+<li>目标类必须实现接口;</li>
+</ul>
+</li>
+</ul>
+<h3 id="流程分析"><a href="#流程分析" class="headerlink" title="流程分析"></a>流程分析</h3><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20230601203417396.png" alt="image-20230601203417396"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/01.%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" alt="01.动态代理的代码执行流程分析示意图"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/04/22/2024.04.22/">https://weiswift.github.io/2024/04/22/2024.04.22/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/24/Kafka(%E5%85%A8)/" title="Kafka（全）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Kafka（全）</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/19/2024.04.19/" title="【Java高级】网络编程-UDP&amp;TCP实操"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【Java高级】网络编程-UDP&amp;TCP实操</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/01/03/2024.01.03/" title="【Java进阶】Static食用方式（一）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-03</div><div class="title">【Java进阶】Static食用方式（一）</div></div></a></div><div><a href="/2024/01/04/2024.01.04/" title="【Java进阶】Static食用方式（二）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-04</div><div class="title">【Java进阶】Static食用方式（二）</div></div></a></div><div><a href="/2024/01/05/2024.01.05/" title="【Java进阶】单例设计模式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-05</div><div class="title">【Java进阶】单例设计模式</div></div></a></div><div><a href="/2024/01/06/2024.01.06/" title="【Java进阶】继承及应用场景"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-06</div><div class="title">【Java进阶】继承及应用场景</div></div></a></div><div><a href="/2024/01/07/2024.01.07/" title="【Java进阶】继承之方法的重写"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-07</div><div class="title">【Java进阶】继承之方法的重写</div></div></a></div><div><a href="/2024/01/08/2024.01.08/" title="【Java进阶】方法的权限修饰符"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-08</div><div class="title">【Java进阶】方法的权限修饰符</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#junit"><span class="toc-number">1.</span> <span class="toc-text">junit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A5%E9%97%A8%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">入门代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%AD%E8%A8%80"><span class="toc-number">1.2.</span> <span class="toc-text">断言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.1.</span> <span class="toc-text">参考代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">2.</span> <span class="toc-text">反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">获取字节码文件对象的三种方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">反射构造器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">参考代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">反射成员变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">参考代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95-%E9%87%8D%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">反射成员方法[重点]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-3"><span class="toc-number">2.4.1.</span> <span class="toc-text">参考代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A9%E5%8F%8D%E5%B0%84%E5%BE%97%E5%88%B0%E7%9A%84%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C"><span class="toc-number">2.4.2.</span> <span class="toc-text">让反射得到的方法执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-4"><span class="toc-number">2.4.3.</span> <span class="toc-text">参考代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.5.</span> <span class="toc-text">反射的应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%811-%E7%BB%95%E8%BF%87%E6%B3%9B%E5%9E%8B%E5%92%8C%E5%A4%9A%E6%80%81"><span class="toc-number">2.5.1.</span> <span class="toc-text">示例代码1-绕过泛型和多态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%812-%E6%A8%A1%E6%8B%9Fidea%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90gettersetter%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.2.</span> <span class="toc-text">示例代码2-模拟idea自动生成gettersetter方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%813-%E9%80%9A%E7%94%A8%E6%A1%86%E6%9E%B6-%E5%B0%86%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%89%80%E6%9C%89%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="toc-number">2.5.3.</span> <span class="toc-text">示例代码3-通用框架-将对象的所有成员变量写入文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="toc-number">3.1.</span> <span class="toc-text">元注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E8%A7%A3%E6%9E%90"><span class="toc-number">3.2.</span> <span class="toc-text">注解解析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81-5"><span class="toc-number">4.1.</span> <span class="toc-text">参考代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">动态代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">5.1.</span> <span class="toc-text">流程分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/15/%E7%97%87%E7%8A%B6%E6%8B%86%E8%A7%A3_%E5%A4%9A%E5%9B%A0/" title="First-健康-02-症状拆解">First-健康-02-症状拆解</a><time datetime="2026-08-14T16:00:00.000Z" title="Created 2026-08-15 00:00:00">2026-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/07/%E4%B8%89%E8%A7%82AIO/" title="三观AIO">三观AIO</a><time datetime="2026-08-06T16:00:00.000Z" title="Created 2026-08-07 00:00:00">2026-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/04/2026.08.03-%E9%81%93%E8%B7%AF%E9%A9%BE%E9%A9%B6%E6%8A%80%E8%83%BD/" title="Third-技能-01-科目三">Third-技能-01-科目三</a><time datetime="2026-08-03T16:00:00.000Z" title="Created 2026-08-04 00:00:00">2026-08-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/03/2026.08.03-%E4%BC%A4%E5%AF%92%E6%9D%82%E7%97%85%E8%AE%BA/" title="First-健康-01-伤寒杂病论">First-健康-01-伤寒杂病论</a><time datetime="2026-08-02T16:00:00.000Z" title="Created 2026-08-03 00:00:00">2026-08-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验">【Flink】TableAPI和DataStreamAPI初体验</a><time datetime="2024-06-11T16:00:00.000Z" title="Created 2024-06-12 00:00:00">2024-06-12</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Kafka（全） | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content=":happy:消息队列什么是消息队列  队列：是一种先进先出的数据结构 消息队列：是由生产者将数据从一端放入消息队列，由消费者按顺序从另一端进行取出使用  消息队列的应用场景 消息队列在实际应用中包括如下四个场景：  应用解耦：多应用间通过消息队列对同一消息进行处理，避免调用接口失败导致整个过程失败； 异步处理：多应用对消息队列中同一消息进行处理，应用间并发处理消息，相比串行处理，减少处理时间；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka（全）">
+<meta property="og:url" content="https://weiswift.github.io/2024/04/24/Kafka(%E5%85%A8)/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content=":happy:消息队列什么是消息队列  队列：是一种先进先出的数据结构 消息队列：是由生产者将数据从一端放入消息队列，由消费者按顺序从另一端进行取出使用  消息队列的应用场景 消息队列在实际应用中包括如下四个场景：  应用解耦：多应用间通过消息队列对同一消息进行处理，避免调用接口失败导致整个过程失败； 异步处理：多应用对消息队列中同一消息进行处理，应用间并发处理消息，相比串行处理，减少处理时间；">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-04-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-03T14:43:51.421Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/04/24/Kafka(%E5%85%A8)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kafka（全）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-08-03 22:43:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/ChMkKmAwfdGIV1LgABJv3n4v8X4AAKLSgCDj14AEm_2352.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kafka（全）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-04-23T16:00:00.000Z" title="Created 2024-04-24 00:00:00">2024-04-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-08-03T14:43:51.421Z" title="Updated 2026-08-03 22:43:51">2026-08-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kafka（全）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="happy-消息队列"><a href="#happy-消息队列" class="headerlink" title=":happy:消息队列"></a>:happy:消息队列</h1><h2 id="什么是消息队列"><a href="#什么是消息队列" class="headerlink" title="什么是消息队列"></a>什么是消息队列</h2><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021095506979.png" alt="image-20221021095506979"></p>
+<ul>
+<li>队列：是一种先进先出的数据结构</li>
+<li>消息队列：是由生产者将数据从一端放入消息队列，由消费者按顺序从另一端进行取出使用</li>
+</ul>
+<h2 id="消息队列的应用场景"><a href="#消息队列的应用场景" class="headerlink" title="消息队列的应用场景"></a>消息队列的应用场景</h2><blockquote>
+<p>消息队列在实际应用中包括如下四个场景：</p>
+<ol>
+<li>应用解耦：多应用间通过消息队列对同一消息进行处理，避免调用接口失败导致整个过程失败；</li>
+<li>异步处理：多应用对消息队列中同一消息进行处理，应用间并发处理消息，相比串行处理，减少处理时间；</li>
+<li>限流削峰：广泛应用于秒杀或抢购活动中，避免流量过大导致应用系统挂掉的情况；</li>
+<li>消息驱动的系统：系统分为消息队列、消息生产者、消息消费者，生产者负责产生消息，消费者(可能有多个)负责对消息进行处理</li>
+</ol>
+</blockquote>
+<h2 id="消息队列的两种模式"><a href="#消息队列的两种模式" class="headerlink" title="消息队列的两种模式"></a>消息队列的两种模式</h2><h3 id="点对点模式"><a href="#点对点模式" class="headerlink" title="点对点模式"></a>点对点模式</h3><blockquote>
+<ul>
+<li>每个消息只能被一个消费者消费，一个生产者相当于对应一个消费者</li>
+<li>消息被消费之后就删除</li>
+<li>一对一</li>
+</ul>
+</blockquote>
+<h3 id="发布订阅模式"><a href="#发布订阅模式" class="headerlink" title="发布订阅模式"></a>发布订阅模式</h3><blockquote>
+<ul>
+<li>每个消息可以被多个消费者消费</li>
+<li>消息被消费后不会被删除</li>
+<li>一对多</li>
+</ul>
+</blockquote>
+<h2 id="常见的消息队列产品"><a href="#常见的消息队列产品" class="headerlink" title="常见的消息队列产品"></a>常见的消息队列产品</h2><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20220707102731798.png" alt="image-20220707102731798" style="zoom:50%;" />
+
+<h1 id="happy-Kafka的简介"><a href="#happy-Kafka的简介" class="headerlink" title=":happy:Kafka的简介"></a>:happy:Kafka的简介</h1><h2 id="Kafka的基本介绍"><a href="#Kafka的基本介绍" class="headerlink" title="Kafka的基本介绍"></a>Kafka的基本介绍</h2><blockquote>
+<p>Apache Kafka is an open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.</p>
+<ul>
+<li>开源-免费、使用广</li>
+<li>分布式-可横向扩展</li>
+<li>事件流和数据管道-实时消息处理</li>
+<li>流数据分析</li>
+<li>数据整合</li>
+<li>去中心化（没有master）</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>特点：</p>
+<ul>
+<li>并发性：分布式, 分区 </li>
+<li>可靠性： 副本和容错等</li>
+<li>可扩展性： kakfa消息传递系统轻松缩放, 无需停机</li>
+<li>耐用性： kafka使用分布式提交日志, 这个意味着消息会尽可能快速的保存在磁盘上, 因此它是持久的</li>
+<li>性能： kafka对于发布和订阅消息都具有高吞吐量, 即使存储了许多TB的消息, 他也爆出稳定的性能- kafka非常快: 保证零停机和零数据丢失</li>
+</ul>
+</blockquote>
+<h2 id="Kafka的使用场景"><a href="#Kafka的使用场景" class="headerlink" title="Kafka的使用场景"></a>Kafka的使用场景</h2><blockquote>
+<ul>
+<li>基本上消息队列的使用场景都能满足</li>
+<li>在日志采集方面使用比较多（配合flume）</li>
+<li>大数据领域的消息总线</li>
+</ul>
+</blockquote>
+<h1 id="kissing-Kafka的基本架构"><a href="#kissing-Kafka的基本架构" class="headerlink" title=":kissing:Kafka的基本架构"></a>:kissing:Kafka的基本架构</h1><h2 id="Kafka的基础构架"><a href="#Kafka的基础构架" class="headerlink" title="Kafka的基础构架"></a>Kafka的基础构架</h2><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021112403987.png" alt="image-20221021112403987"></p>
+<blockquote>
+<ul>
+<li>生产者-producer：负责生产消息（谁往Kafka中生产消息谁就是生产者）</li>
+<li>消费者-consumer：负责消费消息（谁从Kafka中消费消息谁就是消费者）</li>
+<li>运行实例-broker： Kafka实际工作的进程</li>
+<li>主题-topic：一类消息的集合，消息往哪放从哪取相当于数据库中的表</li>
+<li>分区-partition：数据的分区</li>
+<li>副本-replica：数据的副本</li>
+<li>主副本-leader replica：实际负责数据读写的副本，生产者和消费者都与这个副本进行交互的</li>
+<li>从副本-follower replica：负责从主副本上同步数据，实现数据备份，保证数据可靠性</li>
+<li>消费者组-consumer group：多个消费者的集合</li>
+<li>AR：ALL REPLICA所有副本的集合，等于ISR+OSR</li>
+<li>ISR： In Sync Replica数据同步成功的副本（实际可用的副本）</li>
+<li>OSR： Out of Sync Replica数据同步不成功的副本（不可用的副本）</li>
+</ul>
+</blockquote>
+<h1 id="grin-Kafka的集群搭建"><a href="#grin-Kafka的集群搭建" class="headerlink" title=":grin:Kafka的集群搭建"></a>:grin:Kafka的集群搭建</h1><blockquote>
+<p>参考：安装部署文档</p>
+<p><code>kafka集群需要zookeeper集群（Kafka3.0可以独立运行不再需要zookeeper）</code></p>
+</blockquote>
+<h1 id="grin-Kafka的shell命令"><a href="#grin-Kafka的shell命令" class="headerlink" title=":grin:Kafka的shell命令"></a>:grin:Kafka的shell命令</h1><h2 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">三个节点分别执行</span></span><br><span class="line">nohup bin/kafka-server-start.sh config/server.properties 2&gt;&amp;1 &gt;&gt; kafka.out &amp;</span><br><span class="line">-nohup 守护进程</span><br><span class="line">-&amp; 后台运行</span><br><span class="line">-bin/kafka-server-start.sh 服务启动脚本</span><br><span class="line">-config/server.properties 配置文件</span><br><span class="line"><span class="meta prompt_">-2&gt;</span><span class="language-bash">&amp;1 2-系统错误输出 1-系统标准输出 &gt;&amp;重定向</span></span><br><span class="line"><span class="meta prompt_">-&gt;</span><span class="language-bash">&gt; kafka.out 追加到kafka.out这个文件中</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="创建Topic"><a href="#创建Topic" class="headerlink" title="创建Topic"></a>创建Topic</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建1副本3分区</span></span><br><span class="line">bin/kafka-topics.sh --create --zookeeper node1:2181 --replication-factor 1 --partitions 3 --topic test</span><br><span class="line">-bin/kafka-topics.sh 有关topic相关命令脚本</span><br><span class="line">--create 创建动作</span><br><span class="line">--zookeeper node1:2181</span><br><span class="line">--replication-factor 指定副本数量</span><br><span class="line">--partitions 指定分区数量</span><br><span class="line">--topic test 指定topic的名字</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021145836644.png" alt="image-20221021145836644"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建3副本3分区</span></span><br><span class="line">bin/kafka-topics.sh --create --zookeeper node1:2181 --replication-factor 3 --partitions 3 --topic test_3r</span><br></pre></td></tr></table></figure>
+
+<p><code>注意：已经创建过的topic不可重复创建</code></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021145226354.png" alt="image-20221021145226354"></p>
+<h2 id="模拟生产消费"><a href="#模拟生产消费" class="headerlink" title="模拟生产消费"></a>模拟生产消费</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动一个模拟生产者</span></span><br><span class="line">bin/kafka-console-producer.sh --broker-list node1:9092 --topic test </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动一个模拟消费者</span></span><br><span class="line">bin/kafka-console-consumer.sh --bootstrap-server node1:9092 --topic test --from-beginning</span><br><span class="line">--from-beginnig 从最初开始消费</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看Topic列表"><a href="#查看Topic列表" class="headerlink" title="查看Topic列表"></a>查看Topic列表</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --list --zookeeper node1:2181</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看Topic详情"><a href="#查看Topic详情" class="headerlink" title="查看Topic详情"></a>查看Topic详情</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --describe --zookeeper node1:2181 --topic test</span><br></pre></td></tr></table></figure>
+
+<h2 id="删除Topic"><a href="#删除Topic" class="headerlink" title="删除Topic"></a>删除Topic</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-topics.sh --delete --zookeeper node1:2181 --topic test</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改Topic"><a href="#修改Topic" class="headerlink" title="修改Topic"></a>修改Topic</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">修改分区数量</span></span><br><span class="line">bin/kafka-topics.sh --alter --zookeeper node1:2181 --topic test --partitions 2</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021144728135.png" alt="image-20221021144728135"></p>
+<p><code>注意：topic的副本是不可修改的</code></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021145042654.png" alt="image-20221021145042654"></p>
+<h1 id="happy-Kafka-tools"><a href="#happy-Kafka-tools" class="headerlink" title=":happy:Kafka tools"></a>:happy:Kafka tools</h1><blockquote>
+<p>安装程序在提供的前期资料里</p>
+</blockquote>
+<h1 id="grin-Kafka基准测试"><a href="#grin-Kafka基准测试" class="headerlink" title=":grin:Kafka基准测试"></a>:grin:Kafka基准测试</h1><h2 id="1分区1副本"><a href="#1分区1副本" class="headerlink" title="1分区1副本"></a>1分区1副本</h2><ul>
+<li><h3 id="生产者能力测试"><a href="#生产者能力测试" class="headerlink" title="生产者能力测试"></a>生产者能力测试</h3></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建测试用的topic</span></span><br><span class="line">bin/kafka-topics.sh --zookeeper node1.itcast.cn:2181 --create --topic benchmark --partitions 1 --replication-factor 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用测试脚本</span></span><br><span class="line">bin/kafka-producer-perf-test.sh --topic benchmark --num-records 5000000 --throughput -1 --record-size 1000 --producer-props bootstrap.servers=node1:9092,node2:9092,node3:9092 acks=1</span><br><span class="line">-bin/kafka-producer-perf-test.sh 测试脚本</span><br><span class="line">--topic benchmark 指定要测试的topic</span><br><span class="line">--num-records 5000000 生产的数据量</span><br><span class="line">--throughput -1 限流（-1表示不限）</span><br><span class="line">--record-size 1000 消息的大小，单位bytes</span><br><span class="line">--producer-props 指定broker的地址</span><br><span class="line">-acks=1 应答模式</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021160221807.png" alt="image-20221021160221807"></p>
+<ul>
+<li><h3 id="消费者能力测试"><a href="#消费者能力测试" class="headerlink" title="消费者能力测试"></a>消费者能力测试</h3></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-perf-test.sh --broker-list node1:9092,node2:9092,node3:9092 --topic benchmark --fetch-size 1048576 --messages 5000000</span><br><span class="line">--fetch-size 1048576 每次消费的数据大小（1MB）</span><br><span class="line">--messages 5000000 总共消费的数量</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021161027976.png" alt="image-20221021161027976"></p>
+<h2 id="3分区1副本"><a href="#3分区1副本" class="headerlink" title="3分区1副本"></a>3分区1副本</h2><ul>
+<li><h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建测试用的topic</span></span><br><span class="line">bin/kafka-topics.sh --zookeeper node1.itcast.cn:2181 --create --topic benchmark_3p --partitions 3 --replication-factor 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用测试脚本</span></span><br><span class="line">bin/kafka-producer-perf-test.sh --topic benchmark_3p --num-records 5000000 --throughput -1 --record-size 1000 --producer-props bootstrap.servers=node1:9092,node2:9092,node3:9092 acks=1</span><br><span class="line">-bin/kafka-producer-perf-test.sh 测试脚本</span><br><span class="line">--topic benchmark 指定要测试的topic</span><br><span class="line">--num-records 5000000 生产的数据量</span><br><span class="line">--throughput -1 限流（-1表示不限）</span><br><span class="line">--record-size 1000 消息的大小，单位bytes</span><br><span class="line">--producer-props 指定broker的地址</span><br><span class="line">-acks=1 应答模式</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021161706181.png" alt="image-20221021161706181"></p>
+<ul>
+<li><h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-perf-test.sh --broker-list node1:9092,node2:9092,node3:9092 --topic benchmark_3p --fetch-size 1048576 --messages 5000000</span><br><span class="line">--fetch-size 1048576 每次消费的数据大小（1MB）</span><br><span class="line">--messages 5000000 总共消费的数量</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021161921777.png" alt="image-20221021161921777"></p>
+<p><code>注意：这个主题是有三个分区，但是我们只启动了一个消费者，只能三个分区依次消费（一个时刻只能消费分区）</code></p>
+<h1 id="grin-kafka-python-API使用"><a href="#grin-kafka-python-API使用" class="headerlink" title=":grin:kafka-python API使用"></a>:grin:kafka-python API使用</h1><h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><p>需要安装<code>kafka-python</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install kafka-python -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<h2 id="生产者代码"><a href="#生产者代码" class="headerlink" title="生产者代码"></a>生产者代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf8</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">python使用Kafka API</span></span><br><span class="line"><span class="string">1、获取生产者连接对象</span></span><br><span class="line"><span class="string">2、向topic发送消息</span></span><br><span class="line"><span class="string">3、获取反馈信息</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> kafka <span class="keyword">import</span> KafkaProducer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取生产者对象，参数bootstrap_servers broker地址列表，传入list对象，内容是list[&#x27;host:port&#x27;, &#x27;host:port&#x27;, ......]</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    常用其它参数：</span></span><br><span class="line"><span class="string">    - client_id(str) 客户端字符串ID, Default: ‘kafka-python-producer-#’ (appended with a unique number per instance)</span></span><br><span class="line"><span class="string">    - acks(0, 1, &#x27;all&#x27;)</span></span><br><span class="line"><span class="string">    - compression_type(str) 压缩方式，可选：gzip, lz4, snappy, None 默认None</span></span><br><span class="line"><span class="string">    - retries(int) 重试次数， 默认0</span></span><br><span class="line"><span class="string">    - batch_size(数字) 批发送大小，默认：16384, 设置为0禁用批处理</span></span><br><span class="line"><span class="string">    - value_serializer(函数) value的序列化逻辑</span></span><br><span class="line"><span class="string">    注意：生产者为 异步发送</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">producer = KafkaProducer(</span><br><span class="line">    bootstrap_servers=[<span class="string">&#x27;node1:9092&#x27;</span>, <span class="string">&#x27;node2:9092&#x27;</span>, <span class="string">&#x27;node3:9092&#x27;</span>]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向topic发送数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">10</span>):</span><br><span class="line">    furture = producer.send(topic=<span class="string">&#x27;test&#x27;</span>, value=<span class="string">f&quot;yangkunlin is handsome<span class="subst">&#123;i&#125;</span>&quot;</span>.encode(<span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取反馈信息</span></span><br><span class="line">    record_metadata = furture.get(timeout=<span class="number">10</span>)  <span class="comment"># 如果超过10s没有反馈就会报错</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># record_metadata中存放了反馈的相关信息</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;发送的topic是：<span class="subst">&#123;record_metadata.topic&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;发送的分区是：<span class="subst">&#123;record_metadata.partition&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交缓冲区</span></span><br><span class="line">producer.flush()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="消费者代码"><a href="#消费者代码" class="headerlink" title="消费者代码"></a>消费者代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf8</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">python使用Kafka消费者API</span></span><br><span class="line"><span class="string">1、获取Kafka消费者对象</span></span><br><span class="line"><span class="string">2、向topic拉取数据进行消费</span></span><br><span class="line"><span class="string">3、提交消费偏移量</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> kafka <span class="keyword">import</span> KafkaConsumer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取消费者对象</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">consumer = KafkaConsumer(</span></span><br><span class="line"><span class="string">        &#x27;test&#x27;,                                     # topic</span></span><br><span class="line"><span class="string">        group_id=&#x27;my-group&#x27;,                        # 消费者组</span></span><br><span class="line"><span class="string">        bootstrap_servers=[&#x27;single-bigdata:9092&#x27;],  # broker list</span></span><br><span class="line"><span class="string">        auto_offset_reset=&#x27;earliest&#x27;,               # 从头开始消费，可选earliest和latest, 默认latest</span></span><br><span class="line"><span class="string">        enable_auto_commit=False,                  # 自动提交offset关闭</span></span><br><span class="line"><span class="string">        auto_commit_interval_ms=5000,   # 自动偏移提交之间的毫秒数，如果 enable_auto_commit 为 True</span></span><br><span class="line"><span class="string">        client_id=&quot;test_consumer&quot;,</span></span><br><span class="line"><span class="string">        key_deserializer=None,</span></span><br><span class="line"><span class="string">        value_deserializer=None,</span></span><br><span class="line"><span class="string">        fetch_min_bytes=1,   # 服务器应为获取请求返回的最小数据量，否则等待 fetch_max_wait_ms 以累积更多数据。默认1(byte)</span></span><br><span class="line"><span class="string">        fetch_max_wait_ms=500,  # 如果没有足够的数据立即满足 fetch_min_bytes 给出的要求，服务器将在响应 fetch 请求之前阻塞的最长时间（以毫秒为单位）</span></span><br><span class="line"><span class="string">        fetch_max_bytes=52428800 # Default: 52428800 (50 MB). 最大抓取大小达到后立刻返回</span></span><br><span class="line"><span class="string">        # 以上是常用参数， 详细参见： https://kafka-python.readthedocs.io/en/master/apidoc/KafkaConsumer.html</span></span><br><span class="line"><span class="string">    )</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">consumer = KafkaConsumer(</span><br><span class="line">    <span class="string">&quot;test&quot;</span>,  <span class="comment"># 待消费的主题名</span></span><br><span class="line">    group_id=<span class="string">&#x27;mygroup&#x27;</span>,  <span class="comment"># 消费者组，后面说</span></span><br><span class="line">    bootstrap_servers=[<span class="string">&#x27;node1:9092&#x27;</span>, <span class="string">&#x27;node2:9092&#x27;</span>, <span class="string">&#x27;node3:9092&#x27;</span>],  <span class="comment"># 服务器地址、端口</span></span><br><span class="line">    auto_offset_reset=<span class="string">&#x27;earliest&#x27;</span>,  <span class="comment"># 表示消费者启动的时候从可用的最早数据开始读取</span></span><br><span class="line">    enable_auto_commit=<span class="literal">False</span>,  <span class="comment"># 表示手动提交消费的偏移量，如果设置为Ture，默认是1分钟提交一次</span></span><br><span class="line">    client_id=<span class="string">&#x27;client1&#x27;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从topic拉取数据消费</span></span><br><span class="line"><span class="keyword">for</span> message <span class="keyword">in</span> consumer:</span><br><span class="line">    <span class="comment"># 这个for循环不会停止，会一直监控topic</span></span><br><span class="line">    <span class="comment"># 有数据来就拉取进行消费</span></span><br><span class="line">    topic = message.topic</span><br><span class="line">    partition = message.partition</span><br><span class="line">    value = message.value</span><br><span class="line">    offset = message.offset</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;消费的主题是：%s，消费的分区是：%d，消费的值是：%s，消费的偏移量是：%d&quot;</span> % (topic, partition, value, offset))</span><br><span class="line">    <span class="comment"># 提交消费的偏移量</span></span><br><span class="line">    consumer.commit()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>Kafka不能保证消费者消费数据整体有序</li>
+<li>只能保证单个分区内的数据有序</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221021172705468.png" alt="image-20221021172705468"></p>
+</blockquote>
+<h1 id="kissing-Kafka高级"><a href="#kissing-Kafka高级" class="headerlink" title=":kissing:Kafka高级"></a>:kissing:Kafka高级</h1><h2 id="Kafka的数据位移"><a href="#Kafka的数据位移" class="headerlink" title="Kafka的数据位移"></a>Kafka的数据位移</h2><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022093213291.png" alt="image-20221022093213291"></p>
+<blockquote>
+<ul>
+<li>偏移量-生产者在把数据放进消息队列时，每个数据会附带一个offset</li>
+<li>位移-消费者在从消息队列中消费数据时，会记录当前消费到什么位置offset</li>
+<li>对于消费者消费的位移是保存在Kafka内置的topic：__consumer_offset中的</li>
+</ul>
+</blockquote>
+<p>Kafka数据被消费之后是不会自动删除的</p>
+<blockquote>
+<p>达到保存时间，默认是7天，参数在server.properties配置文件中</p>
+<p>log.retention.hours&#x3D;168（单位小时）</p>
+</blockquote>
+<p>不同的消费者可以同时消费同一个主题，但是同一个消费者会不会重复消费呢？</p>
+<blockquote>
+<ul>
+<li>生产者在生产数据的时候会生成对应的offset，也就是当前数据的offset</li>
+<li>消费者在消费数据的时候会记录当前已消费数据的offset,也就是当前数据的offset</li>
+</ul>
+</blockquote>
+<h2 id="Kafka的分片与副本机制"><a href="#Kafka的分片与副本机制" class="headerlink" title="Kafka的分片与副本机制"></a>Kafka的分片与副本机制</h2><ul>
+<li>分片：对于分布式的系统，可以将大规模的数据分开存储，比如hdfs上会把数据分成不同的block分别存储在不同的datanode上，即提高了存储能力又降低了复杂度，同时可以提高数据处理的并发能力</li>
+<li>副本：对于分布式的系统，数据分散保存出现风险的机率高，有一个节点出现问题，数据就不完整了，所以可以利用副本的机制提高容错</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022095902605.png" alt="image-20221022095902605"></p>
+<blockquote>
+<ul>
+<li>在Kafka中一个主题可以有多个分区，分区的数量建议是broker数量的N倍，可以更好的利用硬件资源，提高并行效率</li>
+<li>一个分区可以设置多个副本，建议副本数不超过3个，即可以满足数据的容错，又不会太过影响性能</li>
+<li>副本在broker数量满足的情况下会尽量分布在不同的broker上</li>
+<li>副本之间会通过内部机制选举一个Leader副本，剩下的是follow副本，数据会首先写入Leader副本，其它follow副本会自动从Leader上同步数据</li>
+<li>一般情况下Kafka集群也就是3、5、7台就够了，可以搭建多个Kafka集群</li>
+</ul>
+</blockquote>
+<p>数据写入成功的标志应该是什么？是写入Leader还是Follow同步数据完成？</p>
+<h2 id="如何保证数据不丢失"><a href="#如何保证数据不丢失" class="headerlink" title="如何保证数据不丢失"></a>如何保证数据不丢失</h2><h3 id="生产者端"><a href="#生产者端" class="headerlink" title="生产者端"></a>生产者端</h3><p>数据写入：</p>
+<ul>
+<li>数据成功写入leader</li>
+<li>follow成功从leader同步数据</li>
+</ul>
+<p>数据在写入leader之后有三种选择，取决于ack的值：</p>
+<ul>
+<li><p>当ack&#x3D;0时，生产者将数据写入leader后，就不管了，此时直接认定写入成功，写性能最高</p>
+</li>
+<li><p>当ack&#x3D;1时，生产者将数据写入leader后，等待leader反馈，leader告诉生产者写入成功了，生产者才离开认定ok</p>
+</li>
+<li><p>当ack&#x3D;-1时，生产者将数据写入leader后，会多等待一会，等leader反馈成功加上follow同步数据成功才离开认定ok</p>
+</li>
+</ul>
+<p>安全性：</p>
+<ul>
+<li>ack&#x3D;0几乎没有安全性，但是写入性能是最好的</li>
+<li>ack&#x3D;1有一定的安全性，能够确保数据成功写入leader，但是不确保副本同步数据成功，如果leader发生故障会造成数据丢失</li>
+<li>ack&#x3D;-1安全性棒棒的，但是写入性能相对较低</li>
+</ul>
+<blockquote>
+<p>在Kafka中：</p>
+<ul>
+<li>所有副本统称为AR</li>
+<li>同步数据正常的副本统称为ISR : In-Sync Replicas副本同步队列</li>
+<li>同步数据不正常的副本叫OSR ：Out-Of-Sync Replicas</li>
+</ul>
+</blockquote>
+<p>写入的模式：</p>
+<ul>
+<li>同步：顺序执行，写入一条等待反馈，再写下一条</li>
+<li>异步：先将数据写入缓冲区，批量写入Kafka等待反馈</li>
+</ul>
+<p>数据复制的过程，通过HW机制保证消费数据可靠性（只考虑ISR队列）：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022103507299.png" alt="image-20221022103507299"></p>
+<h3 id="消费者端"><a href="#消费者端" class="headerlink" title="消费者端"></a>消费者端</h3><p>消费靠提交offset，记录消费数据的位置</p>
+<ul>
+<li>如果消费数据成功后再提交offset，可能会重复消费数据</li>
+<li>如果先提交offset再消费数据，可能会少消费数据</li>
+</ul>
+<h2 id="Kafka的数据存储"><a href="#Kafka的数据存储" class="headerlink" title="Kafka的数据存储"></a>Kafka的数据存储</h2><h3 id="存储位置"><a href="#存储位置" class="headerlink" title="存储位置"></a>存储位置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在config/server.properties内</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">A comma separated list of directories under <span class="built_in">which</span> to store <span class="built_in">log</span> files</span></span><br><span class="line">log.dirs=/export/data/kafka-data/kafka-logs</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022104733373.png" alt="image-20221022104733373"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022105138930.png" alt="image-20221022105138930"></p>
+<p><code>Kafka是怎样实现高吞吐的？</code></p>
+<blockquote>
+<p>Kafka官方给出的性能指标能达到500MB&#x2F;S（写入硬盘的指标），Kafka在写入数据时会预先找一块连续的磁盘空间顺序写入</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>根据log的文件名称就能快速定位某个offset数据在哪个文件</li>
+<li>Kafka默认，每写满1GB的.log文件后，就切换下一个文件</li>
+</ul>
+</blockquote>
+<h3 id="消费的流程"><a href="#消费的流程" class="headerlink" title="消费的流程"></a>消费的流程</h3><p><code>稀疏索引</code></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022111645992.png" alt="image-20221022111645992"></p>
+<blockquote>
+<p>需求：找到offset&#x3D;1060299这个数据</p>
+<p>1、定位索引文件00000000000001060118.index</p>
+<p>2、通过二分查找快速定位到对应索引区间，比如向上最近的位置：1060200</p>
+<p>3、根据这个最近的索引位置到数据空间中向下搜索</p>
+<p>4、顺序搜索到想要的数据offset&#x3D;1060299</p>
+</blockquote>
+<h2 id="生产者的分发策略"><a href="#生产者的分发策略" class="headerlink" title="生产者的分发策略"></a>生产者的分发策略</h2><h3 id="内置的分区器"><a href="#内置的分区器" class="headerlink" title="内置的分区器"></a>内置的分区器</h3><blockquote>
+<p>分区器负责决定当数据来时，这个数据被分发至哪个分区</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022112242056.png" alt="image-20221022112242056"></p>
+</blockquote>
+<h3 id="指定分区发送"><a href="#指定分区发送" class="headerlink" title="指定分区发送"></a>指定分区发送</h3><blockquote>
+<p>通过send方法指定分区转发</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">furture = producer.send(</span><br><span class="line">        topic=<span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">        value=<span class="string">f&quot;yangkunlin is handsome<span class="subst">&#123;i&#125;</span>&quot;</span>.encode(<span class="string">&quot;utf-8&quot;</span>),</span><br><span class="line">        partition=<span class="number">1</span>  <span class="comment"># 指定分区发送</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>练习</code>：现在我们有三个分区，需要三个分区转发数据的比例为2:3:5</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定三个分区的比例为2:3:5</span></span><br><span class="line">partitios = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向topic生产数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">1000</span>):</span><br><span class="line">    future = producer.send(topic=<span class="string">&#x27;test&#x27;</span>, \</span><br><span class="line">                           value=<span class="string">f&quot;yangkunlin is handsome<span class="subst">&#123;i&#125;</span>&quot;</span> \</span><br><span class="line">                           .encode(<span class="string">&quot;utf-8&quot;</span>), \</span><br><span class="line">                           partition=partitios[random.randint(<span class="number">0</span>, <span class="number">9</span>)])</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="指定key分发数据"><a href="#指定key分发数据" class="headerlink" title="指定key分发数据"></a>指定key分发数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">furture = producer.send(</span><br><span class="line">        topic=<span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">        value=<span class="string">f&quot;yangkunlin is handsome<span class="subst">&#123;i&#125;</span>&quot;</span>.encode(<span class="string">&quot;utf-8&quot;</span>),</span><br><span class="line">        key=<span class="string">&quot;yangkunlin&quot;</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p><code>指定分区的优先级大于指定key</code></p>
+<h2 id="消费者的负载均衡"><a href="#消费者的负载均衡" class="headerlink" title="消费者的负载均衡"></a>消费者的负载均衡</h2><h3 id="消费者组与分区"><a href="#消费者组与分区" class="headerlink" title="消费者组与分区"></a>消费者组与分区</h3><ul>
+<li><h4 id="查看当前消费者组列表"><a href="#查看当前消费者组列表" class="headerlink" title="查看当前消费者组列表"></a>查看当前消费者组列表</h4></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --list</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h4 id="查看消费者组详情信息"><a href="#查看消费者组详情信息" class="headerlink" title="查看消费者组详情信息"></a>查看消费者组详情信息</h4></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/kafka-consumer-groups.sh --bootstrap-server node1:9092,node2:9092,node3:9092 --group mygroup --describe</span><br></pre></td></tr></table></figure>
+
+<h4 id="场景一：三个分区，一个消费者组里有一个消费者"><a href="#场景一：三个分区，一个消费者组里有一个消费者" class="headerlink" title="场景一：三个分区，一个消费者组里有一个消费者"></a>场景一：三个分区，一个消费者组里有一个消费者</h4><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022113234477.png" alt="image-20221022113234477"></p>
+<blockquote>
+<p>所有的分区都由这个一个消费进行消费</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022113440902.png" alt="image-20221022113440902"></p>
+</blockquote>
+<h4 id="场景二：三个分区，一个消费者组里有四个消费者"><a href="#场景二：三个分区，一个消费者组里有四个消费者" class="headerlink" title="场景二：三个分区，一个消费者组里有四个消费者"></a>场景二：三个分区，一个消费者组里有四个消费者</h4><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022113625093.png" alt="image-20221022113625093"></p>
+<blockquote>
+<ul>
+<li><code>规则：同一个分区只能分配给一个消费者组内的一个消费者消费</code></li>
+<li>划分分区时最好保证消费者的数量与分区相等</li>
+<li>当消费者数据大于分区数量时，肯定有消费者空闲</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022114129835.png" alt="image-20221022114129835"></p>
+</blockquote>
+<h4 id="场景三：三个分区，两个消费者组分别有四个消费者"><a href="#场景三：三个分区，两个消费者组分别有四个消费者" class="headerlink" title="场景三：三个分区，两个消费者组分别有四个消费者"></a>场景三：三个分区，两个消费者组分别有四个消费者</h4><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022114428214.png" alt="image-20221022114428214"></p>
+<h3 id="数据的堆积"><a href="#数据的堆积" class="headerlink" title="数据的堆积"></a>数据的堆积</h3><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20221022114832021.png" alt="image-20221022114832021"></p>
+<blockquote>
+<p><code>LAG=&#39;LOG-END-OFFSET&#39; - &#39;CURRENT-OFFSET&#39;</code></p>
+</blockquote>
+<h1 id="happy-kafka-eagle安装使用"><a href="#happy-kafka-eagle安装使用" class="headerlink" title=":happy:kafka-eagle安装使用"></a>:happy:kafka-eagle安装使用</h1><blockquote>
+<p>查看安装文档</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/04/24/Kafka(%E5%85%A8)/">https://weiswift.github.io/2024/04/24/Kafka(%E5%85%A8)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kafka/">Kafka</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/24/DolphinScheduler(%E5%85%A8)/" title="DolphinScheduler（全）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">DolphinScheduler（全）</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/22/2024.04.22/" title="【Java高级】单元测试、注解、反射、动态代理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【Java高级】单元测试、注解、反射、动态代理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/04/18/2024.04.18/" title="Kafka操作手册"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-18</div><div class="title">Kafka操作手册</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#happy-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">:happy:消息队列</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">1.1.</span> <span class="toc-text">什么是消息队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.2.</span> <span class="toc-text">消息队列的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">消息队列的两种模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9%E5%AF%B9%E7%82%B9%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.1.</span> <span class="toc-text">点对点模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.2.</span> <span class="toc-text">发布订阅模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%BA%A7%E5%93%81"><span class="toc-number">1.4.</span> <span class="toc-text">常见的消息队列产品</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#happy-Kafka%E7%9A%84%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">:happy:Kafka的简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.</span> <span class="toc-text">Kafka的基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.2.</span> <span class="toc-text">Kafka的使用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kissing-Kafka%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">:kissing:Kafka的基本架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka%E7%9A%84%E5%9F%BA%E7%A1%80%E6%9E%84%E6%9E%B6"><span class="toc-number">3.1.</span> <span class="toc-text">Kafka的基础构架</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#grin-Kafka%E7%9A%84%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text">:grin:Kafka的集群搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#grin-Kafka%E7%9A%84shell%E5%91%BD%E4%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">:grin:Kafka的shell命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">5.1.</span> <span class="toc-text">启动集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BATopic"><span class="toc-number">5.2.</span> <span class="toc-text">创建Topic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E7%94%9F%E4%BA%A7%E6%B6%88%E8%B4%B9"><span class="toc-number">5.3.</span> <span class="toc-text">模拟生产消费</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8BTopic%E5%88%97%E8%A1%A8"><span class="toc-number">5.4.</span> <span class="toc-text">查看Topic列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8BTopic%E8%AF%A6%E6%83%85"><span class="toc-number">5.5.</span> <span class="toc-text">查看Topic详情</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4Topic"><span class="toc-number">5.6.</span> <span class="toc-text">删除Topic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9Topic"><span class="toc-number">5.7.</span> <span class="toc-text">修改Topic</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#happy-Kafka-tools"><span class="toc-number">6.</span> <span class="toc-text">:happy:Kafka tools</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#grin-Kafka%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="toc-number">7.</span> <span class="toc-text">:grin:Kafka基准测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E5%88%86%E5%8C%BA1%E5%89%AF%E6%9C%AC"><span class="toc-number">7.1.</span> <span class="toc-text">1分区1副本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95"><span class="toc-number">7.1.1.</span> <span class="toc-text">生产者能力测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E8%83%BD%E5%8A%9B%E6%B5%8B%E8%AF%95"><span class="toc-number">7.1.2.</span> <span class="toc-text">消费者能力测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E5%88%86%E5%8C%BA1%E5%89%AF%E6%9C%AC"><span class="toc-number">7.2.</span> <span class="toc-text">3分区1副本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">7.2.1.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">7.2.2.</span> <span class="toc-text">消费者</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#grin-kafka-python-API%E4%BD%BF%E7%94%A8"><span class="toc-number">8.</span> <span class="toc-text">:grin:kafka-python API使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BA%93"><span class="toc-number">8.1.</span> <span class="toc-text">安装库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-number">8.2.</span> <span class="toc-text">生产者代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E4%BB%A3%E7%A0%81"><span class="toc-number">8.3.</span> <span class="toc-text">消费者代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kissing-Kafka%E9%AB%98%E7%BA%A7"><span class="toc-number">9.</span> <span class="toc-text">:kissing:Kafka高级</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BD%8D%E7%A7%BB"><span class="toc-number">9.1.</span> <span class="toc-text">Kafka的数据位移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka%E7%9A%84%E5%88%86%E7%89%87%E4%B8%8E%E5%89%AF%E6%9C%AC%E6%9C%BA%E5%88%B6"><span class="toc-number">9.2.</span> <span class="toc-text">Kafka的分片与副本机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E4%B8%8D%E4%B8%A2%E5%A4%B1"><span class="toc-number">9.3.</span> <span class="toc-text">如何保证数据不丢失</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%AB%AF"><span class="toc-number">9.3.1.</span> <span class="toc-text">生产者端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%AB%AF"><span class="toc-number">9.3.2.</span> <span class="toc-text">消费者端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="toc-number">9.4.</span> <span class="toc-text">Kafka的数据存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE"><span class="toc-number">9.4.1.</span> <span class="toc-text">存储位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">9.4.2.</span> <span class="toc-text">消费的流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%9A%84%E5%88%86%E5%8F%91%E7%AD%96%E7%95%A5"><span class="toc-number">9.5.</span> <span class="toc-text">生产者的分发策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E7%9A%84%E5%88%86%E5%8C%BA%E5%99%A8"><span class="toc-number">9.5.1.</span> <span class="toc-text">内置的分区器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%88%86%E5%8C%BA%E5%8F%91%E9%80%81"><span class="toc-number">9.5.2.</span> <span class="toc-text">指定分区发送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9Akey%E5%88%86%E5%8F%91%E6%95%B0%E6%8D%AE"><span class="toc-number">9.5.3.</span> <span class="toc-text">指定key分发数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">9.6.</span> <span class="toc-text">消费者的负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E4%B8%8E%E5%88%86%E5%8C%BA"><span class="toc-number">9.6.1.</span> <span class="toc-text">消费者组与分区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E5%88%97%E8%A1%A8"><span class="toc-number">9.6.1.1.</span> <span class="toc-text">查看当前消费者组列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E8%AF%A6%E6%83%85%E4%BF%A1%E6%81%AF"><span class="toc-number">9.6.1.2.</span> <span class="toc-text">查看消费者组详情信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%80%EF%BC%9A%E4%B8%89%E4%B8%AA%E5%88%86%E5%8C%BA%EF%BC%8C%E4%B8%80%E4%B8%AA%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E9%87%8C%E6%9C%89%E4%B8%80%E4%B8%AA%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">9.6.1.3.</span> <span class="toc-text">场景一：三个分区，一个消费者组里有一个消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%BA%8C%EF%BC%9A%E4%B8%89%E4%B8%AA%E5%88%86%E5%8C%BA%EF%BC%8C%E4%B8%80%E4%B8%AA%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E9%87%8C%E6%9C%89%E5%9B%9B%E4%B8%AA%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">9.6.1.4.</span> <span class="toc-text">场景二：三个分区，一个消费者组里有四个消费者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%89%EF%BC%9A%E4%B8%89%E4%B8%AA%E5%88%86%E5%8C%BA%EF%BC%8C%E4%B8%A4%E4%B8%AA%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84%E5%88%86%E5%88%AB%E6%9C%89%E5%9B%9B%E4%B8%AA%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">9.6.1.5.</span> <span class="toc-text">场景三：三个分区，两个消费者组分别有四个消费者</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A0%86%E7%A7%AF"><span class="toc-number">9.6.2.</span> <span class="toc-text">数据的堆积</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#happy-kafka-eagle%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text">:happy:kafka-eagle安装使用</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/15/%E7%97%87%E7%8A%B6%E6%8B%86%E8%A7%A3_%E5%A4%9A%E5%9B%A0/" title="First-健康-02-症状拆解">First-健康-02-症状拆解</a><time datetime="2026-08-14T16:00:00.000Z" title="Created 2026-08-15 00:00:00">2026-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/07/%E4%B8%89%E8%A7%82AIO/" title="三观AIO">三观AIO</a><time datetime="2026-08-06T16:00:00.000Z" title="Created 2026-08-07 00:00:00">2026-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/04/2026.08.03-%E9%81%93%E8%B7%AF%E9%A9%BE%E9%A9%B6%E6%8A%80%E8%83%BD/" title="Third-技能-01-科目三">Third-技能-01-科目三</a><time datetime="2026-08-03T16:00:00.000Z" title="Created 2026-08-04 00:00:00">2026-08-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/03/2026.08.03-%E4%BC%A4%E5%AF%92%E6%9D%82%E7%97%85%E8%AE%BA/" title="First-健康-01-伤寒杂病论">First-健康-01-伤寒杂病论</a><time datetime="2026-08-02T16:00:00.000Z" title="Created 2026-08-03 00:00:00">2026-08-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验">【Flink】TableAPI和DataStreamAPI初体验</a><time datetime="2024-06-11T16:00:00.000Z" title="Created 2024-06-12 00:00:00">2024-06-12</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

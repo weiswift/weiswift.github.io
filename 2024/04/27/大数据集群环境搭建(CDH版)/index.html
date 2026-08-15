@@ -1,0 +1,870 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>大数据集群环境搭建(CDH版) | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CDH集群搭建文档一、环境要求1.操作系统1.1 软件依赖 Python 2.7+，不支持Python 3（安装HUE需要） perl python-psycopg2 2.5.4+（安装HUE需要） iproute package RHEL7：iproute-3.10 RHEL6：iproute-2.6  说明：通常这部分依赖环境操作系统已经自带，不需要手动安装。 1.2 系统版本 RHEL系列：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据集群环境搭建(CDH版)">
+<meta property="og:url" content="https://weiswift.github.io/2024/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(CDH%E7%89%88)/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="CDH集群搭建文档一、环境要求1.操作系统1.1 软件依赖 Python 2.7+，不支持Python 3（安装HUE需要） perl python-psycopg2 2.5.4+（安装HUE需要） iproute package RHEL7：iproute-3.10 RHEL6：iproute-2.6  说明：通常这部分依赖环境操作系统已经自带，不需要手动安装。 1.2 系统版本 RHEL系列：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-04-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-05-12T11:58:05.211Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="CDH">
+<meta property="article:tag" content="环境搭建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(CDH%E7%89%88)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '大数据集群环境搭建(CDH版)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-12 19:58:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/224634-171232839454f0.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">大数据集群环境搭建(CDH版)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-04-26T16:00:00.000Z" title="Created 2024-04-27 00:00:00">2024-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-05-12T11:58:05.211Z" title="Updated 2024-05-12 19:58:05">2024-05-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="大数据集群环境搭建(CDH版)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="CDH集群搭建文档"><a href="#CDH集群搭建文档" class="headerlink" title="CDH集群搭建文档"></a>CDH集群搭建文档</h1><h1 id="一、环境要求"><a href="#一、环境要求" class="headerlink" title="一、环境要求"></a>一、环境要求</h1><h2 id="1-操作系统"><a href="#1-操作系统" class="headerlink" title="1.操作系统"></a>1.操作系统</h2><h3 id="1-1-软件依赖"><a href="#1-1-软件依赖" class="headerlink" title="1.1 软件依赖"></a>1.1 软件依赖</h3><ul>
+<li>Python 2.7+，不支持Python 3（安装HUE需要）</li>
+<li>perl</li>
+<li>python-psycopg2 2.5.4+（安装HUE需要）</li>
+<li>iproute package</li>
+<li>RHEL7：iproute-3.10</li>
+<li>RHEL6：iproute-2.6</li>
+</ul>
+<p>说明：通常这部分依赖环境操作系统已经自带，不需要手动安装。</p>
+<h3 id="1-2-系统版本"><a href="#1-2-系统版本" class="headerlink" title="1.2 系统版本"></a>1.2 系统版本</h3><ul>
+<li>RHEL系列：6.10，6.9，6.8，7.2，7.3，7.4，7.5</li>
+<li>SELS：12 SP3,12 SP2</li>
+<li>Ubuntu系列：16.04 LTS</li>
+</ul>
+<h3 id="1-3-文件系统"><a href="#1-3-文件系统" class="headerlink" title="1.3 文件系统"></a>1.3 文件系统</h3><ul>
+<li>ext3</li>
+<li>ext4</li>
+<li>XFS</li>
+<li>S3</li>
+</ul>
+<p>Kudu仅支持ext4和XFS文件系统。</p>
+<p>不支持NFS和NAS存储。</p>
+<h3 id="1-4-文件访问记录"><a href="#1-4-文件访问记录" class="headerlink" title="1.4 文件访问记录"></a>1.4 文件访问记录</h3><p>（挂载磁盘需要配置）</p>
+<p>Cloudera建议禁用该项功能，可以提升磁盘性能。</p>
+<p>配置&#x2F;etc&#x2F;fstab文件：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">/dev/sdb1</span> <span class="string">/data1 ext4 defaults,noatime 0 0</span></span><br></pre></td></tr></table></figure>
+
+<p>不重启即生效命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount /data1</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-5-nproc配置"><a href="#1-5-nproc配置" class="headerlink" title="1.5 nproc配置"></a>1.5 nproc配置</h3><blockquote>
+<p>配置文件位置&#x2F;etc&#x2F;security&#x2F;limits.conf，Cloudera Manager通常会自动配置该文件，但是该项配置可能会被&#x2F;etc&#x2F;security&#x2F;limits.d&#x2F;目录下的文件覆盖掉。确保nproc限制设置的足够高，比如65536或者262144。</p>
+</blockquote>
+<h1 id="二、数据库要求"><a href="#二、数据库要求" class="headerlink" title="二、数据库要求"></a>二、数据库要求</h1><blockquote>
+<p>Cloudera Manager和CDH内置嵌入式PostgreSQL数据库，用于非生产环境。生产环境不支持PostgreSQL数据库，必须为集群配置专用外部数据库。</p>
+</blockquote>
+<p>注意：</p>
+<ul>
+<li>数据库需要使用<strong>UTF8</strong>编码。对于<strong>MySQL</strong>和<strong>MariaDB</strong>，必须使用<strong>UTF8</strong>编码，而不是<strong>utf8mb4</strong>；</li>
+<li>对于MySQL5.7，必须要额外安装<strong>MySQL-shared-compat</strong>或者<strong>MySQL-shared</strong>包</li>
+</ul>
+<p>版本要求：</p>
+<ul>
+<li>MySQL：5.7</li>
+<li>MariaDB：5.5，10.0</li>
+<li>PostgreSQL：8.4，9.2，9.4</li>
+<li>Oracle：12C</li>
+</ul>
+<h1 id="三、Java要求"><a href="#三、Java要求" class="headerlink" title="三、Java要求"></a>三、Java要求</h1><p>仅支持Oracle 64位JDK8，不支持JDK7，JDK9。</p>
+<p>版本要求：最低要求1.8u31，推荐1.8u74，1.8u91，1.8u102，1.8u111，1.8u121，1.8u131，1.8u162</p>
+<h1 id="四、网络以及安全要求"><a href="#四、网络以及安全要求" class="headerlink" title="四、网络以及安全要求"></a>四、网络以及安全要求</h1><ul>
+<li><p>CDH不支持IPv6，操作系统必须要禁用IPv6</p>
+<ul>
+<li><code>setenforce 0</code></li>
+</ul>
+</li>
+<li><p>集群主机必须正确配置&#x2F;etc&#x2F;hosts文件</p>
+</li>
+<li><p>应该包含集群中所有主机的主机名和对应IP地址</p>
+</li>
+<li><p>不能含有大写主机名</p>
+</li>
+<li><p>不能有重复的IP地址</p>
+</li>
+<li><p>SELinux不得阻止Cloudera Manager或者CDH的操作</p>
+</li>
+<li><p>防火墙必须被禁用或者放开CDH集群所使用的端口</p>
+</li>
+<li><p>对于RHEL或者CENTOS，&#x2F;etc&#x2F;sysconfig&#x2F;network文件中必须包含正确的主机名</p>
+</li>
+</ul>
+<h1 id="五、浏览器要求"><a href="#五、浏览器要求" class="headerlink" title="五、浏览器要求"></a>五、浏览器要求</h1><ul>
+<li>Chrome：63+</li>
+<li>Firefox：59+</li>
+<li>Safari</li>
+<li>IE：11+</li>
+<li>Edge：41+</li>
+</ul>
+<h1 id="六、组件版本"><a href="#六、组件版本" class="headerlink" title="六、组件版本"></a>六、组件版本</h1><table>
+<thead>
+<tr>
+<th><strong>组件名称</strong></th>
+<th><strong>组件版本</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Apache Avro</td>
+<td>1.8.2</td>
+</tr>
+<tr>
+<td>Apache Flume</td>
+<td>1.8.0</td>
+</tr>
+<tr>
+<td>Apache Hadoop</td>
+<td>3.0.0</td>
+</tr>
+<tr>
+<td>Apache HBase</td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<td>HBase Indexer</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td>Apache Hive</td>
+<td>2.1.1</td>
+</tr>
+<tr>
+<td>Hue</td>
+<td>4.2.0</td>
+</tr>
+<tr>
+<td>Apache Impala</td>
+<td>3.0.0</td>
+</tr>
+<tr>
+<td>Apache Kafka</td>
+<td>1.0.1</td>
+</tr>
+<tr>
+<td>Kite SDK</td>
+<td>1.0.0</td>
+</tr>
+<tr>
+<td>Apache Kudu</td>
+<td>1.6.0</td>
+</tr>
+<tr>
+<td>Apache Solr</td>
+<td>7.0.0</td>
+</tr>
+<tr>
+<td>Apache Oozie</td>
+<td>5.0.0</td>
+</tr>
+<tr>
+<td>Apache Parquet</td>
+<td>1.9.0</td>
+</tr>
+<tr>
+<td>Parquet-format</td>
+<td>2.3.1</td>
+</tr>
+<tr>
+<td>Apache Pig</td>
+<td>0.17.0</td>
+</tr>
+<tr>
+<td>Apache Sentry</td>
+<td>2.0.0</td>
+</tr>
+<tr>
+<td>Apache Spark</td>
+<td>2.2.0</td>
+</tr>
+<tr>
+<td>Apache Sqoop</td>
+<td>1.4.7</td>
+</tr>
+<tr>
+<td>Apache ZooKeeper</td>
+<td>3.4.5</td>
+</tr>
+</tbody></table>
+<h1 id="七、安装之前"><a href="#七、安装之前" class="headerlink" title="七、安装之前"></a>七、安装之前</h1><h2 id="7-1-网络相关配置"><a href="#7-1-网络相关配置" class="headerlink" title="7.1 网络相关配置"></a>7.1 网络相关配置</h2><ul>
+<li>设置唯一主机名：<code>hostnamectl set-hostname new-hostname</code></li>
+<li>配置<code>/etc/hosts</code></li>
+<li>检测主机名与IP是否正确对应</li>
+</ul>
+<h2 id="7-2-禁用防火墙"><a href="#7-2-禁用防火墙" class="headerlink" title="7.2 禁用防火墙"></a>7.2 禁用防火墙</h2><ul>
+<li>停止防火墙：<code>systemctl stop firewalld</code></li>
+<li>关闭防火墙开机自启动：<code>systemctl disable firewalld</code></li>
+</ul>
+<h2 id="7-3设置SELinux执行模式"><a href="#7-3设置SELinux执行模式" class="headerlink" title="7.3设置SELinux执行模式"></a>7.3设置SELinux执行模式</h2><ol>
+<li>检查SELinux模式：getenforce，如果输出<strong>permissive</strong>或者<strong>disabled</strong>，你可以跳过该步骤，如果输出<strong>enforcing</strong>，则需要继续下面的操作步骤。</li>
+<li>编辑&#x2F;etc&#x2F;selinux&#x2F;config（在某些操作系统可能是&#x2F;etc&#x2F;sysconfig&#x2F;selinux）文件，将SELINUX&#x3D;enforcing修改为SELINUX&#x3D;permissive，保存该文件。</li>
+<li>重启操作系统生效或者执行：setenforce 0临时禁用SELinux。</li>
+<li>当CDH安装部署完成之后，可以重新启用SELinux，修改SELinux配置文件，然后执行：setenforce 1命令。</li>
+</ol>
+<h2 id="7-4配置局域网内yum源-内网必备"><a href="#7-4配置局域网内yum源-内网必备" class="headerlink" title="7.4配置局域网内yum源(内网必备)"></a>7.4配置局域网内yum源(内网必备)</h2><p>已有，可忽略此步骤</p>
+<p>安装Cloudera Manager需要很多依赖包，强烈建议搭建一个局域网内yum源，在集群中某一个节点上部署即可。</p>
+<p>国内有很多Yum的镜像源，比如阿里、网易等等，速度很快，使用着很方便。</p>
+<p>但是，有些公司的生产环境是不能连接外网的，这样的环境下，不作一些措施的话，在CentOS上安装软件会很麻烦，依赖包的问题会很让人头疼。</p>
+<p>所以最好是搭建一个局域网内yum仓库源。</p>
+<h3 id="7-4-1-准备工作"><a href="#7-4-1-准备工作" class="headerlink" title="7.4.1 准备工作"></a>7.4.1 准备工作</h3><p>需要预先下载好Everything的CentOS7安装光盘包，Everything版的软件包比较全。</p>
+<p>这里以CentOS7.6为例:</p>
+<p><a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/centos/7.6.1810/isos/x86_64/">http://mirrors.aliyun.com/centos/7.6.1810/isos/x86_64/</a></p>
+<h3 id="7-4-2-配置FTP服务器"><a href="#7-4-2-配置FTP服务器" class="headerlink" title="7.4.2 配置FTP服务器"></a>7.4.2 配置FTP服务器</h3><p>首先创建挂载目录</p>
+<ul>
+<li><code>mkdir /media/cdrom</code></li>
+<li>挂载ISO文件</li>
+</ul>
+<p>使用VMware安装的虚拟机挂载方式，需要先确认好虚拟机已经连接上ISO文件：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240429220410575.png" alt="image-20240429220410575"></p>
+<ul>
+<li><code>mount -t auto /dev/sr0 /media/cdrom</code></li>
+</ul>
+<p>非CentOS7虚拟机，先上传ISO文件到某一目录，再挂载：</p>
+<p>mount -t iso9660 -o loop &#x2F;upload&#x2F;<a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Everything-1810.iso">CentOS-7-x86_64-Everything-1810.iso</a> &#x2F;media&#x2F;cdrom</p>
+<p>安装ftp软件（已安装的话就不用再安装了，可以使用<code>rpm -qa | grep vsftpd</code>命令检测）</p>
+<ul>
+<li><code>rpm -ivh /media/cdrom/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm </code></li>
+<li>注意： 上述版本号会根据ISO文件的版本不同有所区别，Tab补全就行了。</li>
+</ul>
+<p>启动vsftpd服务,并设为开机自启</p>
+<ul>
+<li><code>systemctl start vsftpd</code></li>
+</ul>
+<p>查看21端口：</p>
+<ul>
+<li><code>netstat -ntl | grep 21</code></li>
+</ul>
+<p>设为开机自启：</p>
+<ul>
+<li><code>systemctl enable vsftpd</code></li>
+</ul>
+<p>浏览器访问<a href="ftp://ip_or_hostname/">ftp://ip_or_hostname</a></p>
+<p>如果连接超时，说明开启了防火墙，需要关闭防火墙服务并关闭开机自启：</p>
+<ul>
+<li><p><code>systemctl stop firewalld</code></p>
+</li>
+<li><p><code>systwmctl disable firewalld</code></p>
+</li>
+<li><p>如果连接需要账号密码:</p>
+<ul>
+<li><code>vim /etc/vsftpd/vsftpd.conf</code></li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/2bf24b8dc003d97f8c86c69e41b78d21.png" alt="descript"></p>
+</li>
+</ul>
+<p>部署yum仓库到ftp服务器</p>
+<p>将安装光盘中的文件复制到ftp文件夹&#x2F;var&#x2F;ftp&#x2F;pub&#x2F;下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只复制两个目录(Packages,repodata)、一个文件(RPM-GPG-KEY-CentOS7)即可：</span></span><br><span class="line">mkdir /var/ftp/pub/centos7</span><br><span class="line">cp -rvf /media/cdrom/Packages /var/ftp/pub/centos7</span><br><span class="line">cp -rvf /media/cdrom/repodata /var/ftp/pub/centos7</span><br><span class="line">cp -rvf /media/cdrom/RPM-GPG-KEY-CentOS7 /var/ftp/pub/centos7</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">确认文件复制完毕以后就可以卸载光盘了</span></span><br><span class="line">umount /media/cdrom</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">再次访问ftp://ip_or_hostname，就可以看到rpm包了</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="7-4-3配置yum仓库文件"><a href="#7-4-3配置yum仓库文件" class="headerlink" title="7.4.3配置yum仓库文件"></a>7.4.3配置yum仓库文件</h3><p>备份原有的yum仓库文件</p>
+<ul>
+<li><code>cp -rvf /etc/yum.repo.d /upload/</code></li>
+</ul>
+<p>删除原有yum仓库配置文件</p>
+<ul>
+<li><code>rm -rf /etc/yum.repo.d/\*</code></li>
+</ul>
+<p>编辑新的yum仓库文件</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cd</span> <span class="string">/etc/yum.repo.d</span></span><br><span class="line"></span><br><span class="line"><span class="attr">vim</span> <span class="string">ftp.repo</span></span><br><span class="line"></span><br><span class="line"><span class="attr">1.</span>  <span class="string">[ftp]</span></span><br><span class="line"><span class="attr">2.</span>  <span class="string"># 名字随便填</span></span><br><span class="line"><span class="attr">3.</span>  <span class="string">name=ftp-repo</span></span><br><span class="line"><span class="attr">4.</span>  <span class="string"># ftp服务器路径</span></span><br><span class="line"><span class="attr">5.</span>  <span class="string">baseurl=ftp://ip_or_hostname/pub/centos7/</span></span><br><span class="line"><span class="attr">6.</span>  <span class="string"># 1为启用GPG KEY检查，0禁用</span></span><br><span class="line"><span class="attr">7.</span>  <span class="string">gpgcheck=0</span></span><br><span class="line"><span class="attr">8.</span>  <span class="string"># 1为启用该仓库，0禁用</span></span><br><span class="line"><span class="attr">9.</span>  <span class="string">enabled=1</span></span><br><span class="line"><span class="attr">10.</span> <span class="string"># GPG KEY路径</span></span><br><span class="line"><span class="attr">11.</span> <span class="string">gpgkey=ftp://ip_or_hostname/pub/centos7/RPM-GPG-KEY-CentOS-7</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>保存后,执行</p>
+<ul>
+<li><code>yum clean all</code><ol>
+<li>Loaded plugins: fastestmirror, langpacks</li>
+<li>Cleaning repos: ftp</li>
+<li>Cleaning up everything</li>
+<li>Cleaning up list of fastest mirrors</li>
+</ol>
+</li>
+</ul>
+<p>生成缓存</p>
+<ul>
+<li><code> yum makecache</code><ol>
+<li>Loaded plugins: fastestmirror, langpacks</li>
+<li>ftp | 3.6 kB 00:00:00</li>
+<li>(1&#x2F;4): ftp&#x2F;group_gz | 155 kB 00:00:00</li>
+<li>(2&#x2F;4): ftp&#x2F;filelists_db | 6.6 MB 00:00:00</li>
+<li>(3&#x2F;4): ftp&#x2F;primary_db | 5.6 MB 00:00:00</li>
+<li>(4&#x2F;4): ftp&#x2F;other_db | 2.4 MB 00:00:00</li>
+<li>Determining fastest mirrors</li>
+<li>Metadata Cache Created</li>
+</ol>
+</li>
+</ul>
+<p>然后就可以愉快的在内网环境下使用 <code>yum -y install package_name </code>来安装软件啦！！</p>
+<h2 id="7-5配置NTP服务"><a href="#7-5配置NTP服务" class="headerlink" title="7.5配置NTP服务"></a>7.5配置NTP服务</h2><p>集群中所有节点的时间必须要保持同步，可以选择集群中其中一个节点作为ntp服务端，其余节点作为客户端。</p>
+<ul>
+<li>安装ntp软件：yum -y install ntp</li>
+<li>配置ntp服务端&#x2F;etc&#x2F;ntp.conf</li>
+<li>配置ntp客户端&#x2F;etc&#x2F;ntp.conf</li>
+<li>启动ntp服务：systemctl start ntpd</li>
+<li>配置开机自启动：systemctl enable ntpd</li>
+<li>同步客户端时间与服务端时间相同：ntpdate -u &lt;ntp-server&gt;</li>
+</ul>
+<p>集群中所有节点必须保持时间同步，如果时间相差较大会引起问题(如HBase服务无法正常启动)</p>
+<p>实现方法：master节点作为ntp服务器，对其它节点提供时间同步服务。 所有其它节点以master节点为基础同步时间。</p>
+<p>1.所有节点安装相关ntp组件</p>
+<p># yum install ntp&#x2F;或者手动安装rpm包</p>
+<p>2.所有节点设置时区,中国上海:</p>
+<p># timedatectl set-timezone Asia&#x2F;Shanghai</p>
+<p>3.启动ntp，以及设置开机启动</p>
+<p># systemctl start ntpd</p>
+<p># systemctl enable ntpd</p>
+<p>4.在master节点上设置现在的准确时间</p>
+<p># date -s “2019-02-19 16:00:00”</p>
+<p>5.配置ntp服务器(master1节点)</p>
+<p># vim &#x2F;etc&#x2F;ntp.conf</p>
+<p>配置示例：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/affebedf9ab5e6332d70dc02fe958c27.png" alt="descript"></p>
+<p>6.在其它节点上设置ntp客户端</p>
+<p># vim &#x2F;etc&#x2F;ntp.conf</p>
+<p>配置示例：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240428213300223.png" alt="image-20240428213300223"></p>
+<p>7.配置文件修改完毕后，重启ntp服务</p>
+<p># systemctl restart ntpd</p>
+<p>8.在其它节点上手动同步master的时间</p>
+<p># ntpdate -u 192.168.189.130</p>
+<p>9.查看同步状态(可能需要稍等一会才能同步上)</p>
+<p># ntpstat</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240428213313022.png" alt="image-20240428213313022"></p>
+<h2 id="7-6-安装jdk8"><a href="#7-6-安装jdk8" class="headerlink" title="7.6 安装jdk8"></a>7.6 安装jdk8</h2><blockquote>
+<p>集群所有节点都要安装。(JAVA_HOME必须是在&#x2F;usr&#x2F;java&#x2F;否则找不到java_home)</p>
+</blockquote>
+<p>1.查看系统自带java版本，如果已安装就先卸载掉</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.安装Oracle官网下载jdk的rpm安装包，并使用rpm -ivh packageName安装:</p>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Download jdk1.8</a></p>
+<p>3.修改环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>添加如下(使用rpm安装的java在&#x2F;usr&#x2F;java&#x2F;jdk1.8XXXX)</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">export</span> <span class="string">JAVA_HOME=/usr/local/jdk1.8.0_241</span></span><br><span class="line"><span class="attr">export</span> <span class="string">JRE_HOME=/usr/local/jdk1.8.0_241/jre</span></span><br><span class="line"><span class="attr">export</span> <span class="string">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span></span><br><span class="line"><span class="attr">export</span> <span class="string">PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>4.执行命令使环境变量生效</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.测试</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/6bdcfd1c33cce32dd7da7b04dc25eaaf.png" alt="descript"></p>
+<h2 id="7-7-安装mysql5-7"><a href="#7-7-安装mysql5-7" class="headerlink" title="7.7 安装mysql5.7"></a>7.7 安装mysql5.7</h2><blockquote>
+<p>只需要在集群中某一个节点上安装即可。</p>
+</blockquote>
+<p>文件准备：mysql-5.7.24-1.el7.x86_64.rpm-bundle.tar</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/1435c7bdc9d1fd1ff66aba085b5cbbc4.png" alt="descript"></p>
+<ul>
+<li>首先卸载操作系统可能会自带的mariadb-libs</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y remove mariadb-libs</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/284c67dadaa04af579c2cb8b6657e891.png" alt="descript"></p>
+<ul>
+<li>解压mysql rpm-bundle tar包</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf mysql-5.7.24-1.el7.x86_64.rpm-bundle.tar</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>开始安装mysql</p>
+</li>
+<li><p>一定要按照下面的顺序来安装，否则会安装不成功：</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql-community-common-5.7.24-1.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-libs-5.7.24-1.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-client-5.7.24-1.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-server-5.7.24-1.el7.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh mysql-community-libs-compat-5.7.24-1.el7.x86_64.rpm（安装Cloudera Manager6需要）</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/063c9c6243d6a2ff8cde7fb912a2df17.png" alt="descript"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/e0c65f0b302a1f831acaa335bc38cb3d.png" alt="descript"></p>
+<ul>
+<li>启动mysql服务</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>如果无法启动，则需要修改mysql数据目录所有者：<code>chown -R mysql:mysql /var/lib/mysql/</code></p>
+</li>
+<li><p>查看root用户初始密码</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep password /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240428213346058.png" alt="image-20240428213346058"></p>
+<ul>
+<li>登录mysql修改root密码</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line"></span><br><span class="line">set password = password(&#x27;123456&#x27;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/7ec497d5646f8b8b3d67b438af6960c6.png" alt="descript"></p>
+<p>如果密码复杂度不够，则会禁止修改，默认密码规则为：包含数字、大小写字母、特殊字符，同时还有长度要求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set password = password(&#x27;123456&#x27;);</span><br><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br></pre></td></tr></table></figure>
+
+
+
+<p>可以通过修改全局参数来解决，但是还是要求密码长度至少为8位：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global validate_password_policy=0;</span><br><span class="line">mysql&gt; set password = password(&#x27;12345678&#x27;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/2b4e1c823c033509c7ce90b3528dd3b7.png" alt="descript"></p>
+<p>设置远程登录权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &#x27;root&#x27;@&#x27;%&#x27; identified by &#x27;123456&#x27;;</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/8215fcc26b62c5a529ffc81a71459fe8.png" alt="descript"></p>
+<ul>
+<li>如果上述设置远程登录权限出现错误</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MySQL</span> <span class="string">ERROR 3009 (HY000): Column count of mysql.user is wrong. Expected 45, found 42. Created with MySQL 50560, now running 50729. Please use mysql_upgrade to fix this error.</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解决方案：</p>
+<ul>
+<li><code>mysql_upgrade -uroot -p</code></li>
+</ul>
+</li>
+<li><p>报错原因：</p>
+<ul>
+<li>由于升级了数据库</li>
+</ul>
+</li>
+<li><p>修改mysql数据库默认编码</p>
+</li>
+<li><p>查看原数据库编码：<code>mysql&gt; SHOW VARIABLES LIKE &#39;char%&#39;;</code>可以看到数据库和服务端的编码都还不是utf8：</p>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/01bbc21f090dd5aa7e9c65ebd71b3cd0.png" alt="descript"></p>
+<ul>
+<li>如果上述查看数据库编码出现错误：</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ERROR</span> <span class="string">1682 (HY000): Native table &#x27;performance_schema&#x27;.&#x27;session_variables&#x27; has the wrong structure</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解决方案：</p>
+<ul>
+<li><code>set @@global.show_compatibility_56=ON;</code></li>
+</ul>
+</li>
+<li><p>报错原因：</p>
+<ul>
+<li>从mysql5.7.6开始information_schema.global_status已经开始被舍弃，为了兼容性，此时需要打开 show_compatibility_56</li>
+</ul>
+</li>
+<li><p>编辑&#x2F;etc&#x2F;my.cnf文件，在[mysqld]下面添加一行character-set-server&#x3D;utf8；</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/my.cnf</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Notic ：下面的一句话必须在[mysqld]下面写</span></span><br><span class="line">character-set-server=utf8</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">重启mysql服务：</span></span><br><span class="line">systemctl restart mysqld</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">再次登录数据库查看编码，修改成功：</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/f5ea76b135c17f1972d3fcdb00a32661.png" alt="descript"></p>
+<ul>
+<li>再次检查编码：</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/9801230105378d0586d16ff43ea5e0aa.png" alt="descript"></p>
+<ul>
+<li>MySQL5.7安装配置完毕！</li>
+</ul>
+<h1 id="二、安装步骤"><a href="#二、安装步骤" class="headerlink" title="二、安装步骤"></a>二、安装步骤</h1><blockquote>
+<p>说明：所有操作都是在root用户下进行的。</p>
+</blockquote>
+<h2 id="2-1文件下载"><a href="#2-1文件下载" class="headerlink" title="2.1文件下载"></a>2.1文件下载</h2><p>首先一些安装CDH6集群的必须文件要先在外网环境先下载好。</p>
+<h3 id="Cloudera-Manager-6-0-1"><a href="#Cloudera-Manager-6-0-1" class="headerlink" title="Cloudera Manager 6.0.1"></a>Cloudera Manager 6.0.1</h3><p>CM6 RPM：<a target="_blank" rel="noopener" href="https://archive.cloudera.com/cm6/6.0.1/redhat7/yum/RPMS/x86_64/">https://archive.cloudera.com/cm6/6.0.1/redhat7/yum/RPMS/x86_64/</a></p>
+<p>需要下载该链接下的所有RPM文件，由于jdk1.8我在环境准备部分已经手动安装了，所以可以不用下载RPMS&#x2F;x86_64&#x2F;目录下的jdk包oracle-j2sdk1.8-1.8.0+update141-1.x86_64.rpm，但是其他4个rpm包一定要下载，保存到cloudera-repos目录下。</p>
+<p>ASC文件：<a target="_blank" rel="noopener" href="https://archive.cloudera.com/cm6/6.0.1/allkeys.asc">https://archive.cloudera.com/cm6/6.0.1/allkeys.asc</a></p>
+<p>同时还需要下载一个asc文件，同样保存到cloudera-repos目录下：</p>
+<ul>
+<li><code>mkdir /upload/cloudera-repos -p</code></li>
+</ul>
+<p><img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20240507205958835.png" alt="image-20240507205958835"></p>
+<h3 id="MySQL-JDBC驱动"><a href="#MySQL-JDBC驱动" class="headerlink" title="MySQL JDBC驱动"></a>MySQL JDBC驱动</h3><p>要求使用5.1.26以上版本的jdbc驱动，可<a target="_blank" rel="noopener" href="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz">点击这里</a>直接下载mysql-connector-java-5.1.47.tar.gz</p>
+<h3 id="CDH-6-0-1"><a href="#CDH-6-0-1" class="headerlink" title="CDH 6.0.1"></a>CDH 6.0.1</h3><p>CDH6 Parcels：<a target="_blank" rel="noopener" href="https://archive.cloudera.com/cdh6/6.0.1/parcels/">https://archive.cloudera.com/cdh6/6.0.1/parcels/</a></p>
+<p>需要下载CDH-6.0.1-1.cdh6.0.1.p0.590678-el7.parcel和manifest.json这两个文件</p>
+<h2 id="2-2配置Cloudera-Manager-yum库"><a href="#2-2配置Cloudera-Manager-yum库" class="headerlink" title="2.2配置Cloudera Manager yum库"></a>2.2配置Cloudera Manager yum库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">注意：不要尝试使用FTP搭建CM的YUM库！</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">首先安装httpd和createrepo：</span></span><br><span class="line"></span><br><span class="line">yum -y install httpd createrepo</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">启动httpd服务并设置开机自启动：</span></span><br><span class="line"></span><br><span class="line">systemctl start httpd</span><br><span class="line"></span><br><span class="line">systemctl enable httpd</span><br><span class="line"></span><br><span class="line">然后进入到前面准备好的存放Cloudera Manager RPM包的目录cloudera-repos下：</span><br><span class="line"></span><br><span class="line">cd /upload/cloudera-repos/</span><br></pre></td></tr></table></figure>
+
+
+
+<p>生成RPM元数据：</p>
+<p>createrepo .</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/36744296c6e427751658ba9d7c44e927.png" alt="descript"></p>
+<ul>
+<li>返回上级目录：<ul>
+<li><code> cd ..</code></li>
+</ul>
+</li>
+<li>然后将cloudera-repos目录移动到httpd的html目录下：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv cloudera-repos /var/www/html/</span><br></pre></td></tr></table></figure>
+
+<p>确保可以通过浏览器查看到这些RPM包：</p>
+<p>我这里浏览器地址为：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http</span>:<span class="string">//192.168.88.161/cloudera-repos/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/28b8c23fd02a4808e26f3a1941160225.png" alt="descript"></p>
+<p>接着在Cloudera Manager Server主机上创建cm6的repo文件（要把哪个节点作为Cloudera Manager Server节点，就在这个节点上创建repo文件）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/yum.repos.d</span><br><span class="line"></span><br><span class="line">vim cloudera-manager.repo</span><br></pre></td></tr></table></figure>
+
+
+
+<p>添加如下内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[cloudera-manager]</span></span><br><span class="line"><span class="attr">name</span>=<span class="string">Cloudera Manager 6.0.1</span></span><br><span class="line"><span class="attr">baseurl</span>=<span class="string">http://192.168.88.161/cloudera-repos/</span></span><br><span class="line"><span class="attr">gpgcheck</span>=<span class="string">0</span></span><br><span class="line"><span class="attr">enabled</span>=<span class="string">1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/b65161c6423dbc35580e4b680ec6b3db.png" alt="descript"></p>
+<p>保存，退出,然后执行<code>yum clean all &amp;&amp; yum makecache</code>命令：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/c0a573303b9b55ec2d8444eab2081468.png" alt="descript"></p>
+<h2 id="2-3安装Cloudera-Manager-Server"><a href="#2-3安装Cloudera-Manager-Server" class="headerlink" title="2.3安装Cloudera Manager Server"></a>2.3安装Cloudera Manager Server</h2><p>这一步只需要在CM Server节点上操作。</p>
+<p>执行下面的命令：</p>
+<p><code>yum install cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server</code></p>
+<p>将会需要很多依赖包，所以说还是有必要搭一个局域网内yum源的：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/8dd733642f256d20c1caf99ef046caaf.png" alt="descript"></p>
+<h2 id="2-4配置本地Parcel存储库"><a href="#2-4配置本地Parcel存储库" class="headerlink" title="2.4配置本地Parcel存储库"></a>2.4配置本地Parcel存储库</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Cloudera Manager Server安装完成后，进入到本地Parcel存储库目录：</span></span><br><span class="line"></span><br><span class="line">cd /opt/cloudera/parcel-repo</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">将第一部分下载的CDH Parcel文件（CDH-6.0.1-1.cdh6.0.1.p0.590678-el7.parcel和manifest.json）上传至该目录下，然后执行命令生成sha文件：</span></span><br><span class="line">cp /var/www/html/cloudera-repos/CDH-6.0.1-1.cdh6.0.1.p0.590678-el7.parcel /opt/cloudera/parcel-repo/</span><br><span class="line"></span><br><span class="line">sha1sum CDH-6.0.1-1.cdh6.0.1.p0.590678-el7.parcel | awk &#x27;&#123; print $1 &#125;&#x27; &gt; CDH-6.0.1-1.cdh6.0.1.p0.590678-el7.parcel.sha</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">然后执行下面的命令修改文件所有者：</span></span><br><span class="line"></span><br><span class="line">chown -R cloudera-scm:cloudera-scm /opt/cloudera/parcel-repo/*</span><br></pre></td></tr></table></figure>
+
+
+
+<p>最终&#x2F;opt&#x2F;cloudera&#x2F;parcel-repo目录内容如下：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/9a07de01ec4d862f1f8cf5d80c6e67ef.png" alt="descript"></p>
+<h2 id="2-5-安装数据库"><a href="#2-5-安装数据库" class="headerlink" title="2.5 安装数据库"></a>2.5 安装数据库</h2><p>MySQL的安装在环境准备部分中已经有说明，这里就跳过MySQL安装了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/my.cnf</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据库配置"><a href="#数据库配置" class="headerlink" title="数据库配置"></a>数据库配置</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># For advice on how to change settings please see</span></span><br><span class="line"><span class="comment"># http://dev.mysql.com/doc/refman/5.7/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[mysqld]</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Remove leading # and set to the amount of RAM for the most important data</span></span><br><span class="line"><span class="comment"># cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.</span></span><br><span class="line"><span class="comment"># innodb_buffer_pool_size = 128M</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Remove leading # to turn on a very important data integrity option: logging</span></span><br><span class="line"><span class="comment"># changes to the binary log between backups.</span></span><br><span class="line"><span class="comment"># log_bin</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Remove leading # to set options mainly useful for reporting servers.</span></span><br><span class="line"><span class="comment"># The server defaults are faster for transactions and fast SELECTs.</span></span><br><span class="line"><span class="comment"># Adjust sizes as needed, experiment to find the optimal values.</span></span><br><span class="line"><span class="comment"># join_buffer_size = 128M</span></span><br><span class="line"><span class="comment"># sort_buffer_size = 2M</span></span><br><span class="line"><span class="comment"># read_rnd_buffer_size = 2M</span></span><br><span class="line"><span class="attr">datadir</span>=<span class="string">/var/lib/mysql</span></span><br><span class="line"><span class="attr">socket</span>=<span class="string">/var/lib/mysql/mysql.sock</span></span><br><span class="line"><span class="attr">character-set-server</span>=<span class="string">utf8</span></span><br><span class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></span><br><span class="line"><span class="attr">symbolic-links</span>=<span class="string">0</span></span><br><span class="line"><span class="comment">#skip_grant_tables</span></span><br><span class="line"><span class="attr">log-error</span>=<span class="string">/var/log/mysqld.log</span></span><br><span class="line"><span class="attr">pid-file</span>=<span class="string">/var/run/mysqld/mysqld.pid</span></span><br><span class="line"></span><br><span class="line"><span class="attr">sql_mode</span> = <span class="string">STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span></span><br><span class="line"></span><br><span class="line"><span class="attr">max_connections</span>=<span class="string">50000</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=<span class="string">utf8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span>=<span class="string">utf8</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240428213517263.png" alt="image-20240428213517263"></p>
+<h2 id="2-6配置mysql-jdbc驱动"><a href="#2-6配置mysql-jdbc驱动" class="headerlink" title="2.6配置mysql jdbc驱动"></a>2.6配置mysql jdbc驱动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">从前面下载好的mysql-connector-java-5.1.47.tar.gz包中解压出mysql-connector-java-5.1.47-bin.jar文件，将mysql-connector-java-5.1.47-bin.jar文件上传至CM Server节点上的/usr/share/java/目录下并重命名为mysql-connector-java.jar（如果/usr/share/java/目录不存在，需要手动创建）：</span><br><span class="line"></span><br><span class="line">tar zxvf mysql-connector-java-5.1.47.tar.gz</span><br><span class="line"></span><br><span class="line">mkdir -p /usr/share/java/</span><br><span class="line"></span><br><span class="line">cd mysql-connector-java-5.1.47</span><br><span class="line"></span><br><span class="line">cp mysql-connector-java-5.1.47-bin.jar /usr/share/java/mysql-connector-java.jar</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-7创建CDH所需要的数据库"><a href="#2-7创建CDH所需要的数据库" class="headerlink" title="2.7创建CDH所需要的数据库"></a>2.7创建CDH所需要的数据库</h2><p>根据所需要安装的服务参照下表创建对应的数据库以及数据库用户，数据库必须使用utf8编码，创建数据库时要记录好用户名及对应密码：</p>
+<table>
+<thead>
+<tr>
+<th><strong>服务名</strong></th>
+<th><strong>数据库名</strong></th>
+<th><strong>用户名</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cloudera Manager Server</td>
+<td>scm</td>
+<td>scm</td>
+</tr>
+<tr>
+<td>Activity Monitor</td>
+<td>amon</td>
+<td>amon</td>
+</tr>
+<tr>
+<td>Reports Manager</td>
+<td>rman</td>
+<td>rman</td>
+</tr>
+<tr>
+<td>Hue</td>
+<td>hue</td>
+<td>hue</td>
+</tr>
+<tr>
+<td>Hive Metastore Server</td>
+<td>metastore</td>
+<td>hive</td>
+</tr>
+<tr>
+<td>Sentry Server</td>
+<td>sentry</td>
+<td>sentry</td>
+</tr>
+<tr>
+<td>Cloudera Navigator Audit Server</td>
+<td>nav</td>
+<td>nav</td>
+</tr>
+<tr>
+<td>Cloudera Navigator Metadata Server</td>
+<td>navms</td>
+<td>navms</td>
+</tr>
+<tr>
+<td>Oozie</td>
+<td>oozie</td>
+<td>oozie</td>
+</tr>
+</tbody></table>
+<p>我这里就先创建4个数据库及对应用户：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">create database scm default character set utf8 default collate utf8_general_ci;</span><br><span class="line"></span><br><span class="line">create database amon default character set utf8 default collate utf8_general_ci;</span><br><span class="line"></span><br><span class="line">create database rman default character set utf8 default collate utf8_general_ci;</span><br><span class="line"></span><br><span class="line">create database metastore default character set utf8 default collate utf8_general_ci;</span><br><span class="line"></span><br><span class="line">grant all on scm.* to &#x27;scm&#x27;@&#x27;%&#x27; identified by &#x27;scm&#x27;;</span><br><span class="line"></span><br><span class="line">grant all on amon.* to &#x27;amon&#x27;@&#x27;%&#x27; identified by &#x27;amon&#x27;;</span><br><span class="line"></span><br><span class="line">grant all on rman.* to &#x27;rman&#x27;@&#x27;%&#x27; identified by &#x27;rman&#x27;;</span><br><span class="line"></span><br><span class="line">grant all on metastore.* to &#x27;hive&#x27;@&#x27;%&#x27; identified by &#x27;hive&#x27;;</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/5b3947580eda778fd2716fc192502374.png" alt="descript"></p>
+<p>注意 要是用5.7.tar.gz安装包安装的mysql用以上命令创建数据库回报语法错误</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/0dbfb35584699298a5bb6582c31ea5d4.png" alt="descript"></p>
+<p>用一下语法格式</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/61d4f13023a94f180406fda16bfbdf31.png" alt="descript"></p>
+<p>查看授权是否正确：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">show grants for  &#x27;scm&#x27;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line">show grants for  &#x27;amon&#x27;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line">show grants for &#x27;rman&#x27;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line">show grants for  &#x27;hive&#x27;@&#x27;%&#x27;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/dda3db0f551ce201ce87a73e7d87587c.png" alt="descript"></p>
+<h2 id="2-8设置Cloudera-Manager-数据库"><a href="#2-8设置Cloudera-Manager-数据库" class="headerlink" title="2.8设置Cloudera Manager 数据库"></a>2.8设置Cloudera Manager 数据库</h2><blockquote>
+<p>在这一步区分mysql是否和cdh安装在一台服务器上面的。</p>
+</blockquote>
+<p>Cloudera Manager Server包含一个配置数据库的脚本。</p>
+<ul>
+<li><p>如果mysql数据库与CM Server是同一台主机</p>
+<ul>
+<li><p>执行命令：<code>/opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm</code></p>
+</li>
+<li><p>上述命令执行之后，需要输入scm用户的密码：直接写scm就行</p>
+</li>
+<li><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240512151957455.png" alt="image-20240512151957455"></p>
+</li>
+<li><p>类似于：<img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240512151939224.png" alt="image-20240512151939224"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/27d767c437942a3fb1fb0f8ddafd09ed.png" alt="descript"></p>
+<ul>
+<li>如果mysql数据库与CM Server不在同一台主机上<ul>
+<li>执行命令：&#x2F;opt&#x2F;cloudera&#x2F;cm&#x2F;schema&#x2F;scm_prepare_database.sh mysql -h 192.168.88.161 –scm-host 192.168.88.161 scm scm</li>
+<li>将上述ip换成CM 主节点ip地址</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-9安装CDH节点"><a href="#2-9安装CDH节点" class="headerlink" title="2.9安装CDH节点"></a>2.9安装CDH节点</h2><h3 id="启动Cloudera-Manager-Server服务"><a href="#启动Cloudera-Manager-Server服务" class="headerlink" title="启动Cloudera Manager Server服务"></a>启动Cloudera Manager Server服务</h3><p><code>systemctl start cloudera-scm-server</code></p>
+<p>然后等待Cloudera Manager Server启动，可能需要稍等一会儿，可以通过命令</p>
+<p><code>tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log</code>去监控服务启动状态。</p>
+<p>当看到INFO WebServerImpl:com.cloudera.server.cmf.WebServerImpl: Started Jetty server.日志打印出来后，说明服务启动成功，可以通过浏览器访问Cloudera Manager WEB界面了。</p>
+<h3 id="访问Cloudera-Manager-WEB界面"><a href="#访问Cloudera-Manager-WEB界面" class="headerlink" title="访问Cloudera Manager WEB界面"></a>访问Cloudera Manager WEB界面</h3><p>打开浏览器，访问地址：<a href="http://192.168.88.161:7180，默认账号和密码都为admin：">http://192.168.88.161:7180，默认账号和密码都为admin：</a></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/75c5186e7b398265708b024fcb7cb650.png" alt="descript"></p>
+<h3 id="欢迎页面"><a href="#欢迎页面" class="headerlink" title="欢迎页面"></a>欢迎页面</h3><p>首先是Cloudera Manager的欢迎页面，点击页面右下角的【继续】按钮进行下一步：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/32beefb11552064e4218e4d7723e1f28.png" alt="descript"></p>
+<h3 id="接受条款"><a href="#接受条款" class="headerlink" title="接受条款"></a>接受条款</h3><p>勾选接受条款，点击【继续】进行下一步：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/6fa819f6b41d12eef3ffe46a6822941d.png" alt="descript"></p>
+<h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><p>这里我就选择免费版了：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/7a47f48976edd00642e421d3247429b2.png" alt="descript"></p>
+<h3 id="第二个欢迎界面"><a href="#第二个欢迎界面" class="headerlink" title="第二个欢迎界面"></a>第二个欢迎界面</h3><p>选择版本以后会出现第二个欢迎界面，不过这个是安装集群的欢迎页：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/532ee042e5e6f97b9e9bae6009d8a559.png" alt="descript"></p>
+<h3 id="选择主机"><a href="#选择主机" class="headerlink" title="选择主机"></a>选择主机</h3><p>这一步是要搜索并选择用于安装CDH集群的主机，在主机名称后面的输入框中输入各个节点的hostname，中间使用英文逗号分隔开，然后点击搜索，在结果列表中勾选要安装CDH的节点即可：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/3947d892cedf0d3fc2728fe5a4dfc1cb.png" alt="descript"></p>
+<h3 id="指定存储库"><a href="#指定存储库" class="headerlink" title="指定存储库"></a>指定存储库</h3><h4 id="Cloudera-Manager-Agent"><a href="#Cloudera-Manager-Agent" class="headerlink" title="Cloudera Manager Agent"></a>Cloudera Manager Agent</h4><p>这里选择自定义，填写上面使用httpd搭建好的Cloudera Manager YUM 库URL：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/a422100f6d1769024afa18b3f05b5c93.png" alt="descript"></p>
+<h4 id="CDH-and-other-software"><a href="#CDH-and-other-software" class="headerlink" title="CDH and other software"></a>CDH and other software</h4><p>如果我们之前的【配置本地Parcel存储库】步骤操作无误的话，这里会自动选择【使用Parcel】，并加载出CDH版本，确认无误后点击【继续】：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/08063f331a099885f3e07c7cb8640b34.png" alt="descript"></p>
+<h3 id="JDK安装选项"><a href="#JDK安装选项" class="headerlink" title="JDK安装选项"></a>JDK安装选项</h3><p>这一步骤我就不再勾选安装JDK了，因为我在环境准备部分已经安装过了。取消勾选，然后继续：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/f67c2bd1ef1079fecccaa4139c4fe1e6.png" alt="descript"></p>
+<h3 id="SSH登录配置"><a href="#SSH登录配置" class="headerlink" title="SSH登录配置"></a>SSH登录配置</h3><p>用于配置集群主机之间的SSH登录，填写root用户的密码，根据集群配置填写合适的【同时安装数量】值即可：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/ed97a2951b9e7038cd8225f5621e288e.png" alt="descript"></p>
+<h3 id="安装Agent"><a href="#安装Agent" class="headerlink" title="安装Agent"></a>安装Agent</h3><p>到这一步会自动进行节点Agent的安装，稍等一会儿，即可安装完成：<img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/fac2c2e917e7aca08714e03f81922709.png" alt="descript"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/007b964affb3f7230f540fee3b577e53.png" alt="descript"></p>
+<h3 id="安装Parcels"><a href="#安装Parcels" class="headerlink" title="安装Parcels"></a>安装Parcels</h3><p>这一步同样是自动安装，分配步骤的速度主要取决于网络环境，耐心等待即可（我的3台虚拟机性能实在是太差了，这一步等了好久）：<img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/5de08837df54a2a5eaf6e1d09d8fcdc6.png" alt="descript"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/b0574ea5202ed581e395478b4b9ab088.png" alt="descript"></p>
+<h3 id="主机检查"><a href="#主机检查" class="headerlink" title="主机检查"></a>主机检查</h3><p>等待检查完成即可：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/960122d3469bad3419d238eca146fc69.png" alt="descript"></p>
+<h2 id="2-10安装CDH集群"><a href="#2-10安装CDH集群" class="headerlink" title="2.10安装CDH集群"></a>2.10安装CDH集群</h2><h3 id="选择服务类型"><a href="#选择服务类型" class="headerlink" title="选择服务类型"></a>选择服务类型</h3><p>这里我选择自定义服务，HDFS，Hive，Yarn：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/981e9fb767753938e414d8a1ad36f4dd.png" alt="descript"></p>
+<h3 id="角色分配"><a href="#角色分配" class="headerlink" title="角色分配"></a>角色分配</h3><p>CDH会自动给出一个角色分配，如果觉得不合理，我们可以手动调整一下，注意角色分配均衡：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240428213550324.png" alt="image-20240428213550324"></p>
+<h3 id="数据库设置"><a href="#数据库设置" class="headerlink" title="数据库设置"></a>数据库设置</h3><p>因为我选择的服务中只有Hive需要数据库，故这里只需要配置Hive的metastore数据库。注意要将mysql的jdbc驱动放到hive metastore主机的&#x2F;usr&#x2F;share&#x2F;java&#x2F;目录下：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/a021cdb637db791d82c578840e11985f.png" alt="descript"></p>
+<p>到这里CDH集群的安装基本上就已经完成了。</p>
+<p><strong>2022年4月20日新增</strong></p>
+<h1 id="在CDH中添加flume组件"><a href="#在CDH中添加flume组件" class="headerlink" title="在CDH中添加flume组件"></a>在CDH中添加flume组件</h1><p>1.在安装好CDH页面后，切换到首页，点击集群名称右侧的下拉箭头，下拉菜单中选择 添加服务</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/bc1f563ae519cd3a5fb17489e3cca54f.png" alt="descript"></p>
+<p>2. 在新的页面中选中 Flume 服务</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/ec0140d892fbcf2d1e1f5bdbda096597.png" alt="descript"></p>
+<p>3. 页面下拉到最后，选择继续</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/f5805376f62f22f717fa24d9f0e39a37.png" alt="descript"></p>
+<p>4. 在新的页面中点击 选择主机</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/bd7f5588e0fc5a8f9350b882209ded25.png" alt="descript"></p>
+<p>5. 选择要安装flume组件的主机，然后点击确定。</p>
+<p>主机选择时，请根据实际情况，选择已经配置syslog程序的一台主机，此处里slave4为例。</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/f6de4f7bba7a8b6af5e74bdb091720e8.png" alt="descript"></p>
+<p>6. 确认主机选择后，点击继续</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/feb3831a32958eba60fe58a62b887877.png" alt="descript"></p>
+<p>7 继续点击完成，将跳回首页</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/66e3a70c117d7423f4f66538a346078c.png" alt="descript"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/7cd71d869448819156eb3ea6588b03f8.png" alt="descript"></p>
+<p>8. 点击选择新安装的Flume</p>
+<p>演示是第二次安装flume，所有新装的flume组件名称是Flume-2</p>
+<p>如果是第一次安装flume，那么名称是Flume，请注意辨别</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/2746fe495fcf1894c75b3331a68f369d.png" alt="descript"></p>
+<p>9.进入页面后，选择配置</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/0f825da29d599009cdb08d4f1b7b1b4f.png" alt="descript"></p>
+<p>10. 在配置页面中找到配置文件选项，将当前的配置文件内容情况，将已经配置好的配置文件（flume.properties）内容复制进去</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/4b554b2d9cdb5ef9dafe38955b988558.png" alt="descript"></p>
+<p>11. 配置修改之后，点击保存更改。</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/3a0e515b98f9fd85a47663e5c28a44ca.png" alt="descript"></p>
+<p>12.安装flune拦截器Flumeinterceptor-1.0-SNAPSHOT.jar（在CDH\service\flume\flumeD下）</p>
+<p>SSH登录到安装flume节点的服务器，将jar文件复制到 &#x2F;opt&#x2F;cloudera&#x2F;parcels&#x2F;CDH-6.0.1-1.cdh6.0.1.p0.590678&#x2F;lib&#x2F;flume-ng&#x2F;lib 下</p>
+<p>13. 启动flume，待启动之后查看状态，或查看日志(对应主机 &#x2F;var&#x2F;log&#x2F;flume&#x2F;)</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/1b5970a95c1fd8d935111082ca28c279.png" alt="descript"></p>
+<p><img src="C:\Users\admin\Desktop\opt\Document\e2ffd14b0789708fbc422904687f7b31.png" alt="descript"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(CDH%E7%89%88)/">https://weiswift.github.io/2024/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(CDH%E7%89%88)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CDH/">CDH</a><a class="post-meta__tags" href="/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">环境搭建</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="大数据集群环境搭建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">大数据集群环境搭建</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/26/ElasticSearch(%E5%85%A8)/" title="ElasticSearch(全)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">ElasticSearch(全)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="大数据集群环境搭建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-28</div><div class="title">大数据集群环境搭建</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">77</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CDH%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E6%96%87%E6%A1%A3"><span class="toc-number">1.</span> <span class="toc-text">CDH集群搭建文档</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="toc-number">2.</span> <span class="toc-text">一、环境要求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.</span> <span class="toc-text">1.操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%BD%AF%E4%BB%B6%E4%BE%9D%E8%B5%96"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 软件依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 系统版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.3.</span> <span class="toc-text">1.3 文件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE%E8%AE%B0%E5%BD%95"><span class="toc-number">2.1.4.</span> <span class="toc-text">1.4 文件访问记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-nproc%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.5.</span> <span class="toc-text">1.5 nproc配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A6%81%E6%B1%82"><span class="toc-number">3.</span> <span class="toc-text">二、数据库要求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81Java%E8%A6%81%E6%B1%82"><span class="toc-number">4.</span> <span class="toc-text">三、Java要求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%BD%91%E7%BB%9C%E4%BB%A5%E5%8F%8A%E5%AE%89%E5%85%A8%E8%A6%81%E6%B1%82"><span class="toc-number">5.</span> <span class="toc-text">四、网络以及安全要求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%B5%8F%E8%A7%88%E5%99%A8%E8%A6%81%E6%B1%82"><span class="toc-number">6.</span> <span class="toc-text">五、浏览器要求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%BB%84%E4%BB%B6%E7%89%88%E6%9C%AC"><span class="toc-number">7.</span> <span class="toc-text">六、组件版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%AE%89%E8%A3%85%E4%B9%8B%E5%89%8D"><span class="toc-number">8.</span> <span class="toc-text">七、安装之前</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-number">8.1.</span> <span class="toc-text">7.1 网络相关配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E7%A6%81%E7%94%A8%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number">8.2.</span> <span class="toc-text">7.2 禁用防火墙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3%E8%AE%BE%E7%BD%AESELinux%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.3.</span> <span class="toc-text">7.3设置SELinux执行模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4%E9%85%8D%E7%BD%AE%E5%B1%80%E5%9F%9F%E7%BD%91%E5%86%85yum%E6%BA%90-%E5%86%85%E7%BD%91%E5%BF%85%E5%A4%87"><span class="toc-number">8.4.</span> <span class="toc-text">7.4配置局域网内yum源(内网必备)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-1-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">8.4.1.</span> <span class="toc-text">7.4.1 准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-2-%E9%85%8D%E7%BD%AEFTP%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">8.4.2.</span> <span class="toc-text">7.4.2 配置FTP服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-3%E9%85%8D%E7%BD%AEyum%E4%BB%93%E5%BA%93%E6%96%87%E4%BB%B6"><span class="toc-number">8.4.3.</span> <span class="toc-text">7.4.3配置yum仓库文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5%E9%85%8D%E7%BD%AENTP%E6%9C%8D%E5%8A%A1"><span class="toc-number">8.5.</span> <span class="toc-text">7.5配置NTP服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-6-%E5%AE%89%E8%A3%85jdk8"><span class="toc-number">8.6.</span> <span class="toc-text">7.6 安装jdk8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-7-%E5%AE%89%E8%A3%85mysql5-7"><span class="toc-number">8.7.</span> <span class="toc-text">7.7 安装mysql5.7</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="toc-number">9.</span> <span class="toc-text">二、安装步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">9.1.</span> <span class="toc-text">2.1文件下载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cloudera-Manager-6-0-1"><span class="toc-number">9.1.1.</span> <span class="toc-text">Cloudera Manager 6.0.1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-JDBC%E9%A9%B1%E5%8A%A8"><span class="toc-number">9.1.2.</span> <span class="toc-text">MySQL JDBC驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDH-6-0-1"><span class="toc-number">9.1.3.</span> <span class="toc-text">CDH 6.0.1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2%E9%85%8D%E7%BD%AECloudera-Manager-yum%E5%BA%93"><span class="toc-number">9.2.</span> <span class="toc-text">2.2配置Cloudera Manager yum库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3%E5%AE%89%E8%A3%85Cloudera-Manager-Server"><span class="toc-number">9.3.</span> <span class="toc-text">2.3安装Cloudera Manager Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0Parcel%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">9.4.</span> <span class="toc-text">2.4配置本地Parcel存储库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-%E5%AE%89%E8%A3%85%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">9.5.</span> <span class="toc-text">2.5 安装数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="toc-number">9.5.1.</span> <span class="toc-text">数据库配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6%E9%85%8D%E7%BD%AEmysql-jdbc%E9%A9%B1%E5%8A%A8"><span class="toc-number">9.6.</span> <span class="toc-text">2.6配置mysql jdbc驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7%E5%88%9B%E5%BB%BACDH%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">9.7.</span> <span class="toc-text">2.7创建CDH所需要的数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-8%E8%AE%BE%E7%BD%AECloudera-Manager-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">9.8.</span> <span class="toc-text">2.8设置Cloudera Manager 数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-9%E5%AE%89%E8%A3%85CDH%E8%8A%82%E7%82%B9"><span class="toc-number">9.9.</span> <span class="toc-text">2.9安装CDH节点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8Cloudera-Manager-Server%E6%9C%8D%E5%8A%A1"><span class="toc-number">9.9.1.</span> <span class="toc-text">启动Cloudera Manager Server服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AECloudera-Manager-WEB%E7%95%8C%E9%9D%A2"><span class="toc-number">9.9.2.</span> <span class="toc-text">访问Cloudera Manager WEB界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A2%E8%BF%8E%E9%A1%B5%E9%9D%A2"><span class="toc-number">9.9.3.</span> <span class="toc-text">欢迎页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%8F%97%E6%9D%A1%E6%AC%BE"><span class="toc-number">9.9.4.</span> <span class="toc-text">接受条款</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E9%80%89%E6%8B%A9"><span class="toc-number">9.9.5.</span> <span class="toc-text">版本选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%AC%A2%E8%BF%8E%E7%95%8C%E9%9D%A2"><span class="toc-number">9.9.6.</span> <span class="toc-text">第二个欢迎界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E4%B8%BB%E6%9C%BA"><span class="toc-number">9.9.7.</span> <span class="toc-text">选择主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%AD%98%E5%82%A8%E5%BA%93"><span class="toc-number">9.9.8.</span> <span class="toc-text">指定存储库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cloudera-Manager-Agent"><span class="toc-number">9.9.8.1.</span> <span class="toc-text">Cloudera Manager Agent</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CDH-and-other-software"><span class="toc-number">9.9.8.2.</span> <span class="toc-text">CDH and other software</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9"><span class="toc-number">9.9.9.</span> <span class="toc-text">JDK安装选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH%E7%99%BB%E5%BD%95%E9%85%8D%E7%BD%AE"><span class="toc-number">9.9.10.</span> <span class="toc-text">SSH登录配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Agent"><span class="toc-number">9.9.11.</span> <span class="toc-text">安装Agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Parcels"><span class="toc-number">9.9.12.</span> <span class="toc-text">安装Parcels</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E6%A3%80%E6%9F%A5"><span class="toc-number">9.9.13.</span> <span class="toc-text">主机检查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-10%E5%AE%89%E8%A3%85CDH%E9%9B%86%E7%BE%A4"><span class="toc-number">9.10.</span> <span class="toc-text">2.10安装CDH集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%9C%8D%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="toc-number">9.10.1.</span> <span class="toc-text">选择服务类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E8%89%B2%E5%88%86%E9%85%8D"><span class="toc-number">9.10.2.</span> <span class="toc-text">角色分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E7%BD%AE"><span class="toc-number">9.10.3.</span> <span class="toc-text">数据库设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8CDH%E4%B8%AD%E6%B7%BB%E5%8A%A0flume%E7%BB%84%E4%BB%B6"><span class="toc-number">10.</span> <span class="toc-text">在CDH中添加flume组件</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/15/%E7%97%87%E7%8A%B6%E6%8B%86%E8%A7%A3_%E5%A4%9A%E5%9B%A0/" title="First-健康-02-症状拆解">First-健康-02-症状拆解</a><time datetime="2026-08-14T16:00:00.000Z" title="Created 2026-08-15 00:00:00">2026-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/07/%E4%B8%89%E8%A7%82AIO/" title="三观AIO">三观AIO</a><time datetime="2026-08-06T16:00:00.000Z" title="Created 2026-08-07 00:00:00">2026-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/04/2026.08.03-%E9%81%93%E8%B7%AF%E9%A9%BE%E9%A9%B6%E6%8A%80%E8%83%BD/" title="Third-技能-01-科目三">Third-技能-01-科目三</a><time datetime="2026-08-03T16:00:00.000Z" title="Created 2026-08-04 00:00:00">2026-08-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/03/2026.08.03-%E4%BC%A4%E5%AF%92%E6%9D%82%E7%97%85%E8%AE%BA/" title="First-健康-01-伤寒杂病论">First-健康-01-伤寒杂病论</a><time datetime="2026-08-02T16:00:00.000Z" title="Created 2026-08-03 00:00:00">2026-08-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验">【Flink】TableAPI和DataStreamAPI初体验</a><time datetime="2024-06-11T16:00:00.000Z" title="Created 2024-06-12 00:00:00">2024-06-12</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>
