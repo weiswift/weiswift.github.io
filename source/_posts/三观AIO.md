@@ -1,11 +1,11 @@
 ---
 title: 三观AIO
 
-date: 2026-08-07 00:00:00
+date: 2026-08-18 00:00:00
 
-author: Johnson Liam
+author: Jason
 
-tags: [三观]
+tags: [02-三观]
 
 top_img: https://s1.ax1x.com/2023/04/18/p9i6u5D.jpg
 
