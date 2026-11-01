@@ -1,0 +1,291 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>算法公式推导 | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Latex公式语法传送门  机器学习ID3是采用信息增益作为特征选择度量，而C4.5采用信息增益率、CART基尼指数。 信息熵：$$Ent(D^v) &#x3D; -\sum_{i&#x3D;1}^{k}p_i\log_{b}(p_i)$$信息增益(信息熵 - 条件熵)：$$g(D,A)&#x3D;H(D)-H(D|A)$$即：$$Gain(D,a) &#x3D; Ent(D) - \sum_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法公式推导">
+<meta property="og:url" content="https://weiswift.github.io/2025/07/16/liam/%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="Latex公式语法传送门  机器学习ID3是采用信息增益作为特征选择度量，而C4.5采用信息增益率、CART基尼指数。 信息熵：$$Ent(D^v) &#x3D; -\sum_{i&#x3D;1}^{k}p_i\log_{b}(p_i)$$信息增益(信息熵 - 条件熵)：$$g(D,A)&#x3D;H(D)-H(D|A)$$即：$$Gain(D,a) &#x3D; Ent(D) - \sum_">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen2.png">
+<meta property="article:published_time" content="2025-07-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-27T08:21:52.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen2.png"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2025/07/16/liam/%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '算法公式推导',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-07-27 16:21:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/cat111.png')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">算法公式推导</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-07-15T16:00:00.000Z" title="Created 2025-07-16 00:00:00">2025-07-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-07-27T08:21:52.000Z" title="Updated 2025-07-27 16:21:52">2025-07-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="算法公式推导"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>Latex公式语法<a target="_blank" rel="noopener" href="https://liamjohnson-w.github.io/2024/08/08/2024.08.08/">传送门</a></p>
+</blockquote>
+<h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><p>ID3是采用<code>信息增益</code>作为特征选择度量，而C4.5采用<code>信息增益率</code>、CART<code>基尼指数</code>。</p>
+<p><code>信息熵</code>：<br>$$<br>Ent(D^v) &#x3D; -\sum_{i&#x3D;1}^{k}p_i\log_{b}(p_i)<br>$$<br><code>信息增益(信息熵 - 条件熵)</code>：<br>$$<br>g(D,A)&#x3D;H(D)-H(D|A)<br>$$<br>即：<br>$$<br>Gain(D,a) &#x3D; Ent(D) - \sum_ {v&#x3D;1}^{V}{\frac{\left| D^{v} \right|}{\left| D \right|}Ent(D^{v})}<br>$$<br><code>信息增益率</code> （信息增益&#x2F;特征熵）：<br>$$<br>\begin{aligned}<br>\text{Gain_Ratio}(D, a) &amp;&#x3D; \frac{\text{Gain}(D, a)}{IV(a)} \<br>\end{aligned}<br>$$<br>其中，特征熵可以这样理解就是<code>只在本特征（列）中求不同类型特征的熵</code>：<br>$$<br>IV(a)&#x3D;-\sum_{v&#x3D;1}^{V}\frac{\left|D^{v}\right|}{|D|}\log_{2}\frac{|D^{v}|}{|D|}<br>$$<br><code>基尼值（Cart分类树）</code>：<br>$$<br>Gini(D) &#x3D; \sum_{k&#x3D;1}^{|y|} \sum_{k’ \neq k} p_k p_{k’} &#x3D; 1 - \sum_{k&#x3D;1}^{|y|} p_k^2<br>$$<br><code>基尼指数</code>：<br>$$<br>Gini(D,a) &#x3D; 1 - \sum_{v&#x3D;1}^{V}{\frac{\left| D^{v} \right|}{\left| D \right|}Gini(D^{v})}<br>$$<br>基尼指数增益：(<code>基尼指数增益最大需要基尼指数最小</code>)：<br>$$<br>Gain(D,a)&#x3D;Gini(D) - Gini(D,a)<br>$$<br>其中$Gini(D)$是总样本的基尼指数。</p>
+<p><code>Cart回归树</code>：<br>$$<br>\operatorname{Loss}(y, f(x))&#x3D;(f(x)-y)^{2}<br>$$</p>
+<p>给定如下样本（六个特征列、一个标签列）分别构建ID3、C4.5、Cart树：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250718164837455.png" alt="image-20250718164837455"></p>
+<h2 id="ID3决策树"><a href="#ID3决策树" class="headerlink" title="ID3决策树"></a>ID3决策树</h2><p>根据信息熵公式：<br>$$<br>H &#x3D; -\sum_{i&#x3D;1}^{k}p_i\log_{b}(p_i)<br>$$<br><code>总样本17个，好瓜8个，坏瓜9个</code></p>
+<p>总的信息熵为：<br>$$<br>Ent(D) &#x3D; -(\frac{8}{17}log_{2}{\frac{8}{17}}+\frac{9}{17}log_{2}{\frac{9}{17}}) &#x3D; 0.998<br>$$<br>因为是需要<code>按照每个特征的信息增益来构建决策树的，所以需要求出每个特征对应的信息增益</code>：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250718171011297.png" alt="image-20250718171011297"></p>
+<p>色泽为青绿(对应上图，只举例一个图):<br>$$<br>Ent(D^{青绿}) &#x3D; -(\frac{3}{6}log_{2}{\frac{3}{6}}+\frac{3}{6}log_{2}{\frac{3}{6}}) &#x3D; 1<br>$$<br>色泽为乌黑时：<br>$$<br>Ent(D^{乌黑}) &#x3D; -(\frac{2}{6}log_{2}{\frac{2}{6}}+\frac{4}{6}log_{2}{\frac{4}{6}}) &#x3D; 0.918<br>$$<br>色泽为浅白时：<br>$$<br>Ent(D^{浅白})&#x3D; -(\frac{1}{5}log_{2}{\frac{1}{5}}+\frac{4}{5}log_{2}{\frac{4}{5}}) &#x3D; 0.722<br>$$<br>最终属性色泽的信息增益计算结果为：<br>$$<br>Gain(D,色泽) &#x3D; Ent(D) - \sum_{v&#x3D;1}^{3}{\frac{\left| D^{v} \right|}{\left| D \right|}Ent(D^{v})}&#x3D; 0.998 - (\frac{6}{17}\times1.000+\frac{6}{17}\times0.918+\frac{5}{17}\times0.722)&#x3D;0.109<br>$$<br>通过相同的公式我们可以再计算出：</p>
+<p>根蒂：$Gain(D,根蒂)&#x3D;0.143$ </p>
+<p>敲声：$Gain(D,敲声)&#x3D;0.141$ </p>
+<p>纹理：$Gain(D,纹理)&#x3D;0.381$ </p>
+<p>脐部：$Gain(D,脐部)&#x3D;0.289$ </p>
+<p>触感：$Gain(D,触感)&#x3D;0.006$</p>
+<p><code>纹理属性的信息增益最高，因此它被选为第一个划分的属性</code></p>
+<p>注意：在求纹理中具有模糊特征的信息增益，0 好瓜，3 坏瓜，$H(模糊)&#x3D;0$，<code>直接标记为坏瓜</code></p>
+<p>接着按照上述步骤求其余特征信息增益，构建ID3决策树：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250718171717469.png" alt="image-20250718171717469"></p>
+<h2 id="C4-5决策树"><a href="#C4-5决策树" class="headerlink" title="C4.5决策树"></a>C4.5决策树</h2><p>信息增益率公式：<br>$$<br>GainRatio(D,a) &#x3D; \frac{Gain(D,a)}{IV(a)}<br>$$<br>其中：<br>$$<br>IV(a)&#x3D;-\sum_{v&#x3D;1}^{V}\frac{\left|D^{v}\right|}{|D|}\log_{2}\frac{|D^{v}|}{|D|}<br>$$<br>$IV(a)$ 称为属性 $a$ 的固有值（Intrinsic Value），其取值随着属性的数量增多而增大，这样就能够很好的降低属性取值数目多带来信息熵大的影响。    </p>
+<p>针对如下数据构建C4.5决策树：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250720175117199.png" alt="image-20250720175117199"></p>
+<p>其中满意度为<code>目标值(标签值)</code>，当采用故障原因作为分裂属性时可以得出：<br>$$<br>Ent(D) &#x3D; -(\frac{5}{10}log_{2}{\frac{5}{10}}+\frac{5}{10}log_{2}{\frac{5}{10}}) &#x3D; 1<br>$$<br>对于三种类型的故障有：<br>$$<br>Ent(D^{故障原因1}) &#x3D; -(\frac{2}{3}log_{2}{\frac{2}{3}}+\frac{1}{3}log_{2}{\frac{1}{3}}) &#x3D; 0.918<br>$$</p>
+<p>$$<br>Ent(D^{故障原因2}) &#x3D; -(\frac{2}{3}log_{2}{\frac{2}{3}}+\frac{1}{3}log_{2}{\frac{1}{3}}) &#x3D; 0.918<br>$$</p>
+<p>$$<br>Ent(D^{故障原因3}) &#x3D; -(\frac{2}{4}log_{2}{\frac{2}{4}}+\frac{2}{4}log_{2}{\frac{2}{4}}) &#x3D; 1<br>$$</p>
+<p>得出故障原因的信息增益为：<br>$$<br>Gain(D,故障原因) &#x3D; 1 - (\frac{3}{10}\times0.918+\frac{3}{10}\times0.918+\frac{4}{10}\times1)&#x3D;0.049<br>$$<br>故障原因的特征熵为：<br>$$<br>IV(故障原因) &#x3D;-(\frac{3}{10}\times1og_{2}{\frac{3}{10}}+\frac{3}{10}\times1og_{2}{\frac{3}{10}}+\frac{4}{10}\times1og_{2}{\frac{4}{10}})&#x3D;1.571<br>$$<br>因此求得故障原因的信息增益率为：<br>$$<br>GainRatio(D,故障原因) &#x3D; \frac{Gain(D,故障原因)}{IV(故障原因)&#x2F;特征熵}&#x3D;\frac{0.049}{1.571}&#x3D;0.031<br>$$</p>
+<h3 id="连续型变量信息增益"><a href="#连续型变量信息增益" class="headerlink" title="连续型变量信息增益"></a>连续型变量信息增益</h3><blockquote>
+<p><code>将连续型变量从小到大排序，取相邻两个值的重点作为分裂点，进行二分类</code>。</p>
+<p>计算不同中点的信息增益，取使信息增益 <strong>最大</strong> 的分割点作为最终划分。</p>
+</blockquote>
+<p>10.2、12、14、16、18、20、22、23、24、25,取相邻两个值的中点，如10.2和12，中点即为11.1，因此可以求得：<br>$$<br>Ent(D^{小于11.1}) &#x3D; -\sum_{k&#x3D;1}^{2}{p_{k}log_{2}{p_{k}}} &#x3D; -\frac{1}{1}log_{2}{\frac{1}{1}}&#x3D;0<br>$$</p>
+<p>$$<br>Ent(D^{大于11.1}) &#x3D; -(\frac{4}{9}log_{2}{\frac{4}{9}}+\frac{5}{9}log_{2}{\frac{5}{9}}) &#x3D; 0.991<br>$$</p>
+<p>最终修障时长在11.1为切分点时的信息增益为：<br>$$<br>Gain(D,时长11.1) &#x3D;1 - (\frac{1}{10}\times0+\frac{9}{10}\times0.991)&#x3D;0.108<br>$$<br>接着计算中点为13切点时的信息增益….</p>
+<p>取使信息增益 <strong>最大</strong> 的分割点作为最终划分。</p>
+<h2 id="CART分类树"><a href="#CART分类树" class="headerlink" title="CART分类树"></a>CART分类树</h2><p>CART(Classification and Regression Tree)对于二分类问题采用<code>基尼指数</code>。</p>
+<p>CART算法不管连续型还是离散型变量<code>都采用二叉树模式进行分裂。</code>公式如下：<br>$$<br>Gini(D) &#x3D; \sum_{k&#x3D;1}^{\left| y \right|}\sum_{k^{‘}≠k}^{}{p_{k}p_{k^{‘}}}&#x3D;1- \sum_{k&#x3D;1}^{\left| y \right|}p_{k}^{2}<br>$$<br>对于属性 $a$ 的的<code>基尼指数</code>为：<br>$$<br>Gini(D,a) &#x3D; 1 - \sum_{v&#x3D;1}^{V}{\frac{\left| D^{v} \right|}{\left| D \right|}Gini(D^{v})}<br>$$<br>对于属性 $a$ 的的基尼指数增益为(<code>基尼指数增益最大需要基尼指数最小</code>)：<br>$$<br>Gain(D,a)&#x3D;Gini(D) - Gini(D,a)<br>$$<br>通过计算选择<code>基尼指数增益最大的变量（基尼指数最小）进行分裂</code>，以如下数据为例：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250720211058892.png" alt="image-20250720211058892"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250720212949734.png" alt="image-20250720212949734"></p>
+<p>其中总样本的基尼指数为：<br>$$<br>Gini(D) &#x3D;1- \sum_{k&#x3D;1}^{2}p_{k}^{2}&#x3D;1 - \left( \frac{3}{10} \right)^{2} - \left( \frac{7}{10} \right)^{2} &#x3D; 0.42<br>$$<br>以是否有房为属性进行分裂时左右叶节点样本子集的基尼指数为：</p>
+<p>是否有房左节点<br>$$<br>Gini(D^{是否有房左节点}) &#x3D; 1- \sum_{k&#x3D;1}^{\left| y \right|}p_{k}^{2}&#x3D;1- \left( \frac{0}{3} \right)^{2} - \left( \frac{3}{3} \right)^{2} &#x3D; 1<br>$$<br>是否有房右节点<br>$$<br>Gini(D^{是否有房右节点}) &#x3D; 1- \sum_{k&#x3D;1}^{\left| y \right|}p_{k}^{2}&#x3D;1- \left( \frac{3}{7} \right)^{2} - \left( \frac{4}{7} \right)^{2} &#x3D; 0.4898<br>$$<br><code>是否有房的基尼指数</code>为：</p>
+<p>是否有房<br>$$<br>Gini(D,是否有房) &#x3D; 1 - \sum_{v&#x3D;1}^{V}{\frac{\left| D^{v} \right|}{\left| D \right|}Gini(D^{v})} &#x3D;1-\frac{7}{10}\times0.4898-\frac{3}{10}\times0&#x3D; 0.343<br>$$</p>
+<h3 id="有多个值的特征构建决策树"><a href="#有多个值的特征构建决策树" class="headerlink" title="有多个值的特征构建决策树"></a>有多个值的特征构建决策树</h3><blockquote>
+<p>这里因为CART树是<code>标准的二叉树</code>，所以对于多个特征需要按照不同的类型分配，求出最大的基尼系数（<code>基尼指数最小</code>）。</p>
+<p>比如婚姻状况有三个取值嘛，已婚、未婚、离婚。</p>
+<p>可以这样划分{married} | {single,divorced}类型1</p>
+<p>也可以{single} | {married,divorced}类型2</p>
+<p>还可以{divorced} | {single,married}类型3</p>
+</blockquote>
+<p>当分组为{married} | {single,divorced}时<code>基尼指数增益（总样本基尼指数-样本特征基尼指数）</code><br>$$<br>Gain(D,婚姻状况)&#x3D;0.42 - \frac{4}{10}\times0-\frac{6}{10}\times[1-\left( \frac{3}{6} \right)^2-\left( \frac{3}{6} \right)^2]&#x3D;0.12<br>$$<br>当分组为{single} | {married,divorced}时：<br>$$<br>Gain(D,婚姻状况)&#x3D;0.42 - \frac{4}{10}\times[1-\left( \frac{2}{4} \right)^2-\left( \frac{2}{4} \right)^2]-\frac{6}{10}\times[1-\left( \frac{1}{6} \right)^2-\left( \frac{5}{6} \right)^2]&#x3D;0.053<br>$$<br>当分组为{divorced} | {single,married}时<br>$$<br>Gain(D,婚姻状况)&#x3D;0.42 - \frac{2}{10}\times[1-\left( \frac{1}{2} \right)^2-\left( \frac{1}{2} \right)^2]-\frac{8}{10}\times[1-\left( \frac{2}{8} \right)^2-\left( \frac{6}{8} \right)^2]&#x3D;0.02<br>$$<br>根据婚姻状况属性来划分根节点时取<code>基尼指数增益最大</code>的分组作为划分结果，</p>
+<p>也就是{married} | {single,divorced}为婚姻状况的最佳分裂节点</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250722094548834.png" alt="image-20250722094548834"></p>
+<h2 id="CART回归树"><a href="#CART回归树" class="headerlink" title="CART回归树"></a>CART回归树</h2><blockquote>
+<p>整体流程可以大致分为三步，</p>
+<p><code>第一步划分左右子集，第二步计算左右子集平均值，第三步求左右子集方差和，取最小为最优分裂点。</code></p>
+</blockquote>
+<p>对于一个变量 $j$ 可以按照取值 $s$<code>划分为左右两个子集</code>：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250726084342730.png" alt="image-20250726084342730"></p>
+<p>通过计算可以得出<code>每个子集的平均值</code> $\hat{c}_m$：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250726084405830.png" alt="image-20250726084405830"></p>
+<p>通过使用平方误差最小准则计算出<code>左右子集的平均误差和最小</code>时 ，$j$ 变量的分裂点 $s$为最佳分裂点：<br>$$<br>m(s) &#x3D; min_{(j,s)}[\sum_{x_{i}\in R_{1}(j,s)}{(y_{i}-c_{1}})^2+\sum_{x_{i}\in R_{2}(j,s)}{(y_{i}-c_{2}})^2]<br>$$</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250722102153511.png" alt="image-20250722102153511"></p>
+<p>其选择二叉树分裂节点时的方法和计算基尼指数时一致，因此当x以1.5作为分割点时：<br>$$<br>c_1&#x3D;5.56, c2 &#x3D; \frac{1}{9}(5.7+5.91+6.4+6.8+7.05+8.9+8.7+9.0+9.05)&#x3D;7.5<br>$$<br>二叉树左侧，右侧平均值为$c_1&#x3D;5.56,c_2&#x3D;7.5 $，计算两个子集平方误差的和为：<br>$$<br>m(1.5)&#x3D; \sum_{x_{i}\in R_{1}(j,s)}{(y_{i}-c_{1}})^2+\sum_{x_{i}\in R_{2}(j,s)}{(y_{i}-c_{2}})^2<br>$$</p>
+<p>$$<br>m(1.5) &#x3D; (5.56-5.56)^2+(5.7-7.5)^2+(5.91-7.5)^2+(6.4-7.5)^2&#x3D;15.72<br>$$</p>
+<p>通过计算不同分裂点的平方误差的和得出如下结果：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250722103000924.png" alt="image-20250722103000924"></p>
+<p>$x&#x3D;6.5$ 是 $m(s)$ 到达最小值为最佳切割点，此时可以将样本分割成左右两部分：<br>$$<br>R_1 &#x3D; {1, 2, \ldots, 6}, \quad R_2 &#x3D; {7, 8, 9, 10}<br>$$<br>如果该树仅仅分裂一次，保持<code>树深度为2</code>，那么未来当输入的变量小于等于6.5时，<code>预测值（左子集均值）</code>为：<br>$$<br>c_1 &#x3D; \frac{1}{6}(5.56+5.7+5.91+6.4+6.8+7.05)&#x3D;6.24<br>$$<br>当输入变量大于6.5时，此时<code>预测值为(均值)</code>：<br>$$<br>c_2&#x3D;\frac{1}{4}(8.9+8.7+9.0+9.05)&#x3D;8.91<br>$$<br>最终得出：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250722103609814.png" alt="image-20250722103609814"></p>
+<h2 id="XGBoost算法"><a href="#XGBoost算法" class="headerlink" title="XGBoost算法"></a>XGBoost算法</h2><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250726084529260.png" alt="image-20250726084529260"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250726084608415.png" alt="image-20250726084608415">最终目标函数形式</p>
+<p>简化后的目标函数：</p>
+<p>$$<br>\mathcal{L}^{(t)}\approx\sum_{i&#x3D;1}^{n}\left[g_{i}f_{t}(x_{i})+\frac{1}{2}h_{i}f_{t}^{2}(x_{i})\right]+\Omega(f_{t})<br>$$</p>
+<h3 id="通用泰勒展开公式"><a href="#通用泰勒展开公式" class="headerlink" title="通用泰勒展开公式"></a>通用泰勒展开公式</h3><p>对于任意函数$g(x)$的二阶泰勒展开：</p>
+<p>$$<br>g(x+\Delta x)\approx g(x)+g’(x)\Delta x+\frac{1}{2}g’’(x)(\Delta x)^{2}<br>$$</p>
+<h3 id="树的结构和正则化项"><a href="#树的结构和正则化项" class="headerlink" title="树的结构和正则化项"></a>树的结构和正则化项</h3><p>假设树函数 $f_{t}$ 可以表示为：<br>$$<br>f_{t}(x)&#x3D;w_{q(x)}<br>$$<br>其中：</p>
+<ul>
+<li>$q(x)$ 是将样本 $x$ 映射到叶子节点的函数</li>
+<li>$w$ 是叶子节点的权重向量</li>
+</ul>
+<p>正则化项定义为：<br>$$<br>\Omega(f_{t})&#x3D;\gamma T+\frac{1}{2}\lambda\sum_{j&#x3D;1}^{T}w_{j}^{2}<br>$$<br>参数说明：</p>
+<ul>
+<li>$T$：叶子节点数量</li>
+<li>$\gamma$, $\lambda$：正则化参数</li>
+<li>$w_{j}$：第 $j$ 个叶子节点的权重</li>
+</ul>
+<h3 id="目标函数重写"><a href="#目标函数重写" class="headerlink" title="目标函数重写"></a>目标函数重写</h3><p>将树函数和正则化项代入目标函数：<br>$$<br>\mathcal{L}^{(t)}\approx\sum_{i&#x3D;1}^{n}\left[g_{i}w_{q(x_{i})}+\frac{1}{2}h_{i}w_{q(x_{i})}^{2}\right]+\gamma T+\frac{1}{2}\lambda\sum_{j&#x3D;1}^{T}w_{j}^{2}<br>$$</p>
+<p>定义叶子节点 $j$ 的样本集合：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250726084653341.png" alt="image-20250726084653341"></p>
+<p>重写目标函数：<br>$$<br>\mathcal{L}^{(t)}\approx\sum_{j&#x3D;1}^{T}\left[\left(\sum_{i\in I_{j}}g_{i}\right)w_{j}+\frac{1}{2}\left(\sum_{i\in I_{j}}h_{i}+\lambda\right)w_{j}^{2}\right]+\gamma T<br>$$</p>
+<p>令：<br>$$<br>\begin{aligned}<br>G_{j}&amp;&#x3D;\sum_{i\in I_{j}}g_{i} \<br>H_{j}&amp;&#x3D;\sum_{i\in I_{j}}h_{i}<br>\end{aligned}<br>$$</p>
+<p>简化形式：<br>$$<br>\mathcal{L}^{(t)}\approx\sum_{j&#x3D;1}^{T}\left[G_{j}w_{j}+\frac{1}{2}(H_{j}+\lambda)w_{j}^{2}\right]+\gamma T<br>$$</p>
+<h3 id="最优叶子节点权重求解"><a href="#最优叶子节点权重求解" class="headerlink" title="最优叶子节点权重求解"></a>最优叶子节点权重求解</h3><p>对 $w_{j}$ 求导并令导数为零：<br>$$<br>\frac{\partial\mathcal{L}^{(t)}}{\partial w_{j}}&#x3D;G_{j}+(H_{j}+\lambda)w_{j}&#x3D;0<br>$$</p>
+<p>最优解：<br>$$<br>w_{j}^{*}&#x3D;-\frac{G_{j}}{H_{j}+\lambda}<br>$$</p>
+<h3 id="最优目标函数值计算"><a href="#最优目标函数值计算" class="headerlink" title="最优目标函数值计算"></a>最优目标函数值计算</h3><p>代入最优权重后的目标函数值：<br>$$<br>\mathcal{L}^{(t)*}&#x3D;-\frac{1}{2}\sum_{j&#x3D;1}^{T}\frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T<br>$$</p>
+<h3 id="树的分裂准则"><a href="#树的分裂准则" class="headerlink" title="树的分裂准则"></a>树的分裂准则</h3><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250726084749294.png" alt="image-20250726084749294"></p>
+<p>最优分裂点选择：<br>$$<br>\max_{\text{所有可能分裂点}} \mathcal{L}_{split}<br>$$</p>
+<h3 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h3><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/1_XGBoostt%E6%8E%A8%E5%AF%BC.png" alt="1_XGBoostt推导"></p>
+<h2 id="Softmax函数"><a href="#Softmax函数" class="headerlink" title="Softmax函数"></a>Softmax函数</h2><blockquote>
+<p>根据下图，可以看到SoftMax函数的输出为0-1之间的概率，并且概率总和为1.</p>
+<p>参考链接：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Renyi-Fan/p/13431061.html">https://www.cnblogs.com/Renyi-Fan/p/13431061.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/bitcarmanlee/article/details/82320853">https://blog.csdn.net/bitcarmanlee/article/details/82320853</a></li>
+</ul>
+</blockquote>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250619141032629.png" alt="image-20250619141032629"></p>
+<p>SoftMax函数表达式：<br>$$<br>y_i &#x3D; \frac{e^{z_i}}{\sum_{k&#x3D;1}^K e^{z_j}} \quad \text{for } i&#x3D;1,…,K<br>$$</p>
+<p>SoftMax函数特性：</p>
+<ul>
+<li>将$K$维向量$\mathbf{z}$压缩为<code>概率分布</code>，概率输出范围$(0,1)$，<code>且所有元素和为1</code></li>
+</ul>
+<p>SoftMax函数特性使得能够：<code>突出最大值，抑制较小值</code>，且便于<code>反向传播</code></p>
+<p>且SoftMax函数存在<code>恒等变形</code>，使得<code>后续求导过程</code>中非常有用:<br>$$<br>\frac{e^{z_{i}}}{\sum_{j} e^{z_{j}}} &#x3D; 1 - \frac{\sum_{j \neq i} e^{z_{j}}}{\sum_{j} e^{z_{j}}}<br>$$<br>恒等变形推导：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250619161915146.png" alt="image-20250619161915146"></p>
+<p>第四行：将 $\frac{e^{z_i}}{\sum_j e^{z_j}}$ 改写为 $1 - \frac{\sum_{j\neq i}e^{z_j}}{\sum_j e^{z_j}}$</p>
+<p>第五、六行：对 $\frac{1}{\sum_j e^{z_j}}$ 求导会产生 $-e^{z_i}$ 项</p>
+<h3 id="SoftMax应用："><a href="#SoftMax应用：" class="headerlink" title="SoftMax应用："></a>SoftMax应用：</h3><p>交叉熵损失函数定义：在多分类问题中，我们经常使用<code>交叉熵作为损失函数</code>：<br>$$<br>Loss &#x3D; -\sum_{i} t_{i} \ln y_{i}<br>$$<br>其中：</p>
+<ul>
+<li>$t_{i}$ 表示真实标签（one-hot编码）</li>
+<li>$y_{i}$ 表示模型输出的softmax概率值</li>
+</ul>
+<p>当预测第$i$个类别时（即真实类别为$i$），可以认为$t_{i}&#x3D;1$，此时损失函数简化为：</p>
+<p>$$<br>Loss_{i} &#x3D; -\ln y_{i}<br>$$</p>
+<p>根据上述求导可以得出SoftMax函数的最小值，于是求得损失函数的最小值。</p>
+<h1 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h1><h1 id="NLP"><a href="#NLP" class="headerlink" title="NLP"></a>NLP</h1><h1 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="#朴素贝叶斯"></a>#朴素贝叶斯</h1><h1 id="支持向量机"><a href="#支持向量机" class="headerlink" title="#支持向量机"></a>#支持向量机</h1><h1 id="EM算法"><a href="#EM算法" class="headerlink" title="#EM算法"></a>#EM算法</h1><h1 id="HMM模型"><a href="#HMM模型" class="headerlink" title="#HMM模型"></a>#HMM模型</h1></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2025/07/16/liam/%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">https://weiswift.github.io/2025/07/16/liam/%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/AI/">AI</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen2.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/07/18/liam/Project/" title="Jason Project Demo"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Jason Project Demo</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/29/liam/InterviewQuestions/" title="Jason Interview Note"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen121.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Jason Interview Note</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2025/06/03/liam/2025.06.03/" title="OLLAMA"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20250603132906789.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-03</div><div class="title">OLLAMA</div></div></a></div><div><a href="/2025/10/25/liam/Agent/" title="Agent-Note"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/Pusheen1121.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-25</div><div class="title">Agent-Note</div></div></a></div><div><a href="/2025/11/03/liam/Fine-Tuning-Note/" title="Fine-Tuning-Note"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/Pusheen191.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-03</div><div class="title">Fine-Tuning-Note</div></div></a></div><div><a href="/2025/10/30/liam/Agent_all/" title="Agent"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/Pusheen12222.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-30</div><div class="title">Agent</div></div></a></div><div><a href="/2025/11/02/liam/Fine-Tuning/" title="Fine-Tuning"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen11121.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-02</div><div class="title">Fine-Tuning</div></div></a></div><div><a href="/2025/07/18/liam/Project/" title="Jason Project Demo"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-18</div><div class="title">Jason Project Demo</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">机器学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ID3%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">1.1.</span> <span class="toc-text">ID3决策树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C4-5%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">1.2.</span> <span class="toc-text">C4.5决策树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E5%9E%8B%E5%8F%98%E9%87%8F%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A"><span class="toc-number">1.2.1.</span> <span class="toc-text">连续型变量信息增益</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CART%E5%88%86%E7%B1%BB%E6%A0%91"><span class="toc-number">1.3.</span> <span class="toc-text">CART分类树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%A4%9A%E4%B8%AA%E5%80%BC%E7%9A%84%E7%89%B9%E5%BE%81%E6%9E%84%E5%BB%BA%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">有多个值的特征构建决策树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CART%E5%9B%9E%E5%BD%92%E6%A0%91"><span class="toc-number">1.4.</span> <span class="toc-text">CART回归树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XGBoost%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">XGBoost算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E6%B3%B0%E5%8B%92%E5%B1%95%E5%BC%80%E5%85%AC%E5%BC%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">通用泰勒展开公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%91%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E6%AD%A3%E5%88%99%E5%8C%96%E9%A1%B9"><span class="toc-number">1.5.2.</span> <span class="toc-text">树的结构和正则化项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0%E9%87%8D%E5%86%99"><span class="toc-number">1.5.3.</span> <span class="toc-text">目标函数重写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9%E6%9D%83%E9%87%8D%E6%B1%82%E8%A7%A3"><span class="toc-number">1.5.4.</span> <span class="toc-text">最优叶子节点权重求解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97"><span class="toc-number">1.5.5.</span> <span class="toc-text">最优目标函数值计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%91%E7%9A%84%E5%88%86%E8%A3%82%E5%87%86%E5%88%99"><span class="toc-number">1.5.6.</span> <span class="toc-text">树的分裂准则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E4%BE%8B"><span class="toc-number">1.5.7.</span> <span class="toc-text">图例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Softmax%E5%87%BD%E6%95%B0"><span class="toc-number">1.6.</span> <span class="toc-text">Softmax函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SoftMax%E5%BA%94%E7%94%A8%EF%BC%9A"><span class="toc-number">1.6.1.</span> <span class="toc-text">SoftMax应用：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="toc-number">2.</span> <span class="toc-text">深度学习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NLP"><span class="toc-number">3.</span> <span class="toc-text">NLP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="toc-number">4.</span> <span class="toc-text">#朴素贝叶斯</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">5.</span> <span class="toc-text">#支持向量机</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#EM%E7%AE%97%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">#EM算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HMM%E6%A8%A1%E5%9E%8B"><span class="toc-number">7.</span> <span class="toc-text">#HMM模型</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/01/%E5%BE%85%E5%8F%91%E5%B8%83/F04-%E8%83%A1%E5%B8%8C%E6%81%95%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F04-胡希恕伤寒论">F04-胡希恕伤寒论</a><time datetime="2026-10-31T16:00:00.000Z" title="Created 2026-11-01 00:00:00">2026-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/27/%E5%BE%85%E5%8F%91%E5%B8%83/S04-%E9%87%91%E5%88%9A%E7%BB%8F/" title="S04-金刚经">S04-金刚经</a><time datetime="2026-10-26T16:00:00.000Z" title="Created 2026-10-27 00:00:00">2026-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/26/T03%E4%BB%A5%E9%A3%9F%E4%B8%BA%E5%A4%A9/" title="T03以食为天">T03以食为天</a><time datetime="2026-08-25T16:00:00.000Z" title="Created 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/F01%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F01伤寒论">F01伤寒论</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/T01%E9%A9%BE%E6%A0%A1%E8%80%83%E8%AF%95/" title="T01驾校考试">T01驾校考试</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

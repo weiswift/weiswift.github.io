@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【Linux】FTP服务器搭建 | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="FTP服务器搭建FTP安装前置步骤安装ftp软件（已安装的话就不用再安装了，可以使用rpm -qa | grep vsftpd命令检测）  rpm -ivh &#x2F;media&#x2F;cdrom&#x2F;Packages&#x2F;vsftpd-3.0.2-28.el7.x86_64.rpm  注意： 上述版本号会根据ISO文件的版本不同有所区别，Tab补全就行了。  启动vsftpd服务,并设为开机自启  systemctl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】FTP服务器搭建">
+<meta property="og:url" content="https://weiswift.github.io/2024/06/02/liam/2024.06.02/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="FTP服务器搭建FTP安装前置步骤安装ftp软件（已安装的话就不用再安装了，可以使用rpm -qa | grep vsftpd命令检测）  rpm -ivh &#x2F;media&#x2F;cdrom&#x2F;Packages&#x2F;vsftpd-3.0.2-28.el7.x86_64.rpm  注意： 上述版本号会根据ISO文件的版本不同有所区别，Tab补全就行了。  启动vsftpd服务,并设为开机自启  systemctl">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-06-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-08-01T14:36:33.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="FTP">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/06/02/liam/2024.06.02/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Linux】FTP服务器搭建',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-08-01 22:36:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/bk.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【Linux】FTP服务器搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-06-01T16:00:00.000Z" title="Created 2024-06-02 00:00:00">2024-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-08-01T14:36:33.000Z" title="Updated 2024-08-01 22:36:33">2024-08-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【Linux】FTP服务器搭建"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="FTP服务器搭建"><a href="#FTP服务器搭建" class="headerlink" title="FTP服务器搭建"></a>FTP服务器搭建</h1><h2 id="FTP安装前置步骤"><a href="#FTP安装前置步骤" class="headerlink" title="FTP安装前置步骤"></a>FTP安装前置步骤</h2><p>安装ftp软件（已安装的话就不用再安装了，可以使用<code>rpm -qa | grep vsftpd</code>命令检测）</p>
+<ul>
+<li><code>rpm -ivh /media/cdrom/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm </code></li>
+<li>注意： 上述版本号会根据ISO文件的版本不同有所区别，Tab补全就行了。</li>
+</ul>
+<p>启动vsftpd服务,并设为开机自启</p>
+<ul>
+<li><code>systemctl start vsftpd</code></li>
+</ul>
+<p>查看21端口：</p>
+<ul>
+<li><code>netstat -ntl | grep 21</code></li>
+</ul>
+<p>设为开机自启：</p>
+<ul>
+<li><code>systemctl enable vsftpd</code></li>
+</ul>
+<p>浏览器访问<a href="ftp://ip_or_hostname/">ftp://ip_or_hostname</a></p>
+<p>如果连接超时，说明开启了防火墙，需要关闭防火墙服务并关闭开机自启：</p>
+<ul>
+<li><p><code>systemctl stop firewalld</code></p>
+</li>
+<li><p><code>systwmctl disable firewalld</code></p>
+</li>
+<li><p>如果连接需要账号密码:</p>
+<ul>
+<li><code>vim /etc/vsftpd/vsftpd.conf</code></li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/2bf24b8dc003d97f8c86c69e41b78d21.png" alt="descript"></p>
+</li>
+</ul>
+<h2 id="FTP设置用户名密码"><a href="#FTP设置用户名密码" class="headerlink" title="FTP设置用户名密码"></a>FTP设置用户名密码</h2><h3 id="一、创建新的Linux系统用户"><a href="#一、创建新的Linux系统用户" class="headerlink" title="一、创建新的Linux系统用户"></a>一、创建新的Linux系统用户</h3><p>在添加FTP用户之前，需要先在Linux系统中创建一个新的系统用户。可以使用以下命令来创建一个新的系统用户：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">useradd username</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">也可以使用如下命令，直接创建用户的同时直接加入到ftp用户组中</span></span><br><span class="line">useradd -g ftp username</span><br></pre></td></tr></table></figure>
+
+<p>其中<strong>linux如何添加ftp用户</strong>，username为你想要创建的用户名。接下来，需要为该用户设置密码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd username</span><br></pre></td></tr></table></figure>
+
+<p>输入以上命令后，按照提示输入两遍密码即可。</p>
+<h3 id="二、安装FTP"><a href="#二、安装FTP" class="headerlink" title="二、安装FTP"></a>二、安装FTP</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install vsftpd</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、创建FTP用户并设置目录权限"><a href="#三、创建FTP用户并设置目录权限" class="headerlink" title="三、创建FTP用户并设置目录权限"></a>三、创建FTP用户并设置目录权限</h3><p>1.创建FTP用户</p>
+<p>使用以下命令来创建一个新的FTP用户linux 输入法，并指定该用户所属的组：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -g ftp username</span><br></pre></td></tr></table></figure>
+
+<p>其中，username为你想要创建的用户名。</p>
+<p>2.设置目录权限</p>
+<p>接下来，需要设置该FTP用户所能够访问的目录以及目录权限。可以使用以下命令来设置目录权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root:root /home/ftpuser/</span><br><span class="line">sudo chmod 755 /home/ftpuser/</span><br><span class="line">sudo mkdir /home/ftpuser/files/</span><br><span class="line">sudo chown ftp:ftp /home/ftpuser/files/</span><br><span class="line">sudo chmod 777 /home/ftpuser/files/以上命令中，/home/ftpuser为FTP用户的根目录，/home/ftpuser/files为FTP用户所能够访问的目录。</span><br></pre></td></tr></table></figure>
+
+<p>四、配置FTP服务（<code>这一步可以按照上图的来配置,我当时是只改了一个anonymous_enable=NO</code>）</p>
+<p>1.修改VSFTPD配置文件</p>
+<p>使用以下命令来编辑VSFTPD配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/vsftpd/vsftpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>在文件末尾添加以下内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">listen</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">anonymous_enable</span>=<span class="string">NO</span></span><br><span class="line"><span class="attr">local_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">write_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">local_umask</span>=<span class="string">022</span></span><br><span class="line"><span class="attr">dirmessage_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">use_localtime</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">xferlog_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">connect_from_port_20</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">chroot_local_user</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">secure_chroot_dir</span>=<span class="string">/var/run/vsftpd/empty</span></span><br><span class="line"><span class="attr">pam_service_name</span>=<span class="string">vsftpd</span></span><br><span class="line"><span class="attr">rsa_cert_file</span>=<span class="string">/etc/ssl/certs/ssl-cert-snakeoil.pem</span></span><br><span class="line"><span class="attr">rsa_private_key_file</span>=<span class="string">/etc/ssl/private/ssl-cert-snakeoil.key</span></span><br><span class="line"><span class="attr">pasv_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">pasv_min_port</span>=<span class="string">40000</span></span><br><span class="line"><span class="attr">pasv_max_port</span>=<span class="string">50000</span></span><br><span class="line"><span class="attr">user_sub_token</span>=<span class="string">$USER</span></span><br><span class="line"><span class="attr">local_root</span>=<span class="string">/home/$USER/files/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>其中adobe air linux，pasv_min_port和pasv_max_port是被动模式下数据传输所使用的端口范围，可以根据需要进行修改。</p>
+<p>2.重启VSFTPD服务</p>
+<p>使用以下命令来重启VSFTPD服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service vsftpd restart</span><br></pre></td></tr></table></figure>
+
+<p>五、测试FTP连接和上传文件操作</p>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ul>
+<li>最好在shell里面测试FTP</li>
+<li>如果FTP不能访问，大概率是由于权限的问题<ul>
+<li><code>chown ftp:ftp /home/ftpuser/files/</code></li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/06/02/liam/2024.06.02/">https://weiswift.github.io/2024/06/02/liam/2024.06.02/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/FTP/">FTP</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【Flink】TableAPI和DataStreamAPI初体验</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/01/HBase(%E5%85%A8)/" title="HBase（全）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">HBase（全）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/10/13/2023.10.13/" title="【Linux】服务自启动脚本"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-13</div><div class="title">【Linux】服务自启动脚本</div></div></a></div><div><a href="/2023/10/16/2023.10.16/" title="【Linux】Gitlib部署过程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-16</div><div class="title">【Linux】Gitlib部署过程</div></div></a></div><div><a href="/2023/10/30/2023.10.30/" title="【Linux】端口开放及漏扫相关命令"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-30</div><div class="title">【Linux】端口开放及漏扫相关命令</div></div></a></div><div><a href="/2023/11/02/2023.11.02%E2%80%BB/" title="【Linux】常用操作"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-02</div><div class="title">【Linux】常用操作</div></div></a></div><div><a href="/2023/12/11/2023.12.11/" title="Ranger和Sentry介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-11</div><div class="title">Ranger和Sentry介绍</div></div></a></div><div><a href="/2023/12/12/2023.12.12/" title="Ranger部署"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-12</div><div class="title">Ranger部署</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FTP%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">FTP服务器搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP%E5%AE%89%E8%A3%85%E5%89%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.</span> <span class="toc-text">FTP安装前置步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FTP%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%AF%86%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">FTP设置用户名密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84Linux%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7"><span class="toc-number">1.2.1.</span> <span class="toc-text">一、创建新的Linux系统用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85FTP"><span class="toc-number">1.2.2.</span> <span class="toc-text">二、安装FTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%88%9B%E5%BB%BAFTP%E7%94%A8%E6%88%B7%E5%B9%B6%E8%AE%BE%E7%BD%AE%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90"><span class="toc-number">1.2.3.</span> <span class="toc-text">三、创建FTP用户并设置目录权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips"><span class="toc-number">1.3.</span> <span class="toc-text">Tips</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/01/%E5%BE%85%E5%8F%91%E5%B8%83/F04-%E8%83%A1%E5%B8%8C%E6%81%95%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F04-胡希恕伤寒论">F04-胡希恕伤寒论</a><time datetime="2026-10-31T16:00:00.000Z" title="Created 2026-11-01 00:00:00">2026-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/27/%E5%BE%85%E5%8F%91%E5%B8%83/S04-%E9%87%91%E5%88%9A%E7%BB%8F/" title="S04-金刚经">S04-金刚经</a><time datetime="2026-10-26T16:00:00.000Z" title="Created 2026-10-27 00:00:00">2026-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/26/T03%E4%BB%A5%E9%A3%9F%E4%B8%BA%E5%A4%A9/" title="T03以食为天">T03以食为天</a><time datetime="2026-08-25T16:00:00.000Z" title="Created 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/F01%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F01伤寒论">F01伤寒论</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/T01%E9%A9%BE%E6%A0%A1%E8%80%83%E8%AF%95/" title="T01驾校考试">T01驾校考试</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

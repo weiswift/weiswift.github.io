@@ -1,0 +1,439 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LLM2Agent | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="企业级AI应用的样貌一个成功的企业级ESG Agent产品，最终形态应该更像一个 “永不疲倦的初级ESG顾问团队”：  7x24小时工作，随时处理全球最新的监管动态和企业数据。 内嵌了顶尖咨询公司的方法论，保证输出质量的专业性和一致性。 具备严格的交叉校验流程，确保结果的准确可靠。 能够通过用户反馈不断进化，越来越懂客户的行业和特定需求。 交付的是可直接用于决策的商业洞见，而不仅仅是一堆冷冰冰的数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM2Agent">
+<meta property="og:url" content="https://weiswift.github.io/2025/11/22/liam/LLM2Agent/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="企业级AI应用的样貌一个成功的企业级ESG Agent产品，最终形态应该更像一个 “永不疲倦的初级ESG顾问团队”：  7x24小时工作，随时处理全球最新的监管动态和企业数据。 内嵌了顶尖咨询公司的方法论，保证输出质量的专业性和一致性。 具备严格的交叉校验流程，确保结果的准确可靠。 能够通过用户反馈不断进化，越来越懂客户的行业和特定需求。 交付的是可直接用于决策的商业洞见，而不仅仅是一堆冷冰冰的数">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen_gemini.png">
+<meta property="article:published_time" content="2025-11-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-11-24T12:05:03.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="AI，ESG">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen_gemini.png"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2025/11/22/liam/LLM2Agent/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LLM2Agent',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-24 20:05:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/%E8%83%8C%E6%99%AF%20(2).png')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LLM2Agent</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-11-21T16:00:00.000Z" title="Created 2025-11-22 00:00:00">2025-11-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-11-24T12:05:03.000Z" title="Updated 2025-11-24 20:05:03">2025-11-24</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LLM2Agent"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="企业级AI应用的样貌"><a href="#企业级AI应用的样貌" class="headerlink" title="企业级AI应用的样貌"></a>企业级AI应用的样貌</h3><p>一个成功的企业级ESG Agent产品，最终形态应该更像一个 “永不疲倦的初级ESG顾问团队”：</p>
+<ul>
+<li>7x24小时工作，随时处理全球最新的监管动态和企业数据。</li>
+<li>内嵌了顶尖咨询公司的方法论，保证输出质量的专业性和一致性。</li>
+<li>具备严格的交叉校验流程，确保结果的准确可靠。</li>
+<li>能够通过用户反馈不断进化，越来越懂客户的行业和特定需求。</li>
+<li>交付的是可直接用于决策的商业洞见，而不仅仅是一堆冷冰冰的数据。</li>
+</ul>
+<h1 id="Agent-产品化战略"><a href="#Agent-产品化战略" class="headerlink" title="Agent 产品化战略"></a>Agent 产品化战略</h1><p>本文档旨在解答两个核心商业命题：</p>
+<ol>
+<li>交付侧：如何通过架构设计减少后期的咨询与运维人力投入？</li>
+<li>价值侧：如何让 ESG Agent 摆脱“大号工作流”的标签，成为不可或缺的企业级应用？</li>
+</ol>
+<h2 id="如何摆脱后期人力（咨询、维护）？"><a href="#如何摆脱后期人力（咨询、维护）？" class="headerlink" title="如何摆脱后期人力（咨询、维护）？"></a>如何摆脱后期人力（咨询、维护）？</h2><p>你想传统的 AI 交付后期往往都是通过“Prompt 工程师驻场”要解决这个问题，系统机制必须一开始就不用人去负责。（很少有公司能做到。。。）</p>
+<h3 id="不要让-AI-试图回答所有问题，也不要让人工去检查所有输出。"><a href="#不要让-AI-试图回答所有问题，也不要让人工去检查所有输出。" class="headerlink" title="不要让 AI 试图回答所有问题，也不要让人工去检查所有输出。"></a>不要让 AI 试图回答所有问题，也不要让人工去检查所有输出。</h3><p>比如用户上传了垃圾数据，AI 生成了幻觉报告，客户投诉，咱们需要人去看日志，或者检查哪一部分出现错误了。</p>
+<p>那不如一开始就将“运维压力”转移回“用户侧的数据准备”，系统变被动为主动。如果用户上传的文件不清晰或数据缺失（如缺少 Scope 3 排放数据），Agent 拒绝生成并直接返回具体的“整改建议清单”，而不是强行生成一篇错误的报告。</p>
+<h3 id="建立机制自动优化系统"><a href="#建立机制自动优化系统" class="headerlink" title="建立机制自动优化系统"></a>建立机制自动优化系统</h3><p>维护成本高是因为模型总是犯同样的错误，咱们需要建立一个机制，让用户的每一次修正都成为下一次迭代的养料，而不是仅仅停留在当次修改。比如说客户反馈“这个回答不对，这个议题分析有问题”，那就需要手动改 Prompt。</p>
+<ul>
+<li>用户反馈问题，系统自动后台记录 <code>{Bad_Output, User_Correction}</code> 这个问题。</li>
+<li>累积 100 条修正数据后，自动触发 DPO (直接偏好优化) 或轻量微调。</li>
+</ul>
+<h3 id="建立用户和产品的信任度"><a href="#建立用户和产品的信任度" class="headerlink" title="建立用户和产品的信任度"></a>建立用户和产品的信任度</h3><p>因为一份报告出来之后，别人会疑问为什么这样写，所以需要对AI生成的出处做一些引用（比如说来自于那篇文章）</p>
+<h2 id="如何成为真正的“企业级-AI-应用”？"><a href="#如何成为真正的“企业级-AI-应用”？" class="headerlink" title="如何成为真正的“企业级 AI 应用”？"></a>如何成为真正的“企业级 AI 应用”？</h2><p>“工具”是用来干活的，“应用”是用来解决业务问题的。要升级为应用，Agent 需要具备记忆、状态管理和业务深度。(但实际上应用也是需要不停地迭代，比如说微信，一直都在维护)</p>
+<h3 id="嵌入核心业务系统-Deep-Integration"><a href="#嵌入核心业务系统-Deep-Integration" class="headerlink" title="嵌入核心业务系统 (Deep Integration)"></a>嵌入核心业务系统 (Deep Integration)</h3><p>如果你的 Agent 只是一个独立的网页，它永远是边缘工具。</p>
+<ul>
+<li><p>对接 企业内部的一些ERP&#x2F;碳核算系统：直接读取系统中后台数据，而不是依赖用户上传 Excel。</p>
+</li>
+<li><p>对接企业内部的知识库，合规库，实时联网监控最新的 HKEX&#x2F;GRI 标准，当标准更新时，主动提醒用户：“去年的模板已过时，建议增加气候风险披露章节”。</p>
+</li>
+</ul>
+<h3 id="真正的价值不在于-LLM-的文笔，而在于它是否拥有专家的“思维链”。"><a href="#真正的价值不在于-LLM-的文笔，而在于它是否拥有专家的“思维链”。" class="headerlink" title="真正的价值不在于 LLM 的文笔，而在于它是否拥有专家的“思维链”。"></a>真正的价值不在于 LLM 的文笔，而在于它是否拥有专家的“思维链”。</h3><p>Agent 发现生成的报告没有披露“董事会多元化政策”，它会自动驳回并重写，而不是等人工发现。这才是企业愿意付费的“专家价值”，可以在 Workflow 中植入 Critique Agent (审查智能体)，这个 Agent 智能体不写文章，只做一件事，去通过标准找报告中有没有具体的内容。</p>
+<h2 id="落地建议总结"><a href="#落地建议总结" class="headerlink" title="落地建议总结"></a>落地建议总结</h2><ol>
+<li>不要交付 Prompt，交付 Dataset：<ul>
+<li>Prompt 容易被窃取且不稳定。你积累的“ESG 垂直领域微调数据集”才是壁垒。你的交付物应该包含这个不断更新的模型。</li>
+</ul>
+</li>
+<li>卖“合规”而不是卖“写作”：<ul>
+<li>企业不在乎 AI 写得文采多好，只在乎发出去的报告会不会被交易所问询。将你的 Agent 定义为 “ESG 合规风控与生成系统”，而不是 “ESG 写作助手”。</li>
+</ul>
+</li>
+<li>定义“错误边界”：<ul>
+<li>明确告诉客户：数据由你们负责，逻辑和合规检查由 AI 辅助，最终决策由人。这能极大降低后期的扯皮风险。</li>
+</ul>
+</li>
+</ol>
+<h2 id="架构演进图-To-Be-Architecture"><a href="#架构演进图-To-Be-Architecture" class="headerlink" title="架构演进图 (To-Be Architecture)"></a>架构演进图 (To-Be Architecture)</h2><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20251124193740283.png" alt="image-20251124193740283"></p>
+<h1 id="Gemini3核心能力"><a href="#Gemini3核心能力" class="headerlink" title="Gemini3核心能力"></a>Gemini3核心能力</h1><p>Google 刚刚于 2025年11月18日 正式发布了 Gemini 3 系列模型。相比之前的 2.0 和 2.5 版本有了巨大的飞跃，特别是在</p>
+<p><strong>推理能力、多模态处理和代理（Agent）能力</strong>上。</p>
+<h2 id="深度思考与推理-Deep-Think"><a href="#深度思考与推理-Deep-Think" class="headerlink" title="深度思考与推理 (Deep Think)"></a>深度思考与推理 (Deep Think)</h2><ul>
+<li>模型在回答复杂问题前会进行深度的链式思考（Chain of Thought），能够更好地处理数学、科学推理和复杂的逻辑难题。</li>
+<li>Deep Think 模式：用户可以选择 “Thinking” 模式，让模型花更多时间规划和反思，从而给出更精确、更有深度的答案。</li>
+<li>透明化思考过程： 新增了“思维签名”（Thought signatures）功能，让用户在一定程度上看到模型的推理路径。</li>
+</ul>
+<h2 id="多模态能力-Multimodality"><a href="#多模态能力-Multimodality" class="headerlink" title="多模态能力 (Multimodality)"></a>多模态能力 (Multimodality)</h2><p>Gemini 3 在理解和生成非文本内容方面不仅是“能做”，而是做的还不错。 它可以处理文本、图像、音频和视频。</p>
+<p>例如，你可以上传一段你运动的视频，它能分析你的动作并给出改进建议；或者上传课堂录音，它能整理出结构完美的笔记。Gemini 3 Pro Image (Nano Banana Pro)： 这是一个专门优化的图像生成和理解版本，显著提升了图像内的文本渲染能力（解决了以往 AI 画图写字难的问题）和对现实世界物理常识的理解。</p>
+<h2 id="生成式界面-Vibe-Coding"><a href="#生成式界面-Vibe-Coding" class="headerlink" title="生成式界面 &amp; Vibe Coding"></a>生成式界面 &amp; Vibe Coding</h2><ul>
+<li><p>Canvas 增强： 在 Canvas 界面中，Gemini 3 构建的应用程序功能更全，代码质量更高。</p>
+</li>
+<li><p>智能纠错： 它不仅是生成代码，还能更敏锐地感知代码的“语境”和开发者的意图，进行更符合直觉的修改和优化。</p>
+</li>
+<li><p>生成式界面可以进行人机交互，比如Gemini生成的一些引用可以立即就试用</p>
+</li>
+<li><p>动态 UI： Gemini 3 不再仅仅吐出文本段落，而是能根据你的需求实时生成最适合的交互界面。例如，如果你在做旅行计划，它可能会直接生成一个可交互的行程表或地图组件，而不仅仅是列出文字。</p>
+</li>
+</ul>
+<h2 id="Agent-代理能力"><a href="#Agent-代理能力" class="headerlink" title="Agent (代理能力)"></a>Agent (代理能力)</h2><ul>
+<li>自主执行： 这是一个面向 Google AI Ultra 会员推出的新功能。Gemini Agent 可以代表你编排和完成复杂的多步骤任务。</li>
+<li>跨应用操作： 它不局限于聊天窗口，而是能真正“使用”工具，帮助你完成如研究报告撰写、跨平台信息整理等长链路工作。</li>
+</ul>
+<h2 id="利用Gemini-3编写ESG披露报告流程"><a href="#利用Gemini-3编写ESG披露报告流程" class="headerlink" title="利用Gemini 3编写ESG披露报告流程"></a>利用Gemini 3编写ESG披露报告流程</h2><h4 id="第一阶段：架构与基准-利用推理能力"><a href="#第一阶段：架构与基准-利用推理能力" class="headerlink" title="第一阶段：架构与基准 (利用推理能力)"></a>第一阶段：架构与基准 (利用推理能力)</h4><ol>
+<li><strong>指令：</strong> “Gemini，我是[行业]的一家企业。请基于最新的 ISSB 准则和 GRI 标准，为我生成一份 ESG 报告的详细目录结构。请特别标注出该行业必须披露的实质性议题。”</li>
+<li><strong>输出：</strong> 获得一份逻辑严密的报告骨架。</li>
+</ol>
+<h4 id="第二阶段：数据填充-利用多模态能力"><a href="#第二阶段：数据填充-利用多模态能力" class="headerlink" title="第二阶段：数据填充 (利用多模态能力)"></a>第二阶段：数据填充 (利用多模态能力)</h4><ol>
+<li><strong>指令：</strong> “这里是我们工厂去年的12份月度环境监测报告（上传PDF&#x2F;图片）。请提取其中的COD、氨氮排放数据，计算年度平均值，并对比国家排放标准，生成一段分析文本。”</li>
+<li><strong>输出：</strong> 直接可用的数据表和合规性分析段落。</li>
+</ol>
+<h4 id="第三阶段：内容生成与优化-利用长上下文与生成能力"><a href="#第三阶段：内容生成与优化-利用长上下文与生成能力" class="headerlink" title="第三阶段：内容生成与优化 (利用长上下文与生成能力)"></a>第三阶段：内容生成与优化 (利用长上下文与生成能力)</h4><ol>
+<li><strong>指令：</strong> “请根据上述数据，撰写‘气候变化应对’章节。要求语气专业、客观，重点突出我们在 Scope 3 减排方面的供应链合作计划。请引用 TCFD 框架中的‘风险与机遇’结构。”</li>
+<li><strong>输出：</strong> 一份结构化、专业化的章节草稿。</li>
+</ol>
+<h4 id="第四阶段：合规审查-利用-Agent-模拟"><a href="#第四阶段：合规审查-利用-Agent-模拟" class="headerlink" title="第四阶段：合规审查 (利用 Agent 模拟)"></a>第四阶段：合规审查 (利用 Agent 模拟)</h4><ol>
+<li><strong>指令：</strong> “你现在是一位严格的 ESG 评级机构分析师（如 MSCI 或 Sustainalytics）。请阅读这份草稿，指出其中逻辑不通顺、数据缺乏佐证或可能有‘漂绿’风险的段落，并给出修改建议。”</li>
+<li><strong>输出：</strong> 一份风险诊断报告，帮助你在发布前规避法律和声誉风险。</li>
+</ol>
+<h3 id="利用-Generative-Interface-生成式界面-输出动态图表"><a href="#利用-Generative-Interface-生成式界面-输出动态图表" class="headerlink" title="利用 Generative Interface (生成式界面) 输出动态图表"></a>利用 <code>Generative Interface</code> (生成式界面) 输出动态图表</h3><ul>
+<li>能力应用： Gemini 3 不仅生成文本，还能生成 UI 组件。</li>
+<li>操作流程： 咨询顾问不再需要手绘图表，只需指令：“基于提取的数据，为我生成一个对比同行业平均水平的动态碳排放仪表盘。” Gemini 3 直接生成可交互的 HTML&#x2F;JS 组件嵌入报告。</li>
+</ul>
+<h1 id="Gemini能力应用"><a href="#Gemini能力应用" class="headerlink" title="Gemini能力应用"></a>Gemini能力应用</h1><h2 id="为上市公司（某个业务团队）提供-ESG-报告服务"><a href="#为上市公司（某个业务团队）提供-ESG-报告服务" class="headerlink" title="为上市公司（某个业务团队）提供 ESG 报告服务"></a>为上市公司（某个业务团队）提供 ESG 报告服务</h2><p>核心挑战： 人手少、数据源杂乱（邮件、PDF、Excel）、对齐国际标准（GRI&#x2F;SASB）耗时。</p>
+<h3 id="利用-Gemini-Agent-实现“全自动数据挖掘”"><a href="#利用-Gemini-Agent-实现“全自动数据挖掘”" class="headerlink" title="利用 Gemini Agent 实现“全自动数据挖掘”"></a>利用 <code>Gemini Agent</code> 实现“全自动数据挖掘”</h3><p> Gemini 3 的 Agent 能力不再是被动问答，而是主动执行。授权Agent访问客户提供的非结构化数据池（如 Google Drive 或企业内网）。Agent 可以自动遍历成百上千份文件（电费单、采购记录、HR 考勤表），自主识别并提取关键 ESG 指标（如碳排放数据、员工多元化比例）。 彻底消除人工查找和录入数据的时间成本。</p>
+<h3 id="利用-Deep-Think-深度思考-进行标准对齐"><a href="#利用-Deep-Think-深度思考-进行标准对齐" class="headerlink" title="利用 Deep Think (深度思考) 进行标准对齐"></a>利用 <code>Deep Think</code> (深度思考) 进行标准对齐</h3><p>利用 Gemini 3 的深度推理能力处理复杂的映射逻辑。将杂乱的原始数据输入模型，要求其基于最新的 SASB 或 GRI 标准进行分类。开启 “Thinking Mode”，模型会通过链式思考（Chain of Thought）判断：“这条供应链数据虽然主要涉及成本，但其中隐含了供应商碳足迹信息，因此应归类到环境（E）维度的范围三排放中。” 确保数据归类的准确性和逻辑性，减少被第三方审计驳回的风险。</p>
+<h3 id="利用-Generative-Interface-生成式界面-输出动态图表-1"><a href="#利用-Generative-Interface-生成式界面-输出动态图表-1" class="headerlink" title="利用 Generative Interface (生成式界面) 输出动态图表"></a>利用 <code>Generative Interface</code> (生成式界面) 输出动态图表</h3><p>Gemini 3 不仅生成文本，还能生成 UI 组件。 咨询顾问不再需要手绘图表，只需指令：“基于提取的数据，为我生成一个对比同行业平均水平的动态碳排放仪表盘。” Gemini 3 直接生成可交互的 HTML&#x2F;JS 组件嵌入报告。</p>
+<h2 id="法律、会计机构融合-ESG-需求"><a href="#法律、会计机构融合-ESG-需求" class="headerlink" title="法律、会计机构融合 ESG 需求"></a>法律、会计机构融合 ESG 需求</h2><p>核心挑战： 跨领域知识壁垒（财务数据与非财务数据的逻辑冲突）、合规性验证极难、审计痕迹缺失。</p>
+<h3 id="利用-Deep-Think-进行“跨领域逻辑审计”"><a href="#利用-Deep-Think-进行“跨领域逻辑审计”" class="headerlink" title="利用 Deep Think 进行“跨领域逻辑审计”"></a>利用 <code>Deep Think</code> 进行“跨领域逻辑审计”</h3><p>Gemini 3 极强的逻辑推理能力，擅长发现矛盾。 将企业的《财务审计报告》和草拟的《ESG 报告》同时输入 Gemini 3 Pro (大上下文窗口)。指令模型：“作为审计师，请使用深度思考模式，找出两份报告中的逻辑矛盾。” 模型可能会指出：“财务报告显示‘重工业燃料采购成本大幅上升’，但在 ESG 报告中‘直接能源消耗（范围一）’却显示下降，这存在逻辑悖论，请核查。”解决 ESG 与财务两张皮的问题，规避“漂绿”风险。</p>
+<h3 id="利用-Multimodality-多模态-验证物理凭证"><a href="#利用-Multimodality-多模态-验证物理凭证" class="headerlink" title="利用 Multimodality (多模态) 验证物理凭证"></a>利用 <code>Multimodality</code> (多模态) 验证物理凭证</h3><ul>
+<li>能力应用： 视觉理解能力。</li>
+<li>操作流程： 会计师直接批量上传数百张工厂排污许可证、ISO 认证证书的扫描件。Gemini 3 Pro Image 可以瞬间识别证书的有效期、颁发机构，并与当地法律数据库进行比对，标记出已过期或存疑的证书。</li>
+</ul>
+<h3 id="利用-Thought-Signatures-思维签名-留存审计痕迹"><a href="#利用-Thought-Signatures-思维签名-留存审计痕迹" class="headerlink" title="利用 Thought Signatures (思维签名) 留存审计痕迹"></a>利用 <code>Thought Signatures</code> (思维签名) 留存审计痕迹</h3><ul>
+<li>能力应用： 透明化推理过程。</li>
+<li>操作流程： 在进行合规检查时，要求 Gemini 输出其判断依据。模型会生成一份“思维日志”，详细列出它是引用了哪一条具体的法律条款（如《欧盟 CSRD 指令》第 X 条）来判断当前数据不合规。这份日志直接作为审计工作底稿的一部分。</li>
+</ul>
+<h2 id="中小企业信息披露（无专业团队-低成本）"><a href="#中小企业信息披露（无专业团队-低成本）" class="headerlink" title="中小企业信息披露（无专业团队&#x2F;低成本）"></a>中小企业信息披露（无专业团队&#x2F;低成本）</h2><p>核心挑战： 不懂专业术语、只会填数、不想花钱雇人。</p>
+<h3 id="利用-Multimodality-实现“拍照即填报”"><a href="#利用-Multimodality-实现“拍照即填报”" class="headerlink" title="利用 Multimodality 实现“拍照即填报”"></a>利用 <code>Multimodality</code> 实现“拍照即填报”</h3><ul>
+<li>能力应用： 极致的视觉与文本转换。</li>
+<li>操作流程： 中小企业主不需要理解什么是“范围二排放”。他们只需用手机拍下每月的电费单、燃气发票，直接上传给 Gemini。模型自动识别度数、金额、时间，并根据内置的排放因子自动计算出碳排放量，填入表格。</li>
+<li>解决痛点： 将专业门槛降级为“拍照”动作。</li>
+</ul>
+<h3 id="利用-Vibe-Coding-构建“极简填报小程序”"><a href="#利用-Vibe-Coding-构建“极简填报小程序”" class="headerlink" title="利用 Vibe Coding 构建“极简填报小程序”"></a>利用 <code>Vibe Coding</code> 构建“极简填报小程序”</h3><ul>
+<li>能力应用： 强大的代码生成与上下文理解。</li>
+<li>操作流程： 平台方可以使用 Gemini 3 的 Canvas 功能，快速为不同行业（如餐饮、制造、物流）生成定制化的简易填报界面。<ul>
+<li><em>Prompt:</em> “为一家小型物流公司生成一个只需 5 步的 ESG 数据填报网页，语言要通俗易懂，不要出现专业术语。”</li>
+<li>Gemini 会生成一个网页，把“Scope 1 排放”改成“您有多少辆货车？每辆车每月加多少油？”</li>
+</ul>
+</li>
+<li>解决痛点： 通过定制化 UI 降低认知负荷。</li>
+</ul>
+<h3 id="利用-Gemini-Agent-作为-7x24h-虚拟-ESG-顾问"><a href="#利用-Gemini-Agent-作为-7x24h-虚拟-ESG-顾问" class="headerlink" title="利用 Gemini Agent 作为 7x24h 虚拟 ESG 顾问"></a>利用 <code>Gemini Agent</code> 作为 7x24h 虚拟 ESG 顾问</h3><ul>
+<li>能力应用： 角色扮演与知识库调用。</li>
+<li>操作流程： 企业主在填写过程中遇到不懂的问题（如“我也需要披露员工培训时长吗？”），直接语音询问 Agent。Agent 不仅回答“是&#x2F;否”，还会结合该企业的行业属性（如制造业高风险）给出解释：“建议披露，因为您的行业涉及生产安全，这有助于提升银行对您的贷款评估评分。”</li>
+</ul>
+<h2 id="总结：Gemini-3-对该业务的赋能矩阵"><a href="#总结：Gemini-3-对该业务的赋能矩阵" class="headerlink" title="总结：Gemini 3 对该业务的赋能矩阵"></a>总结：Gemini 3 对该业务的赋能矩阵</h2><table>
+<thead>
+<tr>
+<th>关键能力</th>
+<th>在 ESG 场景中的核心价值</th>
+<th>解决的核心痛点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Deep Think (深度思考)</td>
+<td>逻辑审计师：发现财务与 ESG 数据的逻辑漏洞；精准对齐复杂国际标准。</td>
+<td>合规风险、标准理解难度大</td>
+</tr>
+<tr>
+<td>Multimodality (多模态)</td>
+<td>数据录入员：直接识别发票、证书、工厂照片，实现“拍照即填报”。</td>
+<td>数据收集繁琐、人工录入错误</td>
+</tr>
+<tr>
+<td>Gemini Agent (代理)</td>
+<td>全能执行者：自动遍历网盘抓取数据；跨系统（ERP&#x2F;CRM）提取信息。</td>
+<td>人力成本高、流程割裂</td>
+</tr>
+<tr>
+<td>Generative UI</td>
+<td>界面设计师：为中小企业生成极简、通俗的动态填报界面。</td>
+<td>软件难用、用户体验差</td>
+</tr>
+</tbody></table>
+<h1 id="ESG领域自动生成报告"><a href="#ESG领域自动生成报告" class="headerlink" title="ESG领域自动生成报告"></a>ESG领域自动生成报告</h1><p>ESG报告自动化需求正在井喷，驱动力来自：</p>
+<ol>
+<li>ESG信息披露从“自愿”走向“强制”。中国、欧盟（CSRD）、美国（SEC气候披露提案）等主要经济体都出台了或即将出台强制性披露规定。海量的企业（尤其是上市公司和供应链核心企业）第一次被要求撰写ESG报告，这是最确定、最刚性的市场基础。</li>
+<li>传统ESG报告撰写依赖昂贵的第三方咨询机构，耗时长达数月。对于需要每年披露的企业来说，这是一个巨大的、持续性的成本中心。自动化工具能显著降低成本和缩短周期，吸引力巨大。</li>
+<li>投资者、评级机构、客户对ESG数据的需求日益增长。一份高质量、数据透明的ESG报告能帮助企业获得更低的融资成本、更高的估值和更好的品牌声誉。</li>
+</ol>
+<p>然而，市场挑战同样明显：</p>
+<ul>
+<li>标准不统一： GRI、SASB、TCFD、ISSB、中国的CGC等标准并存，企业无所适从。智能体需要具备处理多标准、跨地域的复杂能力。</li>
+<li>数据质量是“黑洞”： 报告的难点不在于“写”，而在于“数据收集、清洗、验证”。智能体能否解决最前端的、分散在各部门（财务、人力、生产、供应链）的非结构化数据获取问题，是成败的关键。</li>
+<li>“最后一公里”问题： 完全自动生成一份可直接发布的、董事会级别认可的权威报告，在现阶段非常困难。报告需要管理层背书、内部核对、甚至第三方鉴证。智能体更现实的定位是“超人助理”，完成80%的基础工作，专家完成20%的审核与升华。</li>
+</ul>
+<p>结论： 市场是真实存在的，且规模巨大。但当前的赢家不会是追求“全自动”的通用智能体，而是能精准解决特定环节痛点的解决方案。</p>
+<h1 id="公众号推文智能体"><a href="#公众号推文智能体" class="headerlink" title="公众号推文智能体"></a>公众号推文智能体</h1><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20251124161639256.png" alt="image-20251124161639256"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20251124142750959.png" alt="image-20251124142750959"></p>
+<h1 id="AI新趋势能否取代人？"><a href="#AI新趋势能否取代人？" class="headerlink" title="AI新趋势能否取代人？"></a>AI新趋势能否取代人？</h1><h2 id="什么是端到端？"><a href="#什么是端到端？" class="headerlink" title="什么是端到端？"></a>什么是端到端？</h2><p>就是从一个业务功能设计到具体的开发环境实现，这就是端到端</p>
+<h2 id="AI完全替代工程师可行性"><a href="#AI完全替代工程师可行性" class="headerlink" title="AI完全替代工程师可行性"></a>AI完全替代工程师可行性</h2><p>包括一些数据的形式、数据体量、数据本身的数据结构</p>
+<p>还有比如还使用到Linux这里包括：Linux的服务器型号、版本号、操作系统</p>
+<p>数据库（Mysql、Kafka、ES、MongoDB、Redis、Hive、Hadoop、Noe4j、Milvus、Doris）端口、数据库名、表名、字段信息、数据类型（int、float、double单双精度浮点型）</p>
+<h2 id="AI会有提示"><a href="#AI会有提示" class="headerlink" title="AI会有提示"></a>AI会有提示</h2><p>AI提示没问题，但主要是人需要知道这个东西怎么配置或者说如何使用</p>
+<p>从人驱动AI，到AI驱动人，这就会出现一个问题，不懂这个底层逻辑就会完全依赖于AI，甚至他胡编乱造你也会听。而且幻觉问题从来都没有解决过，所以AI就会欺骗你。幻觉从一开始都是缓解，并没有彻底解决。</p>
+<h2 id="工程师的竞争力在于"><a href="#工程师的竞争力在于" class="headerlink" title="工程师的竞争力在于"></a>工程师的竞争力在于</h2><p>在问题出现之后快速定位问题，并依赖AI解决问题。</p>
+<p>在于驾驭AI，如果驾驭不了AI，那么就会被AI驾驭。</p>
+<p>AI给你生成屎山代码，那么你就需要去不断地调试（可以说AI其实只是一个书呆子，他没有实际去解决过一些企业中的实际生产问题，他就没有实践）</p>
+<p>所以说AI慢慢会往Agent方向去靠</p>
+<h2 id="AI幻觉产生原因是什么？"><a href="#AI幻觉产生原因是什么？" class="headerlink" title="AI幻觉产生原因是什么？"></a>AI幻觉产生原因是什么？</h2><p>AI幻觉其实就是大语言模型的幻觉。目前主流的LLM是Decoder-Only架构的。也就是自回归（Auto-regressive）模型，根据前面的文本预测下一个词，但是每一个词其实都是基于概率分布来的。如果模型在第一步就犯了一个小错误（生成了一个不合理或事实错误的词），这个错误会成为后续预测的新上下文。模型只能基于这个错误的上下文继续生成，导致错误像雪球一样越滚越大，最终可能生成完全虚构的内容（即“幻觉”）。</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20251122191849822.png" alt="image-20251122191849822"></p>
+<ul>
+<li>Encoder-Only架构<ul>
+<li>代表模型：BERT, RoBERTa, DeBERTa</li>
+<li>特点：能够同时“看到”整个输入句子的上下文（双向理解），极其擅长 深度理解 。</li>
+<li>适用任务：文本分类、情感分析、命名实体识别等需要对文本进行全面理解的任务。</li>
+</ul>
+</li>
+<li>Encoder-Decoder<ul>
+<li>代表模型：T5, BART, Flan-T5</li>
+<li>特点：保留了原始 Transformer 的完整结构，适用于将一个文本序列转换为另一个文本序列的 序列到序列 任务。</li>
+<li>适用任务：机器翻译、文本摘要、问答等。</li>
+</ul>
+</li>
+<li>Decoder-Only架构<ul>
+<li>代表模型：GPT 系列, PaLM, LLaMA, ChatGPT</li>
+<li>特点：自回归（Auto-regressive）模型，根据前面的文本预测下一个词，极其擅长 内容生成 。</li>
+<li>适用任务：文章写作、聊天对话、代码生成等需要创意和流畅表达的任务。</li>
+</ul>
+</li>
+</ul>
+<h2 id="次时代模型Agent"><a href="#次时代模型Agent" class="headerlink" title="次时代模型Agent"></a>次时代模型Agent</h2><p>通过越来越强的工具调用能力和任务规划能力，模型会越来越向Agent去靠拢（理解任务、制定计划、使用工具、反思改进）。</p>
+<p>GPT-5的发布会上，OpenAI就推出了AgentKit，让开发者用一种工作流方式开发Agent，成为新一代的AI内App。</p>
+<p>但在今天之前，几乎没有任何一家基础模型公司在to C的产品中添加通用Agent能力。因为这对于模型的考验相当大，它需要真的进化成能够理解任务、制定计划、使用工具、反思改进的Agent。</p>
+<p>Gemini 3首先完成了这一跃，成了第一个在模型界面融合通用Agent能力的产品。</p>
+<p>这种自信并非毫无根据。根据Model Card，它被训练使用了强化学习技术，能够利用多步骤推理、问题解决和定理证明数据。这种能力的技术基础部分来自于改进的函数调用（function calling）能力。根据发布资料，Gemini 3的工具使用能力相比2.5 Pro提升了30%。这不仅意味着它能更准确地选择正确的工具，更重要的是，它能理解何时需要组合多个工具来完成复杂任务。</p>
+<p>有用户让Gemini 3帮助学习一门新语言。传统AI会提供学习计划和资源链接。但Gemini 3生成了一套完整的交互式学习系统：词汇卡片带有间隔重复算法，语法练习带有即时反馈，发音练习集成了语音识别，进度追踪可视化。</p>
+<h2 id="Agent有哪几种模式"><a href="#Agent有哪几种模式" class="headerlink" title="Agent有哪几种模式"></a>Agent有哪几种模式</h2><p>（1）⼯具使⽤模式</p>
+<p>允许 Agent 调用外部工具来弥补自身知识的不足。</p>
+<p>agent会自动完成工具的选择和调用，并基于工具调用结果进行最终答案生成。</p>
+<p>（2）ReAct 模式</p>
+<p>将“思考”（Reasoning）和 “行动”（Acting）紧密地结合在一起，形成一个动态的循环。这个模式让Agent不再是简单地调用工具，而是像人类一样“边想边做”，从而解决更复杂的问题。</p>
+<p>工作流程：思考——》行动——》行动输入——》观察——》循环迭代</p>
+<p>（3）反思模式</p>
+<p>Agent 在完成一个步骤或整个任务后，对其结果进行评估生成反馈【大模型自身、评估模型、调用工具、用户反馈】， 然后Agent根据反馈结果进行反思并对结果进行修正。</p>
+<p>（4）规划模式</p>
+<p>先将一个大目标分解成一个详细的、有序的计划（Plan），然后再逐一执行计划中的每个步骤（每个步骤可能是一个 ReAct 循环）。</p>
+<p>（5）多智能体模式</p>
+<p>可以设计多个具有不同角色和能力的 Agent，让它们协同工作来完成极复杂的任务。</p>
+<h1 id="AI给出的思考"><a href="#AI给出的思考" class="headerlink" title="AI给出的思考"></a>AI给出的思考</h1><h2 id="一、对“AI-一句话生成完整网页”的冷静思考"><a href="#一、对“AI-一句话生成完整网页”的冷静思考" class="headerlink" title="一、对“AI 一句话生成完整网页”的冷静思考"></a>一、对“AI 一句话生成完整网页”的冷静思考</h2><p>AI 工具在生成简单、静态或符合标准模板的网页方面确实展现了极高的效率，比如一个基于 Tailwind CSS 的企业网站或一个基本的待办事项列表。但这并不意味着前端程序员的末日，而是意味着简单重复性的工作将被自动化。</p>
+<p>AI 无法取代的核心价值：</p>
+<ol>
+<li>业务逻辑的抽象与转换： 真正的挑战不在于“如何写代码”，而在于“如何将模糊的业务需求和复杂的系统限制转化为清晰、可执行的架构”。AI 目前缺乏对公司战略、市场竞争和长期维护成本的深刻理解。</li>
+<li>系统工程与可维护性： AI 生成的代码通常是零散的、一次性的，缺乏整体的系统架构设计。对于大型、高流量、需要长期维护的企业级应用，程序员必须设计数据流、状态管理、模块化和扩展性——这些是 AI 尚无法独立完成的复杂工程任务。</li>
+<li>复杂交互与用户体验 (UX)： 优秀的交互设计往往需要对用户心理和场景进行深度共情。AI 可以实现“功能”，但难以创造出真正提升用户体验的、微妙且创新的交互方式。</li>
+<li>集成与调试能力： 当 AI 生成的代码与复杂的后端服务、遗留系统、第三方 API 或特定硬件集成时，出现问题是必然的。解决跨系统、跨层级的复杂调试问题，仍然是人类程序员的专属领域。</li>
+</ol>
+<h2 id="二、当前程序员的核心竞争力"><a href="#二、当前程序员的核心竞争力" class="headerlink" title="二、当前程序员的核心竞争力"></a>二、当前程序员的核心竞争力</h2><p>在 AI 成为通用工具的时代，程序员的核心竞争力已从“撰写代码”转向“解决问题”和“设计系统”。</p>
+<table>
+<thead>
+<tr>
+<th>核心竞争力</th>
+<th>描述</th>
+<th>应对 AI 挑战</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 系统架构与设计思维</td>
+<td>能够设计可扩展、高性能、高可用的软件系统，理解微服务、数据结构、设计模式等。</td>
+<td>从实现细节中脱身，专注于宏观蓝图，成为 AI 的架构师和总指挥。</td>
+</tr>
+<tr>
+<td>2. 业务洞察与需求抽象</td>
+<td>能够准确理解客户或业务方的真实需求，并将其转化为清晰、无歧义的技术规格。</td>
+<td>AI 无法理解“言外之意”和商业语境，这是人类沟通和判断的独特价值。</td>
+</tr>
+<tr>
+<td>3. 深度调试与瓶颈分析</td>
+<td>能够快速定位生产环境中的复杂 Bug、分析性能瓶颈、解决多线程竞争等底层问题。</td>
+<td>掌握工具，能深入代码库的各个角落，进行 AI 无法触及的复杂“侦查”工作。</td>
+</tr>
+<tr>
+<td>4. 学习与适应新技术能力</td>
+<td>能够快速掌握新的编程语言、框架和工具，尤其包括 AI 模型和相关工具链。</td>
+<td>将 AI 视为生产力工具，持续学习如何高效地“提示 (Prompt)”和“审核 (Audit)”AI 生成的代码。</td>
+</tr>
+<tr>
+<td>5. 软技能与领导力</td>
+<td>有效的沟通、团队协作、项目管理、指导初级成员、以及在技术决策中权衡利弊。</td>
+<td>编程工作的社会属性不会消失，工程领导力和跨职能沟通至关重要。</td>
+</tr>
+</tbody></table>
+<h2 id="三、结论：未来的角色转变"><a href="#三、结论：未来的角色转变" class="headerlink" title="三、结论：未来的角色转变"></a>三、结论：未来的角色转变</h2><p>前端程序员的角色正在从专注于 HTML&#x2F;CSS&#x2F;JavaScript 的实现者 (Implementer) 转向 前端系统架构师 (Front-end System Architect)。</p>
+<p>AI 将解放程序员，使其摆脱重复性的代码编写工作，从而有更多的时间和精力投入到高价值的决策、创新和工程挑战中。未来的程序员需要具备“与 AI 协作”的能力，学会高效地向 AI 提问、整合 AI 产出，并对最终产品的质量和可靠性负责。</p>
+<p>总而言之，AI 无法取代具备 工程化思维、业务理解力 和 系统级解决能力 的工程师。程序员的工作不是消失了，而是进化了。</p>
+<h1 id="LLM赋能小微企业-ESG-业务分析"><a href="#LLM赋能小微企业-ESG-业务分析" class="headerlink" title="LLM赋能小微企业 ESG 业务分析"></a>LLM赋能小微企业 ESG 业务分析</h1><h2 id="ESG-实践中的痛点"><a href="#ESG-实践中的痛点" class="headerlink" title="ESG 实践中的痛点"></a>ESG 实践中的痛点</h2><p>资源和成本问题（以最少得成本来最大化获取资源），也就是如何做到降本增效。目前了解到的如下：</p>
+<p>ESG报告编写比较耗费人力成本（需要一些资深的ESG分析师来编写）</p>
+<p>信息的采集：对应ESG新的ESG政策如果没有统一的信息汇总工具那么就无法很快的了解到行业的一些最新动态（包括一些上交所、深交所、港交所、北交所的一些最新的ESG政策）。</p>
+<p>再有就是内部员工需要了解ESG到底是什么东西，但是相关文件又过多，难以理解。LLM可以降低内部培训成本，提高员工对 ESG 理念的认知度和参与度。</p>
+<h2 id="Gemini如何使用"><a href="#Gemini如何使用" class="headerlink" title="Gemini如何使用"></a>Gemini如何使用</h2><p>Gemini是谷歌闭源的一款模型，微调不可能，别人拿来卖钱的。（笑）</p>
+<p>生成HTML网页、包括SVG动画这些都不用说，效果也还不错，但是这仅仅是一个demo，对于企业级的项目仅仅有前端是不够的，而且企业级的项目的工程量在这，在一个就是企业级的项目不单单是生成代码，还要根据业务去生产环境跑代码，这就涉及到很多的调试，很多的试错，怎么去定位问题，怎么去解决问题这很重要。</p>
+<p>我觉得关键不在于说Gemini或者别的大模型本身如何，而是在于我们人&#x2F;开发&#x2F;业务如何使用好这个大模型。</p>
+<p>针对于业务：写报告、分析行业最新的ESG政策</p>
+<p>对于技术：在生产环境遇到问题如何定位问题并解决问题</p>
+<h2 id="提示词技术"><a href="#提示词技术" class="headerlink" title="提示词技术"></a>提示词技术</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">你是专业的内容理解与整理专家，请按照以下步骤处理任务：</span><br><span class="line">输入数据：</span><br><span class="line">&#123;&#123;<span class="comment">#1763627802011.text#&#125;&#125;</span></span><br><span class="line">&#123;&#123;<span class="comment">#1760977742184.text#&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">执行步骤：</span><br><span class="line"><span class="number">1.</span> 根据文本内容，将文本分别分割成独立的段落，并以黑色实心方块进行编号，先整理第一部分内容，再整理第二部分内容，每一个段落字数控制在<span class="number">100</span>-<span class="number">200</span>字左右</span><br><span class="line"><span class="number">2.</span> 不同日期的段落进行分开整理</span><br><span class="line"><span class="number">3.</span> 以黑色实心方块进行编号，不要出现数字编号（<span class="number">1.</span> 等），不要换行，不要出现黑色圆点</span><br><span class="line"><span class="number">4.</span> 将内容分别归类到，国内(政策与社会，投资与实践)，国外(政策与社会，投资与实践) 两大板块（段落内容严格区分国内与国外）</span><br><span class="line"><span class="number">5.</span> 严格按照一级标题（国内/国外资讯），二级标题(政策与社会，投资与实践)的标题结构进行输出</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">重要要求：</span><br><span class="line">- 所有执行必须按照顺序执行</span><br><span class="line">- 必须严格按照传入的内容整理，不要随意编造</span><br><span class="line">- 按照每一个段落中的时间进行降序排序，如果段落中没有时间，就排到最前面</span><br><span class="line">- 确保每一步完成后再进行下一步</span><br><span class="line">- 最终输出只包含完整两个一级标题，一级标题下面有政策与社会，投资与实践两个二级标题</span><br><span class="line">- 不要包含任何XML标签或标记语言</span><br><span class="line">- 输出格式为MarkDown</span><br><span class="line">- 内容中不要出现排版说明，类似的说明文字</span><br><span class="line">- 每一个二级标题下面不少于三段内容 不同分段来源于不同的内容</span><br><span class="line">- 每一个带有《》书名号的内容不要随意变动</span><br><span class="line"></span><br><span class="line">输出格式示例：</span><br><span class="line"><span class="comment"># 国内资讯</span></span><br><span class="line"><span class="comment">## 政策与社会</span></span><br><span class="line">■ 段落具体内容....</span><br><span class="line">投资与实践</span><br><span class="line">■ 段落具体内容....</span><br><span class="line"><span class="comment"># 国外资讯</span></span><br><span class="line"><span class="comment">## 政策与社会</span></span><br><span class="line">■ 段落具体内容....</span><br><span class="line">投资与实践</span><br><span class="line">■ 段落具体内容....</span><br></pre></td></tr></table></figure>
+
+<h1 id="AgentWorkflow"><a href="#AgentWorkflow" class="headerlink" title="AgentWorkflow"></a>AgentWorkflow</h1><p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20251124182518211.png" alt="image-20251124182518211"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2025/11/22/liam/LLM2Agent/">https://weiswift.github.io/2025/11/22/liam/LLM2Agent/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI%EF%BC%8CESG/">AI，ESG</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen_gemini.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/11/27/liam/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" title="Project Design"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen021.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Project Design</div></div></a></div><div class="next-post pull-right"><a href="/2025/11/14/liam/Fine_tuning&amp;Agent_Workflow/" title="Jason Working Note"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/pusheen4.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Jason Working Note</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%81%E4%B8%9A%E7%BA%A7AI%E5%BA%94%E7%94%A8%E7%9A%84%E6%A0%B7%E8%B2%8C"><span class="toc-number">1.</span> <span class="toc-text">企业级AI应用的样貌</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Agent-%E4%BA%A7%E5%93%81%E5%8C%96%E6%88%98%E7%95%A5"><span class="toc-number">2.</span> <span class="toc-text">Agent 产品化战略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%91%86%E8%84%B1%E5%90%8E%E6%9C%9F%E4%BA%BA%E5%8A%9B%EF%BC%88%E5%92%A8%E8%AF%A2%E3%80%81%E7%BB%B4%E6%8A%A4%EF%BC%89%EF%BC%9F"><span class="toc-number">2.1.</span> <span class="toc-text">如何摆脱后期人力（咨询、维护）？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81%E8%AE%A9-AI-%E8%AF%95%E5%9B%BE%E5%9B%9E%E7%AD%94%E6%89%80%E6%9C%89%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B9%9F%E4%B8%8D%E8%A6%81%E8%AE%A9%E4%BA%BA%E5%B7%A5%E5%8E%BB%E6%A3%80%E6%9F%A5%E6%89%80%E6%9C%89%E8%BE%93%E5%87%BA%E3%80%82"><span class="toc-number">2.1.1.</span> <span class="toc-text">不要让 AI 试图回答所有问题，也不要让人工去检查所有输出。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E6%9C%BA%E5%88%B6%E8%87%AA%E5%8A%A8%E4%BC%98%E5%8C%96%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.2.</span> <span class="toc-text">建立机制自动优化系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E7%94%A8%E6%88%B7%E5%92%8C%E4%BA%A7%E5%93%81%E7%9A%84%E4%BF%A1%E4%BB%BB%E5%BA%A6"><span class="toc-number">2.1.3.</span> <span class="toc-text">建立用户和产品的信任度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%88%90%E4%B8%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E2%80%9C%E4%BC%81%E4%B8%9A%E7%BA%A7-AI-%E5%BA%94%E7%94%A8%E2%80%9D%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">如何成为真正的“企业级 AI 应用”？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E6%A0%B8%E5%BF%83%E4%B8%9A%E5%8A%A1%E7%B3%BB%E7%BB%9F-Deep-Integration"><span class="toc-number">2.2.1.</span> <span class="toc-text">嵌入核心业务系统 (Deep Integration)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E4%BB%B7%E5%80%BC%E4%B8%8D%E5%9C%A8%E4%BA%8E-LLM-%E7%9A%84%E6%96%87%E7%AC%94%EF%BC%8C%E8%80%8C%E5%9C%A8%E4%BA%8E%E5%AE%83%E6%98%AF%E5%90%A6%E6%8B%A5%E6%9C%89%E4%B8%93%E5%AE%B6%E7%9A%84%E2%80%9C%E6%80%9D%E7%BB%B4%E9%93%BE%E2%80%9D%E3%80%82"><span class="toc-number">2.2.2.</span> <span class="toc-text">真正的价值不在于 LLM 的文笔，而在于它是否拥有专家的“思维链”。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%90%BD%E5%9C%B0%E5%BB%BA%E8%AE%AE%E6%80%BB%E7%BB%93"><span class="toc-number">2.3.</span> <span class="toc-text">落地建议总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E6%BC%94%E8%BF%9B%E5%9B%BE-To-Be-Architecture"><span class="toc-number">2.4.</span> <span class="toc-text">架构演进图 (To-Be Architecture)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gemini3%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B"><span class="toc-number">3.</span> <span class="toc-text">Gemini3核心能力</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E6%80%9D%E8%80%83%E4%B8%8E%E6%8E%A8%E7%90%86-Deep-Think"><span class="toc-number">3.1.</span> <span class="toc-text">深度思考与推理 (Deep Think)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E8%83%BD%E5%8A%9B-Multimodality"><span class="toc-number">3.2.</span> <span class="toc-text">多模态能力 (Multimodality)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%BC%8F%E7%95%8C%E9%9D%A2-Vibe-Coding"><span class="toc-number">3.3.</span> <span class="toc-text">生成式界面 &amp; Vibe Coding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Agent-%E4%BB%A3%E7%90%86%E8%83%BD%E5%8A%9B"><span class="toc-number">3.4.</span> <span class="toc-text">Agent (代理能力)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8Gemini-3%E7%BC%96%E5%86%99ESG%E6%8A%AB%E9%9C%B2%E6%8A%A5%E5%91%8A%E6%B5%81%E7%A8%8B"><span class="toc-number">3.5.</span> <span class="toc-text">利用Gemini 3编写ESG披露报告流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%9F%BA%E5%87%86-%E5%88%A9%E7%94%A8%E6%8E%A8%E7%90%86%E8%83%BD%E5%8A%9B"><span class="toc-number">3.5.1.</span> <span class="toc-text">第一阶段：架构与基准 (利用推理能力)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%A1%AB%E5%85%85-%E5%88%A9%E7%94%A8%E5%A4%9A%E6%A8%A1%E6%80%81%E8%83%BD%E5%8A%9B"><span class="toc-number">3.5.2.</span> <span class="toc-text">第二阶段：数据填充 (利用多模态能力)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5%EF%BC%9A%E5%86%85%E5%AE%B9%E7%94%9F%E6%88%90%E4%B8%8E%E4%BC%98%E5%8C%96-%E5%88%A9%E7%94%A8%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E7%94%9F%E6%88%90%E8%83%BD%E5%8A%9B"><span class="toc-number">3.5.3.</span> <span class="toc-text">第三阶段：内容生成与优化 (利用长上下文与生成能力)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5%EF%BC%9A%E5%90%88%E8%A7%84%E5%AE%A1%E6%9F%A5-%E5%88%A9%E7%94%A8-Agent-%E6%A8%A1%E6%8B%9F"><span class="toc-number">3.5.4.</span> <span class="toc-text">第四阶段：合规审查 (利用 Agent 模拟)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Generative-Interface-%E7%94%9F%E6%88%90%E5%BC%8F%E7%95%8C%E9%9D%A2-%E8%BE%93%E5%87%BA%E5%8A%A8%E6%80%81%E5%9B%BE%E8%A1%A8"><span class="toc-number">3.5.5.</span> <span class="toc-text">利用 Generative Interface (生成式界面) 输出动态图表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Gemini%E8%83%BD%E5%8A%9B%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">Gemini能力应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%EF%BC%88%E6%9F%90%E4%B8%AA%E4%B8%9A%E5%8A%A1%E5%9B%A2%E9%98%9F%EF%BC%89%E6%8F%90%E4%BE%9B-ESG-%E6%8A%A5%E5%91%8A%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.1.</span> <span class="toc-text">为上市公司（某个业务团队）提供 ESG 报告服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Gemini-Agent-%E5%AE%9E%E7%8E%B0%E2%80%9C%E5%85%A8%E8%87%AA%E5%8A%A8%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E2%80%9D"><span class="toc-number">4.1.1.</span> <span class="toc-text">利用 Gemini Agent 实现“全自动数据挖掘”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Deep-Think-%E6%B7%B1%E5%BA%A6%E6%80%9D%E8%80%83-%E8%BF%9B%E8%A1%8C%E6%A0%87%E5%87%86%E5%AF%B9%E9%BD%90"><span class="toc-number">4.1.2.</span> <span class="toc-text">利用 Deep Think (深度思考) 进行标准对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Generative-Interface-%E7%94%9F%E6%88%90%E5%BC%8F%E7%95%8C%E9%9D%A2-%E8%BE%93%E5%87%BA%E5%8A%A8%E6%80%81%E5%9B%BE%E8%A1%A8-1"><span class="toc-number">4.1.3.</span> <span class="toc-text">利用 Generative Interface (生成式界面) 输出动态图表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%95%E5%BE%8B%E3%80%81%E4%BC%9A%E8%AE%A1%E6%9C%BA%E6%9E%84%E8%9E%8D%E5%90%88-ESG-%E9%9C%80%E6%B1%82"><span class="toc-number">4.2.</span> <span class="toc-text">法律、会计机构融合 ESG 需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Deep-Think-%E8%BF%9B%E8%A1%8C%E2%80%9C%E8%B7%A8%E9%A2%86%E5%9F%9F%E9%80%BB%E8%BE%91%E5%AE%A1%E8%AE%A1%E2%80%9D"><span class="toc-number">4.2.1.</span> <span class="toc-text">利用 Deep Think 进行“跨领域逻辑审计”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Multimodality-%E5%A4%9A%E6%A8%A1%E6%80%81-%E9%AA%8C%E8%AF%81%E7%89%A9%E7%90%86%E5%87%AD%E8%AF%81"><span class="toc-number">4.2.2.</span> <span class="toc-text">利用 Multimodality (多模态) 验证物理凭证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Thought-Signatures-%E6%80%9D%E7%BB%B4%E7%AD%BE%E5%90%8D-%E7%95%99%E5%AD%98%E5%AE%A1%E8%AE%A1%E7%97%95%E8%BF%B9"><span class="toc-number">4.2.3.</span> <span class="toc-text">利用 Thought Signatures (思维签名) 留存审计痕迹</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E5%B0%8F%E4%BC%81%E4%B8%9A%E4%BF%A1%E6%81%AF%E6%8A%AB%E9%9C%B2%EF%BC%88%E6%97%A0%E4%B8%93%E4%B8%9A%E5%9B%A2%E9%98%9F-%E4%BD%8E%E6%88%90%E6%9C%AC%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">中小企业信息披露（无专业团队&#x2F;低成本）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Multimodality-%E5%AE%9E%E7%8E%B0%E2%80%9C%E6%8B%8D%E7%85%A7%E5%8D%B3%E5%A1%AB%E6%8A%A5%E2%80%9D"><span class="toc-number">4.3.1.</span> <span class="toc-text">利用 Multimodality 实现“拍照即填报”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Vibe-Coding-%E6%9E%84%E5%BB%BA%E2%80%9C%E6%9E%81%E7%AE%80%E5%A1%AB%E6%8A%A5%E5%B0%8F%E7%A8%8B%E5%BA%8F%E2%80%9D"><span class="toc-number">4.3.2.</span> <span class="toc-text">利用 Vibe Coding 构建“极简填报小程序”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-Gemini-Agent-%E4%BD%9C%E4%B8%BA-7x24h-%E8%99%9A%E6%8B%9F-ESG-%E9%A1%BE%E9%97%AE"><span class="toc-number">4.3.3.</span> <span class="toc-text">利用 Gemini Agent 作为 7x24h 虚拟 ESG 顾问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9AGemini-3-%E5%AF%B9%E8%AF%A5%E4%B8%9A%E5%8A%A1%E7%9A%84%E8%B5%8B%E8%83%BD%E7%9F%A9%E9%98%B5"><span class="toc-number">4.4.</span> <span class="toc-text">总结：Gemini 3 对该业务的赋能矩阵</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ESG%E9%A2%86%E5%9F%9F%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E6%8A%A5%E5%91%8A"><span class="toc-number">5.</span> <span class="toc-text">ESG领域自动生成报告</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8E%A8%E6%96%87%E6%99%BA%E8%83%BD%E4%BD%93"><span class="toc-number">6.</span> <span class="toc-text">公众号推文智能体</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AI%E6%96%B0%E8%B6%8B%E5%8A%BF%E8%83%BD%E5%90%A6%E5%8F%96%E4%BB%A3%E4%BA%BA%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">AI新趋势能否取代人？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%AB%AF%E5%88%B0%E7%AB%AF%EF%BC%9F"><span class="toc-number">7.1.</span> <span class="toc-text">什么是端到端？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E5%AE%8C%E5%85%A8%E6%9B%BF%E4%BB%A3%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%8F%AF%E8%A1%8C%E6%80%A7"><span class="toc-number">7.2.</span> <span class="toc-text">AI完全替代工程师可行性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E4%BC%9A%E6%9C%89%E6%8F%90%E7%A4%BA"><span class="toc-number">7.3.</span> <span class="toc-text">AI会有提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E7%AB%9E%E4%BA%89%E5%8A%9B%E5%9C%A8%E4%BA%8E"><span class="toc-number">7.4.</span> <span class="toc-text">工程师的竞争力在于</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E5%B9%BB%E8%A7%89%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">7.5.</span> <span class="toc-text">AI幻觉产生原因是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A1%E6%97%B6%E4%BB%A3%E6%A8%A1%E5%9E%8BAgent"><span class="toc-number">7.6.</span> <span class="toc-text">次时代模型Agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Agent%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">7.7.</span> <span class="toc-text">Agent有哪几种模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AI%E7%BB%99%E5%87%BA%E7%9A%84%E6%80%9D%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">AI给出的思考</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E2%80%9CAI-%E4%B8%80%E5%8F%A5%E8%AF%9D%E7%94%9F%E6%88%90%E5%AE%8C%E6%95%B4%E7%BD%91%E9%A1%B5%E2%80%9D%E7%9A%84%E5%86%B7%E9%9D%99%E6%80%9D%E8%80%83"><span class="toc-number">8.1.</span> <span class="toc-text">一、对“AI 一句话生成完整网页”的冷静思考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%BD%93%E5%89%8D%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%A0%B8%E5%BF%83%E7%AB%9E%E4%BA%89%E5%8A%9B"><span class="toc-number">8.2.</span> <span class="toc-text">二、当前程序员的核心竞争力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BB%93%E8%AE%BA%EF%BC%9A%E6%9C%AA%E6%9D%A5%E7%9A%84%E8%A7%92%E8%89%B2%E8%BD%AC%E5%8F%98"><span class="toc-number">8.3.</span> <span class="toc-text">三、结论：未来的角色转变</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LLM%E8%B5%8B%E8%83%BD%E5%B0%8F%E5%BE%AE%E4%BC%81%E4%B8%9A-ESG-%E4%B8%9A%E5%8A%A1%E5%88%86%E6%9E%90"><span class="toc-number">9.</span> <span class="toc-text">LLM赋能小微企业 ESG 业务分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ESG-%E5%AE%9E%E8%B7%B5%E4%B8%AD%E7%9A%84%E7%97%9B%E7%82%B9"><span class="toc-number">9.1.</span> <span class="toc-text">ESG 实践中的痛点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gemini%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-number">9.2.</span> <span class="toc-text">Gemini如何使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E6%9C%AF"><span class="toc-number">9.3.</span> <span class="toc-text">提示词技术</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AgentWorkflow"><span class="toc-number">10.</span> <span class="toc-text">AgentWorkflow</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/01/%E5%BE%85%E5%8F%91%E5%B8%83/F04-%E8%83%A1%E5%B8%8C%E6%81%95%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F04-胡希恕伤寒论">F04-胡希恕伤寒论</a><time datetime="2026-10-31T16:00:00.000Z" title="Created 2026-11-01 00:00:00">2026-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/27/%E5%BE%85%E5%8F%91%E5%B8%83/S04-%E9%87%91%E5%88%9A%E7%BB%8F/" title="S04-金刚经">S04-金刚经</a><time datetime="2026-10-26T16:00:00.000Z" title="Created 2026-10-27 00:00:00">2026-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/26/T03%E4%BB%A5%E9%A3%9F%E4%B8%BA%E5%A4%A9/" title="T03以食为天">T03以食为天</a><time datetime="2026-08-25T16:00:00.000Z" title="Created 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/F01%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F01伤寒论">F01伤寒论</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/T01%E9%A9%BE%E6%A0%A1%E8%80%83%E8%AF%95/" title="T01驾校考试">T01驾校考试</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

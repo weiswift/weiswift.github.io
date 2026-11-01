@@ -1,0 +1,1024 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FlinkSQL | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C01 Flink SQL基本介绍SQL API标准SQL分类  DML（Data Manipulation Language）：数据操作语言，用来定义数据库中的记录 DCL（Data Control Language）：数据控制语言，用来定义访问权限和安全级别 DQL（Data Query Language）：数据查询语言，用来查询记录 DDL（Data Definition Language）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FlinkSQL">
+<meta property="og:url" content="https://weiswift.github.io/2024/09/18/liam/FlinkSQL%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="C01 Flink SQL基本介绍SQL API标准SQL分类  DML（Data Manipulation Language）：数据操作语言，用来定义数据库中的记录 DCL（Data Control Language）：数据控制语言，用来定义访问权限和安全级别 DQL（Data Query Language）：数据查询语言，用来查询记录 DDL（Data Definition Language）">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-09-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-09-18T15:30:45.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="Flink">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/09/18/liam/FlinkSQL%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FlinkSQL',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-18 23:30:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/224634-171232839454f0.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">FlinkSQL</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-09-17T16:00:00.000Z" title="Created 2024-09-18 00:00:00">2024-09-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-09-18T15:30:45.000Z" title="Updated 2024-09-18 23:30:45">2024-09-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="FlinkSQL"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="C01-Flink-SQL基本介绍"><a href="#C01-Flink-SQL基本介绍" class="headerlink" title="C01 Flink SQL基本介绍"></a>C01 Flink SQL基本介绍</h2><h3 id="SQL-API"><a href="#SQL-API" class="headerlink" title="SQL API"></a>SQL API</h3><h4 id="标准SQL分类"><a href="#标准SQL分类" class="headerlink" title="标准SQL分类"></a>标准SQL分类</h4><blockquote>
+<ul>
+<li>DML（Data Manipulation Language）：数据操作语言，用来定义数据库中的记录</li>
+<li>DCL（Data Control Language）：数据控制语言，用来定义访问权限和安全级别</li>
+<li>DQL（Data Query Language）：数据查询语言，用来查询记录</li>
+<li>DDL（Data Definition Language）：数据定义语言，用来定义数据库中的对象</li>
+</ul>
+<p> <code>Flink Table API实现了DQL数据查询，Flink SQL实现了DML、DDL、DQL</code></p>
+</blockquote>
+<h4 id="Flink-SQL的优势"><a href="#Flink-SQL的优势" class="headerlink" title="Flink SQL的优势"></a>Flink SQL的优势</h4><ul>
+<li>FlnkSQL比DataStreamAPI、DataSetAPI实现简单、方便</li>
+<li>TableAPI和SQL是流批通用的，代码可以完全复用</li>
+<li>TableAPI和SQL可以使用Calcite的SQL优化器，可以实现自动程序优化更容易写出执行效率高的应用</li>
+</ul>
+<blockquote>
+<p><code>Flink1.9版本引入了阿里巴巴的Blink实现流批一体</code> </p>
+</blockquote>
+<h4 id="Apache-Calcite"><a href="#Apache-Calcite" class="headerlink" title="Apache Calcite"></a>Apache Calcite</h4><p>Apache Calcite是一款使用Java编程语言编写的开源动态数据管理框架，它具备很多常用的数据库管理需要的功能，比如：SQL解析、SQL校验、SQL查询优化、SQL生成以及数据连接查询，目前使用Calcite作为SQL解析与优化引擎的有Hive、Drill、Flink、Phoenix和Storm。<code>Spark中的SQL解析与优化引擎是自带的。</code></p>
+<blockquote>
+<p>Calcite中提供了RBO（Rule-Based Optimization：基于规则）和CBO（Cost-Based Optimization：基于代价）两种优化器，在保证语义的基础上，生成执行成本最低的SQL逻辑树。</p>
+</blockquote>
+<h3 id="SQL-Client"><a href="#SQL-Client" class="headerlink" title="SQL Client"></a>SQL Client</h3><p>进入sql-client：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">目前仅支持 embedded，模式默认值embedded</span></span><br><span class="line">./bin/sql-client.sh embedded</span><br></pre></td></tr></table></figure>
+
+<p>设置输出模式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">表格模式（table mode）在内存中实体化结果，并将结果用规则的分页表格可视化展示出来。执行如下命令启用：</span></span><br><span class="line">SET sql-client.execution.result-mode=table;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">变更日志模式（changelog mode）不会实体化和可视化结果，而是由插入（+）和撤销（-）组成的持续查询产生结果流：</span></span><br><span class="line">SET sql-client.execution.result-mode=changelog;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Tableau模式（tableau mode）更接近传统的数据库，会将执行的结果以制表的形式直接打在屏幕之上：</span></span><br><span class="line">SET sql-client.execution.result-mode=tableau;</span><br></pre></td></tr></table></figure>
+
+<p>执行 SQL 查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;Hello World&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> name, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> cnt <span class="keyword">FROM</span> (<span class="keyword">VALUES</span> (<span class="string">&#x27;Bob&#x27;</span>), (<span class="string">&#x27;Alice&#x27;</span>), (<span class="string">&#x27;Greg&#x27;</span>), (<span class="string">&#x27;Bob&#x27;</span>)) <span class="keyword">AS</span> NameTable(name) <span class="keyword">GROUP</span> <span class="keyword">BY</span> name;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>为了保持 CLI 界面及时响应，变更日志模式仅显示最近的 1000 个更改。表格模式支持浏览更大的结果，这些结果仅受可用主内存和配置的<a href="#sql-client-execution-max-table-result-rows">最大行数</a>（sql-client.execution.max-table-result.rows）的限制。</p>
+</blockquote>
+<h3 id="SQL-上下文"><a href="#SQL-上下文" class="headerlink" title="SQL 上下文"></a>SQL 上下文</h3><h4 id="TableEnvironment-API"><a href="#TableEnvironment-API" class="headerlink" title="TableEnvironment API"></a>TableEnvironment API</h4><p>TableEnvironment：Table API &amp; SQL 的都集成在一个统一上下文（即 TableEnvironment）中，其地位等同于 DataStream API 中的 StreamExecutionEnvironment 的地位</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">TableEnvironment</span>:<span class="string">:executeSql：用于 SQL API 中，可以执行一段完整 DDL，DML SQL。举例，方法入参可以是 CREATE TABLE xxx，INSERT INTO xxx SELECT xxx FROM xxx。</span></span><br><span class="line"><span class="attr">TableEnvironment</span>:<span class="string">:from(xxx)：用于 Table API 中，可以以强类型接口的方式运行。方法入参是一个表名称。</span></span><br><span class="line"><span class="attr">TableEnvironment</span>:<span class="string">:sqlQuery：用于 SQL API 中，可以执行一段查询 SQL，并把结果以 Table 的形式返回。举例，方法的入参是 SELECT xxx FROM xxx</span></span><br><span class="line"><span class="attr">Table</span>:<span class="string">:executeInsert：用于将 Table 的结果插入到结果表中。方法入参是写入的目标表。</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="TableEnvironment-的功能"><a href="#TableEnvironment-的功能" class="headerlink" title="TableEnvironment 的功能"></a>TableEnvironment 的功能</h4><blockquote>
+<ul>
+<li>Catalog 管理：Catalog 可以理解为 Flink 的 MetaStore，类似 Hive MetaStore 对在 Hive 中的地位，关于 Flink Catalog 的详细内容后续进行介绍<br>表管理：在 Catalog 中注册表</li>
+<li>SQL 查询：（这 TMD 还用说，最基本的功能啊），就像 DataStream 中提供了 addSource、map、flatmap 等接口</li>
+<li>UDF 管理：注册用户定义（标量函数：一进一出、表函数：一进多出、聚合函数：多进一出）函数</li>
+<li>UDF 扩展：加载可插拔 Module（Module 可以理解为 Flink 管理 UDF 的模块，是可插拔的，可以自定义 Module，去支持奇奇怪怪的 UDF 功能）</li>
+<li>DataStream 和 Table（Table API &amp; SQL 的查询结果）之间进行转换：1.13 版本的只有流任务支持，批任务不支持。1.14 支持流批</li>
+</ul>
+</blockquote>
+<h4 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h4><p>方式一：通过 EnvironmentSettings 创建 TableEnvironment</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 就是设置一些环境信息</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">EnvironmentSettings</span> <span class="variable">settings</span> <span class="operator">=</span> EnvironmentSettings.newInstance().inBatchMode().build();</span><br><span class="line"><span class="comment">// 2. 创建 TableEnvironment</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">TableEnvironment</span> <span class="variable">tEnv</span> <span class="operator">=</span> TableEnvironment.create(settings);</span><br><span class="line"><span class="comment">// 如果是 in_streaming_mode，则最终创建出来的 TableEnvironment 实例为 StreamTableEnvironmentImpl</span></span><br><span class="line"><span class="comment">// 如果是 in_batch_mode，则最终创建出来的 TableEnvironment 实例为 TableEnvironmentImpl</span></span><br><span class="line"><span class="comment">// 虽然两者都继承了 TableEnvironment 接口，但是 StreamTableEnvironmentImpl 支持的功能更多一些。可以直接去看看接口实验一下，这里就不进行详细介绍。</span></span><br></pre></td></tr></table></figure>
+
+<p>方式二：通过已有的 StreamExecutionEnvironment 创建 TableEnvironment</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">StreamExecutionEnvironment</span> <span class="variable">env</span> <span class="operator">=</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"><span class="keyword">final</span> <span class="type">StreamTableEnvironment</span> <span class="variable">tEnv</span> <span class="operator">=</span> StreamTableEnvironment.create(env);</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://lesson-pic.oss-cn-hangzhou.aliyuncs.com/pics/image-20230714091622587.png" alt="image-20230714091622587"></p>
+<h3 id="SQL中的表"><a href="#SQL中的表" class="headerlink" title="SQL中的表"></a>SQL中的表</h3><h4 id="外部表与视图"><a href="#外部表与视图" class="headerlink" title="外部表与视图"></a>外部表与视图</h4><p>一个表的全名（标识）会由三个部分组成：<code>Catalog 名称.数据库名称.表名称</code>。</p>
+<p>如果 Catalog 名称或者数据库名称没有指明，就会使用当前默认值 <code>default</code>。</p>
+<blockquote>
+<ul>
+<li>外部表 TABLE：描述的是外部数据，例如文件（HDFS）、消息队列（Kafka）等。依然拿离线 Hive SQL 举个例子，离线中一个表指的是 Hive 表，也就是所说的外部数据。</li>
+<li>视图 VIEW：从已经存在的表中创建，视图一般是一个 SQL 逻辑的查询结果。对比到离线的 Hive SQL 中，在离线的场景（Hive 表）中 VIEW 也都是从已有的表中去创建的。</li>
+</ul>
+</blockquote>
+<p><code>注意</code>：对于视图不会真的产生一个中间表供下游多个查询去引用，即多个查询不共享这个 Table 的结果，可以理解为是一种中间表的简化写法，不会先产出一个中间表结果，然后将这个结果在下游多个查询中复用，后续的多个查询会将这个 Table 的逻辑执行多次。类似于 with tmp as (DML) 的语法</p>
+<h4 id="临时表与永久表"><a href="#临时表与永久表" class="headerlink" title="临时表与永久表"></a>临时表与永久表</h4><blockquote>
+<ul>
+<li>临时表：通常保存于内存中并且仅在创建它们的 Flink session（可以理解为一次 Flink 任务的运行）持续期间存在。这些表对于其它 session（即其他 Flink 任务或非此次运行的 Flink 任务）是不可见的。</li>
+<li>永久表：需要外部 Catalog（例如 Hive Metastore）来持久化表的元数据。一旦永久表被创建，它将对任何连接到这个 Catalog 的 Flink session 可见且持续存在，直至从 Catalog 中被明确删除。</li>
+</ul>
+</blockquote>
+<p><code>如果临时表和永久表使用了相同的名称（Catalog名.数据库名.表名）。那么在这个 Flink session 中，你的任务访问到这个表时，访问到的永远是临时表（即相同名称的表，临时表会屏蔽永久表）。</code></p>
+<h3 id="SQL-查询案例"><a href="#SQL-查询案例" class="headerlink" title="SQL 查询案例"></a>SQL 查询案例</h3><ul>
+<li><p>案例场景：计算每一种商品（sku_id 唯一标识）的售出个数count、总销售额sum、平均销售额avg、最低价min、最高价</p>
+</li>
+<li><p>数据准备：数据源为商品的销售流水（sku_id：商品，price：销售价格），然后写入到 Kafka 的指定 topic（sku_id：商品，count_result：售出个数、sum_result：总销售额、avg_result：平均销售额、min_result：最低价、max_result：最高价）当中</p>
+</li>
+<li><p>SQL Client中演示：</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">1.</span>创建一个数据源（输入）表，这里的数据源是 flink 自带的一个随机 mock 数据的数据源。</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> source_table (</span><br><span class="line">	sku_id STRING,</span><br><span class="line">	price <span class="type">BIGINT</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;datagen&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;rows-per-second&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.sku_id.length&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.price.min&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.price.max&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1000000&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">2.</span>创建一个数据汇（输出）表，输出到 kafka 中</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sink_table (</span><br><span class="line"> sku_id STRING, </span><br><span class="line"> count_result <span class="type">BIGINT</span>, </span><br><span class="line"> sum_result <span class="type">BIGINT</span>, </span><br><span class="line"> avg_result <span class="keyword">DOUBLE</span>, </span><br><span class="line"> min_result <span class="type">BIGINT</span>, </span><br><span class="line"> max_result <span class="type">BIGINT</span>, </span><br><span class="line"> <span class="keyword">PRIMARY</span> KEY (`sku_id`) <span class="keyword">NOT</span> ENFORCED </span><br><span class="line">) <span class="keyword">WITH</span> ( </span><br><span class="line">   <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;upsert-kafka&#x27;</span>, </span><br><span class="line">   <span class="string">&#x27;topic&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;test&#x27;</span>, </span><br><span class="line">   <span class="string">&#x27;properties.bootstrap.servers&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1.itcast.cn:9092&#x27;</span>, </span><br><span class="line">   <span class="string">&#x27;key.format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;json&#x27;</span>, </span><br><span class="line">   <span class="string">&#x27;value.format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;json&#x27;</span> </span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">3.</span>执行一段 <span class="keyword">group</span> <span class="keyword">by</span> 的聚合 <span class="keyword">SQL</span> 查询</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sink_table </span><br><span class="line"><span class="keyword">select</span> sku_id, </span><br><span class="line">  <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">as</span> count_result, </span><br><span class="line">  <span class="built_in">sum</span>(price) <span class="keyword">as</span> sum_result, </span><br><span class="line">  <span class="built_in">avg</span>(price) <span class="keyword">as</span> avg_result, </span><br><span class="line">  <span class="built_in">min</span>(price) <span class="keyword">as</span> min_result, </span><br><span class="line">  <span class="built_in">max</span>(price) <span class="keyword">as</span> max_result </span><br><span class="line"><span class="keyword">from</span> source_table </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> sku_id ;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="C02-Flink-SQL数据类型"><a href="#C02-Flink-SQL数据类型" class="headerlink" title="C02 Flink SQL数据类型"></a>C02 Flink SQL数据类型</h2><h3 id="原子数据类型"><a href="#原子数据类型" class="headerlink" title="原子数据类型"></a>原子数据类型</h3><table>
+<thead>
+<tr>
+<th>字符串类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR<br/>CHAR(n)</td>
+<td>定长字符串，就和 Java 中的 Char 一样，n 代表字符的定长<br/>取值范围 [1-2,147,483,647]。如果不指定 n，则默认为 1。</td>
+</tr>
+<tr>
+<td>VARCHAR<br/>VARCHAR(n)<br/>STRING</td>
+<td>可变长字符串，就和 Java 中的 String 一样，n 代表字符的最大长度<br/>取值范围 [1-2,147,483,647]。如果不指定 n，则默认为 1。STRING 等同于 VARCHAR(2147483647)。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>二进制类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BINARY<br/>BINARY(n)</td>
+<td>定长二进制字符串，n 代表定长<br/>取值范围 [1, 2,147,483,647]。如果不指定 n，则默认为 1。</td>
+</tr>
+<tr>
+<td>VARBINARY<br/>VARBINARY(n)<br/>BYTES</td>
+<td>可变长二进制字符串，n 代表字符的最大长度<br/>取值范围 [1, 2,147,483,647]。如果不指定 n，则默认为 1。BYTES 等同于 VARBINARY(2147483647)。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>数值类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DECIMAL<br/>DECIMAL(p)<br/>DECIMAL(p, s)<br/>DEC、DEC(p)<br/>DEC(p, s)<br/>NUMERIC<br/>NUMERIC(p)<br/>NUMERIC(p, s)</td>
+<td>固定长度和精度的数值类型，就和 Java 中的 BigDecimal 一样<br/>p 代表数值位数（长度），取值范围 [1, 38]<br/>s 代表小数点后的位数（精度），取值范围 [0, p]<br/>如果不指定，p 默认为 10，s 默认为 0。</td>
+</tr>
+<tr>
+<td>TINYINT</td>
+<td>-128 to 127 的 1 字节大小的有符号整数，就和 Java 中的 byte 一样。</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>-32,768 to 32,767 的 2 字节大小的有符号整数，就和 Java 中的 short 一样。</td>
+</tr>
+<tr>
+<td>INT<br/>INTEGER</td>
+<td>-2,147,483,648 to 2,147,483,647 的 4 字节大小的有符号整数，就和 Java 中的 int 一样。</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 的 8 字节大小的有符号整数，就和 Java 中的 long 一样。</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>4 字节大小的单精度浮点数值，就和 Java 中的 float 一样。</td>
+</tr>
+<tr>
+<td>DOUBLE<br/>DOUBLE PRECISION</td>
+<td>8 字节大小的双精度浮点数值，就和 Java 中的 double 一样。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>特殊类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NULL类型</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>Raw类型</td>
+<td>RAW(‘class’, ‘snapshot’) 。只会在数据发生网络传输时进行序列化，反序列化操作，可以保留其原始数据。以 Java 举例，class 参数代表具体对应的 Java 类型，snapshot 代表类型在发生网络传输时的序列化器</td>
+</tr>
+<tr>
+<td>布尔类型</td>
+<td>BOOLEAN</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>时间类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATE</td>
+<td>由<code>年-月-日</code>组成的 不带时区含义 的日期类型，取值范围 [0000-01-01, 9999-12-31]</td>
+</tr>
+<tr>
+<td>TIME<br/>TIME(p)</td>
+<td>由<code>小时：分钟：秒[.小数秒]</code>组成的 不带时区含义 的的时间的数据类型，精度高达纳秒<br/>取值范围 [00:00:00.000000000到23:59:59.9999999]。其中 p 代表小数秒的位数，取值范围 [0, 9]，如果不指定 p，默认为 0。</td>
+</tr>
+<tr>
+<td>TIMESTAMP<br/>TIMESTAMP(p)<br/>TIMESTAMP WITHOUT TIME ZONE<br/>TIMESTAMP(p) WITHOUT TIME ZONE</td>
+<td>由 <code>年-月-日 小时：分钟：秒[.小数秒]</code> 组成的<code>不带时区含义</code>的时间类型<br />取值范围 [0000-01-01 00:00:00.000000000, 9999-12-31 23:59:59.999999999]。其中 p 代表小数秒的位数，取值范围 [0, 9]，如果不指定 p，默认为 6。</td>
+</tr>
+<tr>
+<td>TIMESTAMP WITH TIME ZONE<br />TIMESTAMP(p) WITH TIME ZONE</td>
+<td>由 <code>年-月-日 小时：分钟：秒[.小数秒] 时区</code> 组成的 <code>带时区含义</code> 的时间类型<br />取值范围 [0000-01-01 00:00:00.000000000 +14:59, 9999-12-31 23:59:59.999999999 -14:59]。其中 p 代表小数秒的位数，取值范围 [0, 9]，如果不指定 p，默认为 6。</td>
+</tr>
+<tr>
+<td>TIMESTAMP_LTZ<br />TIMESTAMP_LTZ(p)</td>
+<td>由 <code>年-月-日 小时：分钟：秒[.小数秒] 时区</code> 组成的 <code>带时区含义</code> 的时间类型<br />取值范围 [0000-01-01 00:00:00.000000000 +14:59, 9999-12-31 23:59:59.999999999 -14:59]。其中 p 代表小数秒的位数，取值范围 [0, 9]，如果不指定 p，默认为 6。</td>
+</tr>
+<tr>
+<td>INTERVAL YEAR TO MONTH<br /> INTERVAL DAY TO SECOND</td>
+<td>interval 的涉及到的种类比较多。INTERVAL 主要是用于给 TIMESTAMP、TIMESTAMP_LTZ 添加偏移量的。举例，比如给 TIMESTAMP 加、减几天、几个月、几年。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><code>TIMESTAMP_LTZ</code> 与 <code>TIMESTAMP WITH TIME ZONE</code> 的区别在于：TIMESTAMP WITH TIME ZONE 的时区信息是携带在数据中的，举例：其输入数据应该是 2022-01-01 00:00:00.000000000 +08:00；TIMESTAMP_LTZ 的时区信息不是携带在数据中的，而是由 Flink SQL 任务的全局配置决定的，我们可以由 <code>table.local-time-zone</code> 参数来设置时区。</p>
+</blockquote>
+<p>INTERVAL演示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sink_table2 (</span><br><span class="line">    result_interval_year <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_year_p <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_year_p_to_month <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_month <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_day <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_day_p1 <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_day_p1_to_hour <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_day_p1_to_minute <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_day_p1_to_second_p2 <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_hour <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_hour_to_minute <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_hour_to_second <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_minute <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_minute_to_second_p2 <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_second <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    result_interval_second_p2 <span class="type">TIMESTAMP</span>(<span class="number">3</span>)</span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;print&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">INSERT</span> <span class="keyword">INTO</span> sink_table2</span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    <span class="comment">-- Flink SQL 支持的所有 INTERVAL 子句如下，总体可以分为 `年-月`、`日-小时-秒` 两种</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 1. 年-月。取值范围为 [-9999-11, +9999-11]，其中 p 是指有效位数，取值范围 [1, 4]，默认值为 2。比如如果值为 1000，但是 p = 2，则会直接报错。</span></span><br><span class="line">    <span class="comment">-- INTERVAL YEAR</span></span><br><span class="line">    f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">YEAR</span> <span class="keyword">as</span> result_interval_year</span><br><span class="line">    <span class="comment">-- INTERVAL YEAR(p)</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;100&#x27;</span> <span class="keyword">YEAR</span>(<span class="number">3</span>) <span class="keyword">as</span> result_interval_year_p</span><br><span class="line">    <span class="comment">-- INTERVAL YEAR(p) TO MONTH</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10-03&#x27;</span> <span class="keyword">YEAR</span>(<span class="number">3</span>) <span class="keyword">TO</span> <span class="keyword">MONTH</span> <span class="keyword">as</span> result_interval_year_p_to_month</span><br><span class="line">    <span class="comment">-- INTERVAL MONTH</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;13&#x27;</span> <span class="keyword">MONTH</span> <span class="keyword">as</span> result_interval_month</span><br><span class="line">    <span class="comment">-- 2. 日-小时-秒。取值范围为 [-999999 23:59:59.999999999, +999999 23:59:59.999999999]，其中 p1\p2 都是有效位数，p1 取值范围 [1, 6]，默认值为 2；p2 取值范围 [0, 9]，默认值为 6</span></span><br><span class="line">    <span class="comment">-- INTERVAL DAY</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">DAY</span> <span class="keyword">as</span> result_interval_day</span><br><span class="line">    <span class="comment">-- INTERVAL DAY(p1)</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;100&#x27;</span> <span class="keyword">DAY</span>(<span class="number">3</span>) <span class="keyword">as</span> result_interval_day_p1</span><br><span class="line">    <span class="comment">-- INTERVAL DAY(p1) TO HOUR</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10 03&#x27;</span> <span class="keyword">DAY</span>(<span class="number">3</span>) <span class="keyword">TO</span> <span class="keyword">HOUR</span> <span class="keyword">as</span> result_interval_day_p1_to_hour</span><br><span class="line">    <span class="comment">-- INTERVAL DAY(p1) TO MINUTE</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10 03:12&#x27;</span> <span class="keyword">DAY</span>(<span class="number">3</span>) <span class="keyword">TO</span> <span class="keyword">MINUTE</span> <span class="keyword">as</span> result_interval_day_p1_to_minute</span><br><span class="line">    <span class="comment">-- INTERVAL DAY(p1) TO SECOND(p2)</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10 00:00:00.004&#x27;</span> <span class="keyword">DAY</span> <span class="keyword">TO</span> <span class="keyword">SECOND</span>(<span class="number">3</span>) <span class="keyword">as</span> result_interval_day_p1_to_second_p2</span><br><span class="line">    <span class="comment">-- INTERVAL HOUR</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">HOUR</span> <span class="keyword">as</span> result_interval_hour</span><br><span class="line">    <span class="comment">-- INTERVAL HOUR TO MINUTE</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10:03&#x27;</span> <span class="keyword">HOUR</span> <span class="keyword">TO</span> <span class="keyword">MINUTE</span> <span class="keyword">as</span> result_interval_hour_to_minute</span><br><span class="line">    <span class="comment">-- INTERVAL HOUR TO SECOND(p2)</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;00:00:00.004&#x27;</span> <span class="keyword">HOUR</span> <span class="keyword">TO</span> <span class="keyword">SECOND</span>(<span class="number">3</span>) <span class="keyword">as</span> result_interval_hour_to_second</span><br><span class="line">    <span class="comment">-- INTERVAL MINUTE</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">MINUTE</span> <span class="keyword">as</span> result_interval_minute</span><br><span class="line">    <span class="comment">-- INTERVAL MINUTE TO SECOND(p2)</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;05:05.006&#x27;</span> <span class="keyword">MINUTE</span> <span class="keyword">TO</span> <span class="keyword">SECOND</span>(<span class="number">3</span>) <span class="keyword">as</span> result_interval_minute_to_second_p2</span><br><span class="line">    <span class="comment">-- INTERVAL SECOND</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;3&#x27;</span> <span class="keyword">SECOND</span> <span class="keyword">as</span> result_interval_second</span><br><span class="line">    <span class="comment">-- INTERVAL SECOND(p2)</span></span><br><span class="line">    , f1 <span class="operator">+</span> <span class="type">INTERVAL</span> <span class="string">&#x27;300&#x27;</span> <span class="keyword">SECOND</span>(<span class="number">3</span>) <span class="keyword">as</span> result_interval_second_p2</span><br><span class="line"><span class="keyword">FROM</span> (<span class="keyword">SELECT</span> TO_TIMESTAMP_LTZ(<span class="number">1640966476500</span>, <span class="number">3</span>) <span class="keyword">as</span> f1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h3><table>
+<thead>
+<tr>
+<th>数组类型</th>
+<th>ARRAY、t ARRAY数组最大长度为 2,147,483,647。t 代表数组内的数据类型。举例 ARRAY、ARRAY，其等同于 INT ARRAY、STRING ARRAY</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Map类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MAP&lt;kt, vt&gt;</td>
+<td>Map 类型就和 Java 中的 Map 类型一样，key 是没有重复的。举例 Map&lt;STRING, INT&gt;、Map&lt;BIGINT, STRING&gt;</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>集合类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MULTISET<br />t MULTISET</td>
+<td>就和 Java 中的 List 类型一样，允许重复的数据。举例 MULTISET，其等同于 INT MULTISET</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>对象类型</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ROW&lt;n0 t0, n1 t1, …&gt;<br />ROW&lt;n0 t0 ‘d0’, n1 t1 ‘d1’, …&gt;<br />ROW(n0 t0, n1 t1, …)<br />ROW(n0 t0 ‘d0’, n1 t1 ‘d1’, …)</td>
+<td>就和 Java 中的自定义对象一样。举例：ROW(myField INT, myOtherField BOOLEAN)，其等同于 ROW&lt;myField INT, myOtherField BOOLEAN&gt;</td>
+</tr>
+</tbody></table>
+<p>案例演示：</p>
+<ul>
+<li>样例数据</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1238123899121</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;itcast&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;date&quot;</span><span class="punctuation">:</span><span class="string">&quot;1990-10-14&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;obj&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;time1&quot;</span><span class="punctuation">:</span><span class="string">&quot;12:12:43&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;str&quot;</span><span class="punctuation">:</span><span class="string">&quot;sfasfafs&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;lg&quot;</span><span class="punctuation">:</span><span class="number">2324342345</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;arr&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;f1&quot;</span><span class="punctuation">:</span><span class="string">&quot;f1str11&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;f2&quot;</span><span class="punctuation">:</span><span class="number">134</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;f1&quot;</span><span class="punctuation">:</span><span class="string">&quot;f1str22&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;f2&quot;</span><span class="punctuation">:</span><span class="number">555</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;time&quot;</span><span class="punctuation">:</span><span class="string">&quot;12:12:43&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;timestamp&quot;</span><span class="punctuation">:</span><span class="string">&quot;1990-10-14 12:12:43&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;map&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;flink&quot;</span><span class="punctuation">:</span><span class="number">123</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;mapinmap&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;inner_map&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;key&quot;</span><span class="punctuation">:</span><span class="number">234</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开启netcat</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="number">1238123899121</span><span class="punctuation">,</span><span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;itcast&quot;</span><span class="punctuation">,</span><span class="attr">&quot;date&quot;</span><span class="punctuation">:</span><span class="string">&quot;1990-10-14&quot;</span><span class="punctuation">,</span><span class="attr">&quot;obj&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;time1&quot;</span><span class="punctuation">:</span><span class="string">&quot;12:12:43&quot;</span><span class="punctuation">,</span><span class="attr">&quot;str&quot;</span><span class="punctuation">:</span><span class="string">&quot;sfasfafs&quot;</span><span class="punctuation">,</span><span class="attr">&quot;lg&quot;</span><span class="punctuation">:</span><span class="number">2324342345</span><span class="punctuation">&#125;</span><span class="punctuation">,</span><span class="attr">&quot;arr&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="attr">&quot;f1&quot;</span><span class="punctuation">:</span><span class="string">&quot;f1str11&quot;</span><span class="punctuation">,</span><span class="attr">&quot;f2&quot;</span><span class="punctuation">:</span><span class="number">134</span><span class="punctuation">&#125;</span><span class="punctuation">,</span><span class="punctuation">&#123;</span><span class="attr">&quot;f1&quot;</span><span class="punctuation">:</span><span class="string">&quot;f1str22&quot;</span><span class="punctuation">,</span><span class="attr">&quot;f2&quot;</span><span class="punctuation">:</span><span class="number">555</span><span class="punctuation">&#125;</span><span class="punctuation">]</span><span class="punctuation">,</span><span class="attr">&quot;time&quot;</span><span class="punctuation">:</span><span class="string">&quot;12:12:43&quot;</span><span class="punctuation">,</span><span class="attr">&quot;timestamp&quot;</span><span class="punctuation">:</span><span class="string">&quot;1990-10-14 12:12:43&quot;</span><span class="punctuation">,</span><span class="attr">&quot;map&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;flink&quot;</span><span class="punctuation">:</span><span class="number">123</span><span class="punctuation">&#125;</span><span class="punctuation">,</span><span class="attr">&quot;mapinmap&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;inner_map&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;key&quot;</span><span class="punctuation">:</span><span class="number">234</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建映射表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> json_source (</span><br><span class="line">    id            <span class="type">BIGINT</span>,</span><br><span class="line">    name          STRING,</span><br><span class="line">    `<span class="type">date</span>`        <span class="type">DATE</span>,</span><br><span class="line">    obj           <span class="type">ROW</span><span class="operator">&lt;</span>time1 <span class="type">TIME</span>,str STRING,lg <span class="type">BIGINT</span><span class="operator">&gt;</span>,</span><br><span class="line">    arr           <span class="keyword">ARRAY</span><span class="operator">&lt;</span><span class="type">ROW</span><span class="operator">&lt;</span>f1 STRING,f2 <span class="type">INT</span><span class="operator">&gt;&gt;</span>,</span><br><span class="line">    `<span class="type">time</span>`        <span class="type">TIME</span>,</span><br><span class="line">    `<span class="type">timestamp</span>`   <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">    `map`         MAP<span class="operator">&lt;</span>STRING,<span class="type">BIGINT</span><span class="operator">&gt;</span>,</span><br><span class="line">    mapinmap      MAP<span class="operator">&lt;</span>STRING,MAP<span class="operator">&lt;</span>STRING,<span class="type">INT</span><span class="operator">&gt;&gt;</span>,</span><br><span class="line">    proctime <span class="keyword">as</span> PROCTIME()</span><br><span class="line"> ) <span class="keyword">WITH</span> (</span><br><span class="line">    <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;socket&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;hostname&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1&#x27;</span>,        </span><br><span class="line">    <span class="string">&#x27;port&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;9999&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;json&#x27;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询结果</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> id, name,`<span class="type">date</span>`,obj.str,arr[<span class="number">1</span>].f1,`map`[<span class="string">&#x27;flink&#x27;</span>],mapinmap[<span class="string">&#x27;inner_map&#x27;</span>][<span class="string">&#x27;key&#x27;</span>] <span class="keyword">from</span> json_source;</span><br></pre></td></tr></table></figure>
+
+<h2 id="C03-Flink-SQL应用于流"><a href="#C03-Flink-SQL应用于流" class="headerlink" title="C03 Flink SQL应用于流"></a>C03 Flink SQL应用于流</h2><h3 id="流批处理的异同"><a href="#流批处理的异同" class="headerlink" title="流批处理的异同"></a>流批处理的异同</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>输入表</th>
+<th>处理逻辑</th>
+<th>结果表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>批处理</td>
+<td>静态表：输入数据有限、是有界集合</td>
+<td>批式计算：每次执行查询能够访问到完整的输入数据，然后计算，输出完整的结果数据</td>
+<td>静态表：数据有限</td>
+</tr>
+<tr>
+<td>流处理</td>
+<td>动态表：输入数据无限，数据实时增加，并且源源不断</td>
+<td>流式计算：执行时不能够访问到完整的输入数据，每次计算的结果都是一个中间结果</td>
+<td>动态表：数据无限</td>
+</tr>
+</tbody></table>
+<p>要将 SQL 应用于流式任务的三个要解决的核心点：</p>
+<blockquote>
+<p>1.SQL 输入表：分析如何将一个实时的，源源不断的输入流数据表示为 SQL 中的输入表。</p>
+<p>2.SQL 处理计算：分析将 SQL 查询逻辑翻译成什么样的底层处理技术才能够实时的处理流式输入数据，然后产出流式输出数据。</p>
+<p>3.SQL 输出表：分析如何将 SQL 查询输出的源源不断的流数据表示为一个 SQL 中的输出表。</p>
+</blockquote>
+<p>两种技术方案：</p>
+<blockquote>
+<p>1.动态表：源源不断的输入、输出流数据映射到 动态表</p>
+<p>2.连续查询：实时处理输入数据，产出输出数据的实时处理技术</p>
+</blockquote>
+<h3 id="动态表"><a href="#动态表" class="headerlink" title="动态表"></a>动态表</h3><p>如果把有界数据集当作表，那么无界数据集（流）就是一个随着时间变化持续写入数据的表，Flink中使用动态表表示流，使用静态表表示传统的批处理中的数据集。</p>
+<p><code>流是Flink DataStream中的概念，动态表是Flink SQL中的概念，两者都是无界数据集。动态表在Flink中抽象为Table API</code></p>
+<h3 id="连续查询"><a href="#连续查询" class="headerlink" title="连续查询"></a>连续查询</h3><p>将SQL查询应用于动态表，会持续执行而不会终止，因为数据会持续的产生，所以连续查询不会给出一个最终结果，而是持续不断地更新结果，实际上给出的总是中间结果。</p>
+<p><code>流上的SQL查询运算与批处理中的SQL查询运算在语义上完全相同，对于相同的数据集计算结果也是相同的。</code></p>
+<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221218105938745.png?images" alt="image-20221218105938745"></p>
+<p>从概念上来说：</p>
+<blockquote>
+<p>1.流转换为动态表</p>
+<p>2.在动态表上执行连续查询，生成新的动态表</p>
+<p>3.生成的动态表转换回流</p>
+</blockquote>
+<p>从开发上来说：</p>
+<blockquote>
+<p>1.将DataStream注册为Table</p>
+<p>2.在Table上应用SQL查询语句，结果为一个新的Table</p>
+<p>3.将Table转换为DataStream</p>
+</blockquote>
+<h4 id="第一步-流转换为表"><a href="#第一步-流转换为表" class="headerlink" title="第一步-流转换为表"></a>第一步-流转换为表</h4><h4 id="第二步-更新和追加查询"><a href="#第二步-更新和追加查询" class="headerlink" title="第二步-更新和追加查询"></a>第二步-更新和追加查询</h4><blockquote>
+<p>1.向结果表中插入新记录、更新旧的记录</p>
+<p>2.只会向结果表中插入新记录</p>
+<p><code>同时包含插入（Insert）、更新（Update）的查询必须维护更多的State，消耗更多的CPU、内存资源。</code></p>
+</blockquote>
+<p>流上使用SQL的限制：</p>
+<blockquote>
+<p>1.需要维护的状态太大</p>
+<p>2.计算更新的成本太高</p>
+</blockquote>
+<h4 id="第三步-表转换为流"><a href="#第三步-表转换为流" class="headerlink" title="第三步-表转换为流"></a>第三步-表转换为流</h4><p>动态表分为三种类型：</p>
+<blockquote>
+<p>1.只有更新行为，表中的结果被持续更新</p>
+<p>2.只有插入行为，没有UPDATA和DELETE行为的结果表</p>
+<p>3.既有更新行为又有插入行为的结果表</p>
+<p><code>不同的表类型会转换为不同的流对外输出。</code></p>
+</blockquote>
+<h5 id="Append流"><a href="#Append流" class="headerlink" title="Append流"></a>Append流</h5><blockquote>
+<p>只支持写入行为，输出的结果只有 INSERT 操作的数据。</p>
+</blockquote>
+<h5 id="Retract流"><a href="#Retract流" class="headerlink" title="Retract流"></a>Retract流</h5><blockquote>
+<p>Retract 流包含两种类型的 message： add messages 和 retract messages 。</p>
+<ul>
+<li>将 INSERT 操作编码为 add message</li>
+<li>将 DELETE 操作编码为 retract message</li>
+<li>将 UPDATE 操作编码为更新先前行的 retract message 和更新（新）行的 add message，从而将动态表转换为 retract 流。</li>
+</ul>
+<p>Retract 流写入到输出结果表的数据有 -，+ 两种，分别 - 代表撤回旧数据，+ 代表输出最新的数据。这两种数据最终都会写入到输出的数据引擎中。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221218113941298.png?images" alt="image-20221218113941298"></p>
+<p><code>如果下游还有任务去消费这条流的话，要注意需要正确处理 -，+ 两种数据，防止数据计算重复或者错误。</code></p>
+</blockquote>
+<h5 id="Upsert流"><a href="#Upsert流" class="headerlink" title="Upsert流"></a>Upsert流</h5><blockquote>
+<p>Upsert 流包含两种类型的 message： upsert messages 和 delete messages。转换为 upsert 流的动态表需要唯一键（唯一键可以由多个字段组合而成）。</p>
+<ul>
+<li>将 INSERT 和 UPDATE 操作编码为 upsert message</li>
+<li>将 DELETE 操作编码为 delete message</li>
+</ul>
+<p>Upsert流写入到输出结果表的数据每次输出的结果都是当前根据唯一键的最新结果数据，不会有 Retract流中的 - 回撤数据。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221218114220260.png?images" alt="image-20221218114220260"></p>
+<p>如果下游还有一个任务去消费这条流的话，消费流的算子需要知道唯一键（即 user），以便正确地根据唯一键（user）去拿到每一个 user 当前最新的状态。<code>其与 retract 流的主要区别在于 UPDATE 操作是用单个 message 编码的，因此效率更高。</code></p>
+</blockquote>
+<p><img src="http://lesson-pic.oss-cn-hangzhou.aliyuncs.com/pics/image-20230714102350539.png" alt="image-20230714102350539"></p>
+<h2 id="D04-Flink-中的时间属性"><a href="#D04-Flink-中的时间属性" class="headerlink" title="D04 Flink 中的时间属性"></a>D04 Flink 中的时间属性</h2><h3 id="三种时间属性"><a href="#三种时间属性" class="headerlink" title="三种时间属性"></a>三种时间属性</h3><ul>
+<li>事件时间：必须是由数据本身携带的数据，这个时间标志的是事件产生的时间。</li>
+<li>处理时间：指的是算子计算这个数据的时候产生的时间。</li>
+<li>到达时间：指的是数据从数据源进入到计算引擎的时间。</li>
+</ul>
+<h3 id="指定时间属性"><a href="#指定时间属性" class="headerlink" title="指定时间属性"></a>指定时间属性</h3><ul>
+<li>CREATE TABLE DDL 创建表的时候指定</li>
+<li>可以在 DataStream 中指定，在后续的 DataStream 转为 Table 中使用</li>
+</ul>
+<h3 id="SQL时间案例"><a href="#SQL时间案例" class="headerlink" title="SQL时间案例"></a>SQL时间案例</h3><h4 id="处理时间案例"><a href="#处理时间案例" class="headerlink" title="处理时间案例"></a>处理时间案例</h4><p>处理时间语义下，使用当前机器的系统时间作为处理时间。它是时间的最简单概念。<code>它既不需要提取时间戳，也不需要生成watermark</code>。</p>
+<ul>
+<li>语法：CREATE TABLE DDL 指定时间戳的方式</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_actions (</span><br><span class="line">  user_name STRING,</span><br><span class="line">  data STRING,</span><br><span class="line">  <span class="comment">-- 使用下面这句来将 user_action_time 声明为处理时间</span></span><br><span class="line">  user_action_time <span class="keyword">AS</span> PROCTIME()</span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>读取’order.csv’文件的数据，在原本的Schema上添加一个虚拟的时间戳列，时间戳列由<code>PROCTIME()</code>函数计算产生。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建映射表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> InputTable (</span><br><span class="line">`userid` <span class="type">varchar</span>,</span><br><span class="line">`<span class="type">timestamp</span>` <span class="type">bigint</span>,</span><br><span class="line">`money` <span class="keyword">double</span>,</span><br><span class="line">`category` <span class="type">varchar</span>,</span><br><span class="line">`pt` <span class="keyword">AS</span> PROCTIME()</span><br><span class="line">) <span class="keyword">with</span> (</span><br><span class="line"><span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;filesystem&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;path&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;file:///export/data/input/order.csv&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">-- 描述表</span></span><br><span class="line"><span class="keyword">desc</span> InputTable ;</span><br></pre></td></tr></table></figure>
+
+<h4 id="事件时间案例"><a href="#事件时间案例" class="headerlink" title="事件时间案例"></a>事件时间案例</h4><p>Event Time时间语义使用一条数据实际发生的时间作为时间属性，在Table API &amp; SQL中这个字段通常被称为<code>rowtime</code>。这种模式下多次重复计算时，计算结果是确定的。</p>
+<p><code>Event Time时间语义可以保证流处理和批处理的统一。</code></p>
+<p>Event Time时间语义下，我们需要设置每条数据发生时的时间戳，并提供一个<code>Watermark</code>。</p>
+<ul>
+<li>语法：CREATE TABLE DDL 指定时间戳的方式</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_actions (</span><br><span class="line">  user_name STRING,</span><br><span class="line">  data STRING,</span><br><span class="line">  user_action_time <span class="type">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">  <span class="comment">-- 使用下面这句来将 user_action_time 声明为事件时间，并且声明 watermark 的生成规则，即 user_action_time 减 5 秒</span></span><br><span class="line">  <span class="comment">-- 事件时间列的字段类型必须是 TIMESTAMP 或者 TIMESTAMP_LTZ 类型</span></span><br><span class="line">  WATERMARK <span class="keyword">FOR</span> user_action_time <span class="keyword">AS</span> user_action_time <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实际应用中时间戳一般都是秒或者是毫秒（BIGINT 类型）需要转换类型</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> user_actions (</span><br><span class="line">  user_name STRING,</span><br><span class="line">  data STRING,</span><br><span class="line">  <span class="comment">-- 1. 这个 ts 就是常见的毫秒级别时间戳</span></span><br><span class="line">  ts <span class="type">BIGINT</span>,</span><br><span class="line">  <span class="comment">-- 2. 将毫秒时间戳转换成 TIMESTAMP_LTZ 类型</span></span><br><span class="line">  time_ltz <span class="keyword">AS</span> TO_TIMESTAMP_LTZ(ts, <span class="number">3</span>),</span><br><span class="line">  <span class="comment">-- 3. 使用下面这句来将 user_action_time 声明为事件时间，并且声明 watermark 的生成规则，即 user_action_time 减 5 秒</span></span><br><span class="line">  <span class="comment">-- 事件时间列的字段类型必须是 TIMESTAMP 或者 TIMESTAMP_LTZ 类型</span></span><br><span class="line">  WATERMARK <span class="keyword">FOR</span> time_ltz <span class="keyword">AS</span> time_ltz <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>读取order.csv’文件的数据，定义现有事件时间字段上的 watermark 生成表达式，该表达式将事件时间字段标记为事件时间属性。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建映射表</span></span><br><span class="line"><span class="comment">-- 这种方式只是增加了一个 rt 的TIMESTAMP列</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> InputTable2 (</span><br><span class="line"> `userid` <span class="type">varchar</span>,</span><br><span class="line"> `<span class="type">timestamp</span>` <span class="type">bigint</span>,</span><br><span class="line"> `money` <span class="keyword">double</span>,</span><br><span class="line"> `category` <span class="type">varchar</span>,</span><br><span class="line"> rt <span class="keyword">AS</span> TO_TIMESTAMP(FROM_UNIXTIME(`<span class="type">timestamp</span>`))</span><br><span class="line"> ) <span class="keyword">with</span> (</span><br><span class="line"> <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;filesystem&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;path&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;file:///export/data/input/order.csv&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">-- 描述表</span></span><br><span class="line"><span class="keyword">desc</span> InputTable2;</span><br><span class="line"><span class="comment">-- 事件时间需要结合watermark（水位线）使用</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> InputTable3 (</span><br><span class="line">`userid` <span class="type">varchar</span>,</span><br><span class="line">`<span class="type">timestamp</span>` <span class="type">bigint</span>,</span><br><span class="line">`money` <span class="keyword">double</span>,</span><br><span class="line">`category` <span class="type">varchar</span>,</span><br><span class="line">rt <span class="keyword">AS</span> TO_TIMESTAMP(FROM_UNIXTIME(`<span class="type">timestamp</span>`)),</span><br><span class="line">watermark <span class="keyword">for</span> rt <span class="keyword">as</span> rt <span class="operator">-</span> <span class="type">interval</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">second</span></span><br><span class="line">) <span class="keyword">with</span> (</span><br><span class="line"><span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;filesystem&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;path&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;file:///export/data/input/order.csv&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2 id="D05-Flink-中的窗口操作"><a href="#D05-Flink-中的窗口操作" class="headerlink" title="D05 Flink 中的窗口操作"></a>D05 Flink 中的窗口操作</h2><h3 id="窗口概述"><a href="#窗口概述" class="headerlink" title="窗口概述"></a>窗口概述</h3><p>在流处理应用中，数据是连续不断的，因此我们不可能等到所有数据都到了才开始处理。当然我们可以每来一个消息就处理一次，但是有时我们需要做一些聚合类的处理，例如：在过去的1分钟内有多少用户点击了我们的网页。在这种情况下，我们必须定义一个窗口，用来收集最近一分钟内的数据，并对这个窗口内的数据进行计算。</p>
+<p>Flink 认为 Batch 是 Streaming 的一个特例，所以 Flink 底层引擎是一个流式引擎，在上面实现了流处理和批处理。而窗口（window）就是从 Streaming 到 Batch 的一个桥梁。</p>
+<p>时间窗口和计数窗口</p>
+<ul>
+<li><p>一个Window代表有限对象的集合。一个窗口有一个最大的时间戳，该时间戳意味着在其代表的某时间点——所有应该进入这个窗口的元素都已经到达</p>
+</li>
+<li><p>Window就是用来对一个无限的流设置一个有限的集合，在有界的数据集上进行操作的一种机制。</p>
+</li>
+<li><p>在Table API &amp; SQL中，主要有两种窗口：Group Windows 和 Over Windows。</p>
+<ul>
+<li>Group Windows 根据时间或行计数间隔将组行聚合成有限的组，并对每个组计算一次聚合函数</li>
+<li>Over Windows 窗口内聚合为每个输入行在其相邻行范围内计算一个聚合</li>
+</ul>
+</li>
+</ul>
+<h3 id="Group-Windows"><a href="#Group-Windows" class="headerlink" title="Group Windows"></a>Group Windows</h3><h4 id="滚动窗口"><a href="#滚动窗口" class="headerlink" title="滚动窗口"></a>滚动窗口</h4><p><code>滚动窗口定义</code>：滚动窗口将每个元素指定给指定窗口大小的窗口。滚动窗口具有固定大小，且不重叠。例如，指定一个大小为 5 分钟的滚动窗口。在这种情况下，Flink 将每隔 5 分钟开启一个新的窗口，其中每一条数都会划分到唯一一个 5 分钟的窗口中：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/wps1.png?images" alt="img"> </p>
+<p><code>应用场景</code>：常见的按照一分钟对数据进行聚合，计算一分钟内 PV，UV 数据。</p>
+<h5 id="基于DataStream编程"><a href="#基于DataStream编程" class="headerlink" title="基于DataStream编程"></a>基于DataStream编程</h5><p><code>input().keyby().window()分组后的窗口计算，input().windowAll()全局窗口</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;T&gt; input = ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于Event Time的滚动窗口</span></span><br><span class="line">input.keyBy(…)</span><br><span class="line">.window(TumblingEventTimeWindows.of(Time.seconds(<span class="number">5</span>)))</span><br><span class="line">.&lt;window function&gt;(...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于Processing Time的滚动窗口</span></span><br><span class="line">input.keyBy(…)<span class="number">1</span></span><br><span class="line">.window(TumblingProcessingTimeWindows.of(Time.seconds(<span class="number">5</span>)))</span><br><span class="line">.&lt;window function&gt;(...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于EventTime Time，在小时级滚动窗口上设置15分钟的Offset偏移</span></span><br><span class="line">input.keyBy(…)</span><br><span class="line">.window(TumblingEventTimeWindows.of(Time.hours(<span class="number">1</span>), Time.minutes(<span class="number">15</span>)))</span><br><span class="line">.&lt;window function&gt;(...)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>注意：</code>时间窗口使用的是timeWindow()也可以使用window()，比如，input.keyBy(…).timeWindow(Time.seconds(1))。timeWindow()是一种简写，传入一个参数则滚动窗口，为窗口大小，若传入两个参数为滑动窗口，第一个参数为窗口大小，第二个参数为滑动时间。该方法在新版本中已过期。</p>
+</blockquote>
+<h5 id="基于SQL编程"><a href="#基于SQL编程" class="headerlink" title="基于SQL编程"></a>基于SQL编程</h5><p>TUMBLE函数基于时间属性字段将每个元素分配到一个指定大小的窗口中。<br>在流模式下，时间属性字段必须是<code>事件或处理时间</code>属性。<br>在批处理模式下，窗口表函数的时间属性字段必须是<code>TIMESTAMP或TIMESTAMP _LTZ</code>类型的属性。TUMBLE的返回值是一个新的关系，它包括原始关系的所有列，以及另外3列<code>“window_start”</code>、<code>“window_end”</code>、<code>“window_time”</code>，以指示指定的窗口。原始时间属性“timecol”将是窗口TVF之后的常规时间戳列。</p>
+<blockquote>
+<p>TUMBLE函数接受三个必需参数，一个可选参数：<br><code>TUMBLE(TABLE data, DESCRIPTOR(timecol), size [, offset ])</code></p>
+<ul>
+<li>data: 是一个表参数，可以是与时间属性列的任何关系。</li>
+<li>timecol: 是一个列描述符，指示数据的哪些时间属性列应映射到翻转窗口。</li>
+<li>size: 是指定滚动窗口宽度的持续时间。</li>
+<li>offset: 是一个可选参数，用于指定窗口起始位置的偏移量。</li>
+</ul>
+</blockquote>
+<hr>
+<p>两种 Flink SQL 实现方式：</p>
+<ul>
+<li>Group Window Aggregation（1.14之前只有此类方案，此方案在 1.14及之后版本已经标记为废弃，不推荐使用）</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 数据源表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> source_table ( </span><br><span class="line"> user_id STRING, </span><br><span class="line"> price <span class="type">BIGINT</span>,</span><br><span class="line"> `<span class="type">timestamp</span>` <span class="type">bigint</span>,</span><br><span class="line"> row_time <span class="keyword">AS</span> TO_TIMESTAMP(FROM_UNIXTIME(`<span class="type">timestamp</span>`)),</span><br><span class="line"> watermark <span class="keyword">for</span> row_time <span class="keyword">as</span> row_time <span class="operator">-</span> <span class="type">interval</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">second</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;socket&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;hostname&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1&#x27;</span>,        </span><br><span class="line">  <span class="string">&#x27;port&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;9999&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据处理逻辑</span></span><br><span class="line"><span class="keyword">select</span> </span><br><span class="line">    user_id,</span><br><span class="line">    <span class="built_in">sum</span>(price) <span class="keyword">as</span> sum_price,</span><br><span class="line">    UNIX_TIMESTAMP(<span class="built_in">CAST</span>(tumble_start(row_time, <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">second</span>) <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span>  <span class="keyword">as</span> window_start</span><br><span class="line"><span class="keyword">from</span> source_table</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">    user_id,</span><br><span class="line">    tumble(row_time, <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">second</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以看到 Group Window Aggregation 滚动窗口的 SQL 语法就是把 tumble window 的声明写在了 group by 子句中，即 tumble(row_time, interval ‘1’ minute)</p>
+<p>第一个参数为事件时间的时间戳</p>
+<p>第二个参数为滚动窗口大小</p>
+</blockquote>
+<ul>
+<li>Windowing TVF（1.14 只支持 Streaming 任务，1.15版本开始支持 Batch\Streaming 任务）</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    user_id,</span><br><span class="line">    UNIX_TIMESTAMP(<span class="built_in">CAST</span>(window_start <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_start,</span><br><span class="line">    UNIX_TIMESTAMP(<span class="built_in">CAST</span>(window_end <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_end,</span><br><span class="line">    <span class="built_in">sum</span>(price) <span class="keyword">as</span> sum_price</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">TABLE</span>(TUMBLE(</span><br><span class="line">        <span class="keyword">TABLE</span> source_table</span><br><span class="line">        , DESCRIPTOR(row_time)</span><br><span class="line">        , <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> window_start, </span><br><span class="line">      window_end,</span><br><span class="line">      user_id;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以看到 Windowing TVF 滚动窗口的写法就是把 tumble window 的声明写在了数据源的 Table 子句中，即 TABLE(TUMBLE(TABLE source_table, DESCRIPTOR(row_time), INTERVAL ‘60’ SECOND))，包含三部分参数。</p>
+<p>第一个参数 TABLE source_table 声明数据源表；</p>
+<p>第二个参数 DESCRIPTOR(row_time) 声明数据源的时间戳；</p>
+<p>第三个参数 INTERVAL ‘60’ SECOND 声明滚动窗口大小为 1 min。</p>
+</blockquote>
+<h4 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h4><p><code>滑动窗口定义</code>：滑动窗口也是将元素指定给固定长度的窗口。与滚动窗口功能一样，也有窗口大小的概念。不一样的地方在于，滑动窗口有另一个参数控制窗口计算的频率（滑动窗口滑动的步长）。因此，如果滑动的步长小于窗口大小，则滑动窗口之间每个窗口是可以重叠。在这种情况下，一条数据就会分配到多个窗口当中。举例，有 10 分钟大小的窗口，滑动步长为 5 分钟。这样，每 5 分钟会划分一次窗口，这个窗口包含的数据是过去 10 分钟内的数据，如下图所示：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221224182559887.png?images" alt="image-20221224182559887"></p>
+<p>在流模式下，时间属性字段必须是<code>事件或处理时间</code>属性。</p>
+<p><code>应用场景</code>：比如计算同时在线的数据，要求结果的输出频率是 1 分钟一次，每次计算的数据是过去 5 分钟的数据（有的场景下用户可能在线，但是可能会 2 分钟不活跃，但是这也要算在同时在线数据中，所以取最近 5 分钟的数据就能计算进去了）</p>
+<h5 id="基于DataStream编程-1"><a href="#基于DataStream编程-1" class="headerlink" title="基于DataStream编程"></a>基于DataStream编程</h5><p>我们使用Time类中的时间单位来定义Slide和Size，也可以设置offset。同样，timeWindow是一种缩写，根据执行环境中设置的时间语义来选择相应的方法初始化窗口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">val input: DataStream[T] = ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// sliding event-time windows</span></span><br><span class="line">input.keyBy(...)</span><br><span class="line">.window(SlidingEventTimeWindows.of(Time.seconds(<span class="number">10</span>), Time.seconds(<span class="number">5</span>)))</span><br><span class="line">.&lt;window function&gt;(...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// sliding processing-time windows</span></span><br><span class="line">input.keyBy(&lt;...&gt;)</span><br><span class="line">.window(SlidingProcessingTimeWindows.of(Time.seconds(<span class="number">10</span>), Time.seconds(<span class="number">5</span>)))</span><br><span class="line">.&lt;window function&gt;(...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// sliding processing-time windows offset by -8 hours</span></span><br><span class="line">input.keyBy(&lt;...&gt;)</span><br><span class="line">.window(SlidingProcessingTimeWindows.of(Time.hours(<span class="number">12</span>), Time.hours(<span class="number">1</span>), Time.hours(-<span class="number">8</span>)))</span><br><span class="line">.&lt;window function&gt;(...)</span><br></pre></td></tr></table></figure>
+
+<h5 id="基于SQL编程-1"><a href="#基于SQL编程-1" class="headerlink" title="基于SQL编程"></a>基于SQL编程</h5><p>在批处理模式下，窗口表函数的时间属性字段必须是<code>TIMESTAMP</code>或<code>TIMESTAMP _LTZ</code>类型的属性。HOP的返回值是一个新的关系，它包括原始关系的所有列，以及另外3列<code>“window_start”</code>、<code>“window_end”</code>、<code>“window_time”</code>，以指示指定的窗口。原始时间属性“timecol”将是窗口TVF之后的常规时间戳列。<br>HOP接受四个必需参数，一个可选参数：<br><code>HOP(TABLE data, DESCRIPTOR(timecol), slide, size [, offset ])</code></p>
+<ul>
+<li>data: 是一个表参数，可以是与时间属性列的任何关系</li>
+<li>timecol：是一个列描述符，指示数据的哪些时间属性列应映射到跳跃窗口。</li>
+<li>slide: 是一个持续时间，指定顺序跳跃窗口开始之间的持续</li>
+<li>size: 是指定跳跃窗口宽度的持续时间。</li>
+<li>offset: 是一个可选参数，用于指定窗口起始位置的偏移量。</li>
+</ul>
+<hr>
+<p>两种Flink SQL实现方式：</p>
+<ul>
+<li>Group Window Aggregation 方案（支持 Batch\Streaming 任务）：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 数据源表</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> source_table ( </span><br><span class="line"> user_id STRING, </span><br><span class="line"> price <span class="type">BIGINT</span>,</span><br><span class="line"> `<span class="type">timestamp</span>` <span class="type">bigint</span>,</span><br><span class="line"> row_time <span class="keyword">AS</span> TO_TIMESTAMP(FROM_UNIXTIME(`<span class="type">timestamp</span>`)),</span><br><span class="line"> watermark <span class="keyword">for</span> row_time <span class="keyword">as</span> row_time <span class="operator">-</span> <span class="type">interval</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">second</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;socket&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;hostname&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1&#x27;</span>,        </span><br><span class="line">  <span class="string">&#x27;port&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;9999&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据处理逻辑</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">SELECT</span> user_id,</span><br><span class="line">    UNIX_TIMESTAMP(<span class="built_in">CAST</span>(hop_start(row_time, <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>, <span class="type">interval</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_start, </span><br><span class="line">    <span class="built_in">sum</span>(price) <span class="keyword">as</span> sum_price</span><br><span class="line"><span class="keyword">FROM</span> source_table</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> user_id</span><br><span class="line">    , hop(row_time, <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>, <span class="type">interval</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">SECOND</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以看到 Group Window Aggregation 滚动窗口的写法就是把 hop window 的声明写在了 group by 子句中，即 hop(row_time, interval ‘1’ minute, interval ‘5’ minute)。其中：</p>
+<p>第一个参数为事件时间的时间戳；</p>
+<p>第二个参数为滑动窗口的滑动步长；</p>
+<p>第三个参数为滑动窗口大小。</p>
+</blockquote>
+<ul>
+<li>Windowing TVF 方案（1.14只支持 Streaming 任务，1.15版本开始支持 Batch\Streaming 任务）：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 数据处理逻辑</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">SELECT</span> </span><br><span class="line">    user_id,</span><br><span class="line">UNIX_TIMESTAMP(<span class="built_in">CAST</span>(window_start <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_start,  </span><br><span class="line">UNIX_TIMESTAMP(<span class="built_in">CAST</span>(window_end <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_end, </span><br><span class="line">    <span class="built_in">sum</span>(price) <span class="keyword">as</span> sum_price</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">TABLE</span>(HOP(</span><br><span class="line">        <span class="keyword">TABLE</span> source_table</span><br><span class="line">        , DESCRIPTOR(row_time)</span><br><span class="line">        , <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>, <span class="type">interval</span> <span class="string">&#x27;10&#x27;</span> <span class="keyword">SECOND</span>))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> window_start, </span><br><span class="line">      window_end,</span><br><span class="line">      user_id;</span><br></pre></td></tr></table></figure>
+
+<p><code>在该模式下，窗口大小必须是滑动距离的整数倍</code></p>
+<blockquote>
+<p>可以看到 Windowing TVF 滚动窗口的写法就是把 hop window 的声明写在了数据源的 Table 子句中，即 TABLE(HOP(TABLE source_table, DESCRIPTOR(row_time), INTERVAL ‘1’ MINUTES, INTERVAL ‘5’ MINUTES))，包含四部分参数：</p>
+<p>第一个参数 TABLE source_table 声明数据源表；</p>
+<p>第二个参数 DESCRIPTOR(row_time) 声明数据源的时间戳；</p>
+<p>第三个参数 INTERVAL ‘1’ MINUTES 声明滚动窗口滑动步长大小为 1 min。</p>
+<p>第四个参数 INTERVAL ‘5’ MINUTES 声明滚动窗口大小为 5 min。</p>
+</blockquote>
+<h4 id="Session-窗口"><a href="#Session-窗口" class="headerlink" title="Session 窗口"></a>Session 窗口</h4><p><code>Session 窗口定义</code>：Session 时间窗口和滚动、滑动窗口不一样，其没有固定的持续时间，如果在定义的间隔期（Session Gap）内没有新的数据出现，则 Session 就会窗口关闭。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221224184500079.png?images" alt="image-20221224184500079"></p>
+<h5 id="基于DataStream编程-2"><a href="#基于DataStream编程-2" class="headerlink" title="基于DataStream编程"></a>基于DataStream编程</h5><p><code>Session window的窗口大小，则是由数据本身决定</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DataStream</span> <span class="variable">input</span> <span class="operator">=</span> … </span><br><span class="line"><span class="type">DataStream</span> <span class="variable">result</span> <span class="operator">=</span> input </span><br><span class="line">.keyBy(&lt;key selector&gt;) </span><br><span class="line">.window(ProcessingTimeSessionWindows.withGap(Time.seconds(<span class="number">10</span>)))</span><br><span class="line">.apply(&lt;window function&gt;) <span class="comment">// or reduce() or fold()</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"> <span class="type">DataStream</span> <span class="variable">result</span> <span class="operator">=</span> input </span><br><span class="line">.keyBy(&lt;key selector&gt;) </span><br><span class="line">.window(EventTimeSessionWindows.withGap(Time.seconds(<span class="number">10</span>)))</span><br><span class="line">.apply(&lt;window function&gt;) <span class="comment">// or reduce() or fold()</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="基于SQL编程-2"><a href="#基于SQL编程-2" class="headerlink" title="基于SQL编程"></a>基于SQL编程</h5><p><code>session(row_time, interval &#39;5&#39; minute)</code></p>
+<p>其中：</p>
+<p>第一个参数为事件时间的时间戳；</p>
+<p>第二个参数为 Session gap 间隔。</p>
+<p>使用<code>标识函数</code>选出窗口的起始时间或者结束时间，窗口的时间属性用于下级Window的聚合。</p>
+<hr>
+<p>Flink SQL 不支持 Session 窗口的 Window TVF:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 数据源表，用户购买行为记录表</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> source_table ( </span><br><span class="line"> user_id STRING, </span><br><span class="line"> price <span class="type">BIGINT</span>,</span><br><span class="line"> `<span class="type">timestamp</span>` <span class="type">bigint</span>,</span><br><span class="line"> row_time <span class="keyword">AS</span> TO_TIMESTAMP(FROM_UNIXTIME(`<span class="type">timestamp</span>`)),</span><br><span class="line"> watermark <span class="keyword">for</span> row_time <span class="keyword">as</span> row_time <span class="operator">-</span> <span class="type">interval</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">second</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;socket&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;hostname&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1&#x27;</span>,        </span><br><span class="line">  <span class="string">&#x27;port&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;9999&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据处理逻辑</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">SELECT</span> </span><br><span class="line">    user_id,</span><br><span class="line">    UNIX_TIMESTAMP(<span class="built_in">CAST</span>(session_start(row_time, <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_start, </span><br><span class="line">    <span class="built_in">sum</span>(price) <span class="keyword">as</span> sum_price</span><br><span class="line"><span class="keyword">FROM</span> source_table</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> user_id</span><br><span class="line">      , session(row_time, <span class="type">interval</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中：</p>
+<p>第一个参数为事件时间的时间戳；</p>
+<p>第二个参数为 Session gap 间隔。</p>
+<p>SQL 任务是在整个 Session 窗口结束之后才会把数据输出。Session 窗口即支持 处理时间 也支持 事件时间。但是处理时间只支持在 Streaming 任务中运行，Batch 任务不支持。</p>
+<p>Session gap 间隔是5s，实际上是不包含5s，大于5s才会触发计算</p>
+</blockquote>
+<h4 id="渐进式窗口"><a href="#渐进式窗口" class="headerlink" title="渐进式窗口"></a>渐进式窗口</h4><p><code>渐进式窗口定义</code>：渐进式窗口在其实就是 固定窗口间隔内提前触发的的滚动窗口，其实就是 Tumble Window + early-fire 的一个事件时间的版本。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221224190117981.png?images" alt="image-20221224190117981"></p>
+<p>在流模式下，时间属性字段必须是<code>事件或处理时间</code>属性。<br>在批处理模式下，窗口表函数的时间属性字段必须是<code>TIMESTAMP</code>或<code>TIMESTAMP _LTZ</code>类型的属性。CUMULATE的返回值是一个新的关系，它包括原始关系的所有列，以及另外3列<code>“window_start”</code>、<code>“window_end”</code>、<code>“window_time”</code>，以指示指定的窗口。原始时间属性“timecol”将是窗口TVF之后的常规时间戳列。<br>CUMULATE接受四个必需参数，一个可选参数：<br><code>CUMULATE(TABLE data, DESCRIPTOR(timecol), step, size)</code></p>
+<ul>
+<li>data: 是一个表参数，可以是与时间属性列的任何关系</li>
+<li>timecol：是一个列描述符，指示数据的哪些时间属性列应映射到累积窗口。</li>
+<li>step: 是指定连续累积窗口结束之间增加的窗口大小的持续时间</li>
+<li>size: 是指定累积窗口的最大宽度的持续时间。size必须是 的整数倍step。</li>
+<li>offset: 是一个可选参数，用于指定窗口起始位置的偏移量。</li>
+</ul>
+<p>渐进式窗口目前只有 Windowing TVF 方案（1.14 只支持 Streaming 任务，1.15版本开始支持 Batch\Streaming 任务）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 数据源表</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> source_table (</span><br><span class="line">    <span class="comment">-- 用户 id</span></span><br><span class="line">    user_id <span class="type">BIGINT</span>,</span><br><span class="line">    <span class="comment">-- 用户</span></span><br><span class="line">    money <span class="type">BIGINT</span>,</span><br><span class="line">    <span class="comment">-- 事件时间戳</span></span><br><span class="line">    row_time <span class="keyword">AS</span> <span class="built_in">cast</span>(<span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">as</span> <span class="type">timestamp</span>(<span class="number">3</span>)),</span><br><span class="line">    <span class="comment">-- watermark 设置</span></span><br><span class="line">    WATERMARK <span class="keyword">FOR</span> row_time <span class="keyword">AS</span> row_time <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;datagen&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;rows-per-second&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;10&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.user_id.min&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.user_id.max&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;100000&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.money.min&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;fields.money.max&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;100000&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据汇表</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> sink_table (</span><br><span class="line">    window_end <span class="type">bigint</span>,</span><br><span class="line">    window_start <span class="type">bigint</span>,</span><br><span class="line">    sum_money <span class="type">BIGINT</span>,</span><br><span class="line">    count_distinct_id <span class="type">bigint</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;print&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据处理逻辑</span></span><br><span class="line">Flink <span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">insert</span> <span class="keyword">into</span> sink_table</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    UNIX_TIMESTAMP(<span class="built_in">CAST</span>(window_end <span class="keyword">AS</span> STRING)) <span class="operator">*</span> <span class="number">1000</span> <span class="keyword">as</span> window_end, </span><br><span class="line">    window_start, </span><br><span class="line">    <span class="built_in">sum</span>(money) <span class="keyword">as</span> sum_money,</span><br><span class="line">    <span class="built_in">count</span>(<span class="keyword">distinct</span> user_id) <span class="keyword">as</span> count_distinct_id</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">TABLE</span>(CUMULATE(</span><br><span class="line">       <span class="keyword">TABLE</span> source_table</span><br><span class="line">       , DESCRIPTOR(row_time)</span><br><span class="line">       , <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">       , <span class="type">INTERVAL</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">DAY</span>))</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">    window_start, </span><br><span class="line">    window_end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中包含四部分参数：</p>
+<p>第一个参数 TABLE source_table 声明数据源表；</p>
+<p>第二个参数 DESCRIPTOR(row_time) 声明数据源的时间戳；</p>
+<p>第三个参数 INTERVAL ‘60’ SECOND 声明渐进式窗口触发的渐进步长为 1 min。</p>
+<p>第四个参数 INTERVAL ‘1’ DAY 声明整个渐进式窗口的大小为 1 天，到了第二天新开一个窗口重新累计。</p>
+</blockquote>
+<h3 id="Over-Windows"><a href="#Over-Windows" class="headerlink" title="Over Windows"></a>Over Windows</h3><p><code>Over 聚合定义（支持 Batch\Streaming）</code>：可以理解为是一种特殊的滑动窗口聚合函数。</p>
+<ul>
+<li>窗口聚合：不在 group by 中的字段，不能直接在 select 中拿到</li>
+<li>Over 聚合：能够保留原始字段</li>
+</ul>
+<p>Over 聚合的语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  agg_func(agg_col) <span class="keyword">OVER</span> (</span><br><span class="line">    [<span class="keyword">PARTITION</span> <span class="keyword">BY</span> col1[, col2, ...]]</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> time_col</span><br><span class="line">    range_definition),</span><br><span class="line">  ...</span><br><span class="line"><span class="keyword">FROM</span> ...</span><br><span class="line"><span class="comment">-- 示例</span></span><br><span class="line"><span class="keyword">SELECT</span> order_id, order_time, amount,</span><br><span class="line">  <span class="built_in">SUM</span>(amount) <span class="keyword">OVER</span> (</span><br><span class="line">    <span class="keyword">PARTITION</span> <span class="keyword">BY</span> product</span><br><span class="line">    <span class="keyword">ORDER</span> <span class="keyword">BY</span> order_time</span><br><span class="line">    <span class="keyword">RANGE</span> <span class="keyword">BETWEEN</span> <span class="type">INTERVAL</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">HOUR</span> PRECEDING <span class="keyword">AND</span> <span class="keyword">CURRENT</span> <span class="type">ROW</span></span><br><span class="line">  ) <span class="keyword">AS</span> one_hour_prod_amount_sum</span><br><span class="line"><span class="keyword">FROM</span> Orders</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><p>ORDER BY：必须是时间戳列（事件时间、处理时间）</p>
+</li>
+<li><p>PARTITION BY：标识了聚合窗口的聚合粒度，如上述案例是按照 product 进行聚合</p>
+</li>
+<li><p>range_definition：这个标识聚合窗口的聚合数据范围，在 Flink 中有两种指定数据范围的方式。第一种为 按照行数聚合，第二种为 按照时间区间聚合。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="E06-Flink-中的水印操作"><a href="#E06-Flink-中的水印操作" class="headerlink" title="E06 Flink 中的水印操作"></a>E06 Flink 中的水印操作</h2><h3 id="流处理中的乱序"><a href="#流处理中的乱序" class="headerlink" title="流处理中的乱序"></a>流处理中的乱序</h3><p>当 flink 以 EventTime 模式处理流数据时，它会根据数据里的时间戳来处理基于时间的算子。但是由于网络、分布式等原因，会导致数据乱序的情况。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221219183040634.png?images" alt="image-20221219183040634"></p>
+<h4 id="watermark解决乱序"><a href="#watermark解决乱序" class="headerlink" title="watermark解决乱序"></a>watermark解决乱序</h4><p><code>不以事件时间作为触发计算的条件，而是根据Watermark判断是否触发。</code></p>
+<p>当Watermark的时间戳等于Event中携带的EventTime时候，上面场景（Watermark&#x3D;EventTime)的计算结果如下：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221219183133979.png?images" alt="image-20221219183133979"></p>
+<p>如果想正确处理迟来的数据可以定义Watermark生成策略为 Watermark &#x3D; EventTime -5s， 如下：<img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221219183212429.png?images" alt="image-20221219183212429"></p>
+<h3 id="基于SQL的水印"><a href="#基于SQL的水印" class="headerlink" title="基于SQL的水印"></a>基于SQL的水印</h3><p>实现场景：</p>
+<blockquote>
+<ul>
+<li><p>使用Socket模拟接收数据</p>
+</li>
+<li><p>设置WaterMark，设置的逻辑：在第一条数据进来时，设置WaterMark为0，指定第一条数据的时间戳后，获取该时间戳与当前 WaterMark的最大值，并将最大值设置为下一条数据的WaterMark，以此类推</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建映射表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> MyTable (</span><br><span class="line">item STRING,</span><br><span class="line">ts <span class="type">TIMESTAMP</span>(<span class="number">3</span>), <span class="comment">-- TIMESTAMP 类型的时间戳</span></span><br><span class="line">WATERMARK <span class="keyword">FOR</span> ts <span class="keyword">AS</span> ts <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;0&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line"><span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;socket&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;hostname&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;port&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;9999&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 设置滚动窗口进行聚合计算</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">TUMBLE_START(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">AS</span> window_start,</span><br><span class="line">TUMBLE_END(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">AS</span> window_end,</span><br><span class="line">TUMBLE_ROWTIME(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">as</span> window_rowtime,</span><br><span class="line">item,<span class="built_in">count</span>(item) <span class="keyword">as</span> total_item</span><br><span class="line"><span class="keyword">FROM</span> MyTable</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> TUMBLE(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>), item;</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<h4 id="数据有序的场景"><a href="#数据有序的场景" class="headerlink" title="数据有序的场景"></a>数据有序的场景</h4><p>测试数据：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hello,2022-03-25 16:39:45</span><br><span class="line">hello,2022-03-25 16:39:46</span><br><span class="line">hello,2022-03-25 16:39:47</span><br><span class="line">hello,2022-03-25 16:39:48</span><br><span class="line">hello,2022-03-25 16:39:49</span><br><span class="line">hello,2022-03-25 16:39:50</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据无序的场景"><a href="#数据无序的场景" class="headerlink" title="数据无序的场景"></a>数据无序的场景</h4><p>测试数据：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hello,2022-03-25 16:39:45</span><br><span class="line">hello,2022-03-25 16:39:46</span><br><span class="line">hello,2022-03-25 16:39:47</span><br><span class="line">hello,2022-03-25 16:39:48</span><br><span class="line">hello,2022-03-25 16:39:49</span><br><span class="line">hello,2022-03-25 16:39:50</span><br><span class="line">hello,2022-03-25 16:39:47</span><br><span class="line">hello,2022-03-25 16:39:46</span><br><span class="line">hello,2022-03-25 16:39:51</span><br><span class="line">hello,2022-03-25 16:39:52</span><br><span class="line">hello,2022-03-25 16:39:53</span><br><span class="line">hello,2022-03-25 16:39:54</span><br><span class="line">hello,2022-03-25 16:39:55</span><br></pre></td></tr></table></figure>
+
+<p>设置迟到时间：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> MyTable;</span><br><span class="line"><span class="comment">-- 允许Flink处理延迟以5秒内的迟到数据，修改最大乱序时间</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> MyTable (</span><br><span class="line">item STRING,</span><br><span class="line">ts <span class="type">TIMESTAMP</span>(<span class="number">3</span>), <span class="comment">-- TIMESTAMP 类型的时间戳</span></span><br><span class="line">WATERMARK <span class="keyword">FOR</span> ts <span class="keyword">AS</span> ts <span class="operator">-</span> <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span></span><br><span class="line">) <span class="keyword">WITH</span> (</span><br><span class="line"><span class="string">&#x27;connector&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;socket&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;hostname&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;node1&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;port&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;9999&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;format&#x27;</span> <span class="operator">=</span> <span class="string">&#x27;csv&#x27;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">TUMBLE_START(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">AS</span> window_start,</span><br><span class="line">TUMBLE_END(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">AS</span> window_end,</span><br><span class="line">TUMBLE_ROWTIME(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>) <span class="keyword">as</span> window_rowtime,</span><br><span class="line">item,<span class="built_in">count</span>(item) <span class="keyword">as</span> total_item</span><br><span class="line"><span class="keyword">FROM</span> MyTable</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> TUMBLE(ts, <span class="type">INTERVAL</span> <span class="string">&#x27;5&#x27;</span> <span class="keyword">SECOND</span>), item;</span><br></pre></td></tr></table></figure>
+
+<h3 id="基于DataStream的水印"><a href="#基于DataStream的水印" class="headerlink" title="基于DataStream的水印"></a>基于DataStream的水印</h3><h4 id="水印策略设置"><a href="#水印策略设置" class="headerlink" title="水印策略设置"></a>水印策略设置</h4><p>WatermarkStrategy 可以在 Flink 应用程序中的两处使用：</p>
+<ul>
+<li>第一种是直接在数据源上使用</li>
+<li>第二种是直接在非数据源的操作之后使用</li>
+</ul>
+<blockquote>
+<p>第一种方式相比会更好，因为数据源可以利用 watermark 生成逻辑中有关分片&#x2F;分区（shards&#x2F;partitions&#x2F;splits）的信息。使用这种方式，数据源通常可以更精准地跟踪 watermark，整体 watermark 生成将更精确。直接在源上指定 WatermarkStrategy意味着你必须使用特定数据源接口，例如与kafka链接，使用kafka Connerctor。</p>
+<p>仅当无法直接在数据源上设置策略时，才应该使用第二种方式（在任意转换操作之后设置 WatermarkStrategy）</p>
+</blockquote>
+<ul>
+<li>直接在数据源中使用（比如kafka）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">StreamExecutionEnvironment</span> <span class="variable">env</span> <span class="operator">=</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br><span class="line">KafkaSource&lt;String&gt; source = KafkaSource.&lt;String&gt;builder()</span><br><span class="line">  .setBootstrapServers(brokers)</span><br><span class="line">  .setTopics(<span class="string">&quot;input-topic&quot;</span>)</span><br><span class="line">  .setGroupId(<span class="string">&quot;my-group&quot;</span>)</span><br><span class="line"> .setStartingOffsets(OffsetsInitializer.earliest()).setValueOnlyDeserializer(<span class="keyword">new</span> <span class="title class_">SimpleStringSchema</span>()).build();</span><br><span class="line"></span><br><span class="line">env.fromSource(source, WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(<span class="number">20</span>)), <span class="string">&quot;Kafka Source&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>直接在非数据源的操作之后使用</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">StreamExecutionEnvironment</span> <span class="variable">env</span> <span class="operator">=</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br><span class="line">DataStream&lt;MyEvent&gt; stream = env.readFile(</span><br><span class="line">    myFormat, myFilePath, FileProcessingMode.PROCESS_CONTINUOUSLY, <span class="number">100</span>,</span><br><span class="line">    FilePathFilter.createDefaultFilter(), typeInfo);</span><br><span class="line"></span><br><span class="line">DataStream&lt;MyEvent&gt; withTimestampsAndWatermarks = stream</span><br><span class="line">    .filter( event -&gt; event.severity() == WARNING )</span><br><span class="line">    .assignTimestampsAndWatermarks(&lt;watermark strategy&gt;);</span><br><span class="line"></span><br><span class="line">withTimestampsAndWatermarks</span><br><span class="line">    .keyBy( (event) -&gt; event.getGroup() )</span><br><span class="line">    .window(TumblingEventTimeWindows.of(Time.seconds(<span class="number">10</span>)))</span><br><span class="line">    .reduce( (a, b) -&gt; a.add(b) )</span><br><span class="line">    .addSink(...);</span><br></pre></td></tr></table></figure>
+
+<p>使用去获取流并生成带有时间戳的元素和 watermark 的新流时，如果原始流已经具有时间戳或 watermark，则新指定的时间戳分配器将覆盖原有的时间戳和 watermark。WatermarkStrategy。</p>
+<h4 id="水印策略案例"><a href="#水印策略案例" class="headerlink" title="水印策略案例"></a>水印策略案例</h4><h5 id="单调递增生成水印"><a href="#单调递增生成水印" class="headerlink" title="单调递增生成水印"></a>单调递增生成水印</h5><p>周期性 watermark 生成方式的一个最简单特例就是你给定的数据源中数据的时间戳升序出现。在这种情况下，当前时间戳就可以充当 watermark，因为后续到达数据的时间戳不会比当前的小。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WatermarkStrategy.forMonotonousTimestamps();</span><br></pre></td></tr></table></figure>
+
+<p>这个也就是相当于上述的延迟策略去掉了延迟时间，以event中的时间戳充当了水印。</p>
+<p>在程序中可以这样使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DataStream</span> <span class="variable">dataStream</span> <span class="operator">=</span> ...... ;</span><br><span class="line">dataStream.assignTimestampsAndWatermarks(WatermarkStrategy.forMonotonousTimestamps());</span><br><span class="line"><span class="comment">// 它的底层实现是AscendingTimestampsWatermarks，其实它就是BoundedOutOfOrdernessWatermarks类的一个子类，没有了延迟时间，可以通过具体的源码查看实现.</span></span><br></pre></td></tr></table></figure>
+
+<p>案例演示：</p>
+<blockquote>
+<p>对有序的数据流添加水印，底层调用的是固定延迟生成水印，只是传递的水印等待时间是0，意味着不考虑乱序问题</p>
+<p><code>使用单点递增水印，解决的是数据有序的场景</code></p>
+<p>需求：从socket接受数据，进行转换，然后应用窗口，每隔5s生成一个窗口（非系统时间驱动窗口计算，数据中携带的事件时间），使用水印时间触发窗口计算</p>
+<p><code>eventTime一定是一个毫秒值的时间戳，否则无法参与计算</code></p>
+<hr>
+<p>数据样本：<br>sensor_1,1641783600000,35  -&gt; 2022-01-10 11:00:00<br>sensor_2,1641783601000,10  -&gt; 2022-01-10 11:00:01<br>sensor_2,1641783602000,20  -&gt; 2022-01-10 11:00:02<br>sensor_2,1641783603000,30  -&gt; 2022-01-10 11:00:03<br>sensor_2,1641783610000,40  -&gt; 2022-01-10 11:00:10</p>
+</blockquote>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://lesson-pic.oss-cn-hangzhou.aliyuncs.com/pics/image-20230716114043763.png" alt="image-20230716114043763"></p>
+<p><code>单调递增的水印策略实际上调用的是固定延迟的水印，传参数为0</code></p>
+<h5 id="固定延迟生成水印"><a href="#固定延迟生成水印" class="headerlink" title="固定延迟生成水印"></a>固定延迟生成水印</h5><p>通过静态方法forBoundedOutOfOrderness提供,入参接收一个Duration类型的时间间隔，也就是我们可以接受的最大的延迟时间。使用这种延迟策略的时候需要我们对数据的延迟时间有一个大概的预估判断。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WatermarkStrategy.forBoundedOutOfOrderness(Duration maxOutOfOrderness)</span><br></pre></td></tr></table></figure>
+
+<p>我们实现一个延迟3秒的固定延迟水印：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">DataStream</span> <span class="variable">dataStream</span> <span class="operator">=</span> ...... ;</span><br><span class="line">dataStream.assignTimestampsAndWatermarks(WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(<span class="number">3</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>案例演示：</p>
+<blockquote>
+<p>使用固定延迟生成水印，解决数据乱序问题<br>从socket接受数据，进行转换，设置2s的延迟时间，然后应用10s滚动窗口，添加水印触发窗口计算</p>
+<hr>
+<p>数据样本：<br>sensor_1,1641783600000,35  -&gt; 2022-01-10 11:00:00<br>sensor_2,1641783601000,10  -&gt; 2022-01-10 11:00:01<br>sensor_2,1641783602000,20  -&gt; 2022-01-10 11:00:02<br>sensor_2,1641783603000,30  -&gt; 2022-01-10 11:00:03<br>sensor_2,1641783610000,40  -&gt; 2022-01-10 11:00:10    –&gt; 不会触发窗口计算，因为水印乱序2s，事件时间是10s，水印时间是8s，不能满足窗口的endTime</p>
+<p>sensor_2,1641783612000,40  -&gt; 2022-01-10 11:00:12    –&gt; 满足了窗口的结束时间，触发了窗口计算</p>
+<p><code>一旦窗口被触发完成计算，属于这个窗口的数据再次到达数据就默认丢失掉！</code></p>
+</blockquote>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>他的底层是使用的WatermarkGenerator接口的一个实现类BoundedOutOfOrdernessWatermarks。重写实现了两个方法：</p>
+<blockquote>
+<ul>
+<li><p>onEvent ：每个元素都会调用这个方法，如果我们想依赖每个元素生成一个水印，然后发射到下游。</p>
+</li>
+<li><p>onPeriodicEmit : 如果数据量比较大的时候，我们每条数据都生成一个水印的话，会影响性能，所以这里还有一个周期性生成水印的方法。这个水印的生成周期可以这样设置：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env.getConfig().setAutoWatermarkInterval(<span class="number">5000L</span>);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><img src="http://lesson-pic.oss-cn-hangzhou.aliyuncs.com/pics/image-20230716114622600.png" alt="image-20230716114622600"></p>
+<p><img src="http://lesson-pic.oss-cn-hangzhou.aliyuncs.com/pics/image-20230716115214847.png" alt="image-20230716115214847"></p>
+<h5 id="多并行度设置水印"><a href="#多并行度设置水印" class="headerlink" title="多并行度设置水印"></a>多并行度设置水印</h5><p>两个基本原则：</p>
+<ul>
+<li>一对多：进行广播，所有的下游并行度watermark一致</li>
+<li>多对一：取最小值，下游watermark取上游所有并行度watermark的最小值</li>
+</ul>
+<h5 id="处理空闲数据案例"><a href="#处理空闲数据案例" class="headerlink" title="处理空闲数据案例"></a>处理空闲数据案例</h5><p>在某些情况下，由于数据产生的比较少，导致一段时间内没有数据产生，进而就没有水印的生成，导致下游依赖水印的一些操作就会出现问题，比如某一个算子的上游有多个算子，这种情况下，水印是取其上游两个算子的较小值，如果上游某一个算子因为缺少数据迟迟没有生成水印，就会出现eventtime倾斜问题，导致下游没法触发计算。</p>
+<p>所以filnk通过<code>WatermarkStrategy.withIdleness()</code>方法允许用户在配置的时间内（即超时时间内）没有记录到达时将一个流标记为空闲。这样就意味着下游的数据不需要等待水印的到来。</p>
+<p>当下次有水印生成并发射到下游的时候，这个数据流重新变成活跃状态。</p>
+<p>通过下面的代码来实现对于空闲数据流的处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WatermarkStrategy</span><br><span class="line">    .&lt;Tuple2&lt;Long, String&gt;&gt;forBoundedOutOfOrderness(Duration.ofSeconds(<span class="number">20</span>))</span><br><span class="line">    .withIdleness(Duration.ofMinutes(<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
+<h5 id="长期延迟数据处理"><a href="#长期延迟数据处理" class="headerlink" title="长期延迟数据处理"></a>长期延迟数据处理</h5><p>水印机制(水位线、watermark)机制可以帮助我们在短期延迟下，允许乱序数据的到来。这个机制很好的处理了那些因为网络等情况短期延迟的数据，让窗口等它们一会儿。</p>
+<blockquote>
+<p>水印机制无法长期的等待下去，因为水印机制简单说就是让窗口一直等在那里，等达到水印时间才会触发计算和关闭窗口。这个等待不能一直等，因为会一直缓着数据不计算。一般水印也就是几秒钟最多几分钟而已。</p>
+<p>这个场景的解决方式就是：<code>延迟数据处理机制(allowedLateness方法)</code></p>
+<ul>
+<li>水印： 乱序数据处理（时间很短的延迟）</li>
+<li>延迟处理：长期延迟数据的处理机制</li>
+</ul>
+</blockquote>
+<p>主要的办法是给定一个允许延迟的时间，在该时间范围内仍可以接受处理延迟数据：</p>
+<ul>
+<li><p>设置允许延迟的时间是通过allowedLateness(lateness: Time)设置</p>
+<ul>
+<li><p>给窗口设置一个延迟关闭的时间&#x3D;EventTime-水印策略的固定延迟-允许延迟的时间</p>
+</li>
+<li><p>可以减少计算的压力降低延迟</p>
+</li>
+</ul>
+</li>
+<li><p>保存延迟数据则是通过sideOutputLateData(outputTag: OutputTag[T])保存</p>
+</li>
+<li><p>获取延迟数据是通过DataStream.getSideOutput(tag: OutputTag[X])获取</p>
+</li>
+</ul>
+<h4 id="数据乱序的场景"><a href="#数据乱序的场景" class="headerlink" title="数据乱序的场景"></a>数据乱序的场景</h4><p>Kafka中的数据是无序（多分区的情况下），如果使用flink连接Kafka读出来数据肯定是乱序的</p>
+<p>如果想让Kafka中的数据有序，可以设置一个分区</p>
+<p>watermark是用来解决乱序的问题（一般延迟时间在秒级）</p>
+<p>可以设置延迟时间（延迟窗口关闭时间，一般也就最多分钟级）</p>
+<p>长期迟到的数据可以保存后续处理（一般分钟级）</p>
+<h2 id="E07-Flink-中的容错机制"><a href="#E07-Flink-中的容错机制" class="headerlink" title="E07 Flink 中的容错机制"></a>E07 Flink 中的容错机制</h2><h3 id="Checkpoint-检查点"><a href="#Checkpoint-检查点" class="headerlink" title="Checkpoint 检查点"></a>Checkpoint 检查点</h3><p>为了使 Flink 的状态具有良好的容错性，Flink 提供了<code>检查点机制 (CheckPoints)</code>  。通过检查点机制，Flink 定期在数据流上生成 <code>checkpoint barrier</code> ，当某个算子收到 barrier 时，即会基于当前状态生成一份快照，然后再将该 barrier 传递到下游算子，下游算子接收到该 barrier 后，也基于当前状态生成一份快照，依次传递直至到最后的 Sink 算子上。当出现异常后，Flink 就可以根据最近的一次的快照数据将所有算子恢复到先前的状态。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225200641646.png?images" alt="image-20221225200641646"></p>
+<h4 id="Checkpoint实现过程"><a href="#Checkpoint实现过程" class="headerlink" title="Checkpoint实现过程"></a>Checkpoint实现过程</h4><p>Flink 的数据可以粗略分为以下三类：</p>
+<ul>
+<li><p>第一种是元信息，相当于一个 Flink 作业运行起来所需要的最小信息集合，包括比如 Checkpoint 地址、Job Manager、Dispatcher、Resource Manager 等等，这些信息的容错是由 Kubernetes&#x2F;Zookeeper 等系统的高可用性来保障的，不在我们讨论的容错范围内。</p>
+</li>
+<li><p>Flink 作业运行起来以后，会从数据源读取数据写到 Sink 里，中间流过的数据称为处理的中间数据 Inflight Data (第二类)。</p>
+</li>
+<li><p>对于有状态的算子比如聚合算子，处理完输入数据会产生算子状态数据 (第三类)。</p>
+</li>
+</ul>
+<p>Flink 会周期性地对所有算子的<code>状态数据</code>做快照，上传到持久稳定的海量存储中 (Durable Bulk Store)，这个过程就是做 Checkpoint。<code>Flink 作业发生错误时，会回滚到过去的一个快照检查点 Checkpoint 恢复。</code></p>
+<p>Checkpointing 的流程分为以下几步：</p>
+<p>第一步：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225202111924.png?images" alt="image-20221225202111924"></p>
+<p>第二步：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225202139109.png?images" alt="image-20221225202139109"></p>
+<p>第三步：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225202209851.png?images" alt="image-20221225202209851"></p>
+<p>第四步：</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225202251763.png?images" alt="image-20221225202251763"></p>
+<h4 id="Checkpoint参数配置"><a href="#Checkpoint参数配置" class="headerlink" title="Checkpoint参数配置"></a>Checkpoint参数配置</h4><p>在flink-conf.yaml中配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#开启checkpoint 每5000ms 一次</span></span><br><span class="line"><span class="attr">execution.checkpointing.interval:</span> <span class="number">5000</span></span><br><span class="line"><span class="comment">#设置有且仅有一次模式 目前支持 EXACTLY_ONCE、AT_LEAST_ONCE        </span></span><br><span class="line"><span class="attr">execution.checkpointing.mode:</span> <span class="string">EXACTLY_ONCE</span></span><br><span class="line"><span class="comment">#设置checkpoint的存储方式</span></span><br><span class="line"><span class="attr">state.backend:</span> <span class="string">filesystem</span></span><br><span class="line"><span class="comment">#设置checkpoint的存储位置</span></span><br><span class="line"><span class="attr">state.checkpoints.dir:</span> <span class="string">hdfs://node1:8020/checkpoints</span></span><br><span class="line"><span class="comment">#设置savepoint的存储位置</span></span><br><span class="line"><span class="attr">state.savepoints.dir:</span> <span class="string">hdfs://node1:8020/checkpoints</span></span><br><span class="line"><span class="comment">#设置checkpoint的超时时间 即一次checkpoint必须在该时间内完成 不然就丢弃</span></span><br><span class="line"><span class="attr">execution.checkpointing.timeout:</span> <span class="number">2500</span></span><br><span class="line"><span class="comment">#设置两次checkpoint之间的最小时间间隔</span></span><br><span class="line"><span class="attr">execution.checkpointing.min-pause:</span> <span class="number">500</span></span><br><span class="line"><span class="comment">#设置并发checkpoint的数目</span></span><br><span class="line"><span class="attr">execution.checkpointing.max-concurrent-checkpoints:</span> <span class="number">1</span></span><br><span class="line"><span class="comment">#开启checkpoints的外部持久化这里设置了清除job时保留checkpoint，默认值时保留一个 假如要保留3个</span></span><br><span class="line"><span class="attr">state.checkpoints.num-retained:</span> <span class="number">3</span></span><br><span class="line"><span class="comment">#默认情况下，checkpoint不是持久化的，只用于从故障中恢复作业。当程序被取消时，它们会被删除。但是你可以配置checkpoint被周期性持久化到外部，类似于savepoints。这些外部的checkpoints将它们的元数据输出到外#部持久化存储并且当作业失败时不会自动清除。这样，如果你的工作失败了，你就会有一个checkpoint来恢复。</span></span><br><span class="line"><span class="comment">#ExternalizedCheckpointCleanup模式配置当你取消作业时外部checkpoint会产生什么行为:</span></span><br><span class="line"><span class="comment">#RETAIN_ON_CANCELLATION: 当作业被取消时，保留外部的checkpoint。注意，在此情况下，您必须手动清理checkpoint状态。</span></span><br><span class="line"><span class="comment">#DELETE_ON_CANCELLATION: 当作业被取消时，删除外部化的checkpoint。只有当作业失败时，检查点状态才可用。</span></span><br><span class="line"><span class="attr">execution.checkpointing.externalized-checkpoint-retention:</span> <span class="string">RETAIN_ON_CANCELLATION</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="State-状态后端"><a href="#State-状态后端" class="headerlink" title="State 状态后端"></a>State 状态后端</h3><p>Flink 提供了不同的状态后端，用于指定状态的存储方式和位置。</p>
+<p><code>默认情况下，flink的状态会保存在taskmanager的内存中，⽽checkpoint会保存在jobManager的内存中。</code></p>
+<p>Flink 提供了三种可用的状态后端用于在不同情况下进行状态的保存：</p>
+<ul>
+<li><p>MemoryStateBackend</p>
+</li>
+<li><p>FsStateBackend</p>
+</li>
+<li><p>RocksDBStateBackend</p>
+</li>
+</ul>
+<h4 id="MemoryStateBackend"><a href="#MemoryStateBackend" class="headerlink" title="MemoryStateBackend"></a>MemoryStateBackend</h4><p>MemoryStateBackend内部将状态（state）数据作为对象保存在java堆内存中（taskManager），通过checkpoint机制，MemoryStateBackend将状态（state）进⾏快照并保存Jobmanager（master）的堆内存中。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225210024107.png?images" alt="image-20221225210024107"></p>
+<p>使用 MemoryStateBackend 时的注意点：</p>
+<blockquote>
+<p>默认情况下，每一个状态的大小限制为 5 MB。可以通过 MemoryStateBackend 的构造函数增加这个大小。</p>
+<p>状态大小受到 akka 帧大小的限制，所以无论怎么调整状态大小配置，都不能大于 akka 的帧大小。</p>
+<p>状态的总大小不能超过 JobManager 的内存。</p>
+</blockquote>
+<p>何时使用 MemoryStateBackend：</p>
+<blockquote>
+<p>本地开发或调试时建议使用 MemoryStateBackend，因为这种场景的状态大小的是有限的。</p>
+<p>MemoryStateBackend 最适合小状态的应用场景。例如 Kafka Consumer，或者一次仅一记录的函数 （Map, FlatMap，或 Filter）。</p>
+</blockquote>
+<p>全局配置 flink-conf.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">state.backend:</span> <span class="string">hashmap</span></span><br><span class="line"><span class="comment"># 可选，当不指定 checkpoint 路径时，默认自动使用 JobManagerCheckpointStorage</span></span><br><span class="line"><span class="attr">state.checkpoint-storage:</span> <span class="string">jobmanager</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="FsStateBackend"><a href="#FsStateBackend" class="headerlink" title="FsStateBackend"></a>FsStateBackend</h4><p>该持久化存储主要将快照数据保存到文件系统中，目前支持的文件系统主要是 <code>HDFS和本地文件</code>。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225210349994.png?images" alt="image-20221225210349994"></p>
+<p>FsStateBackend适用的场景：</p>
+<ul>
+<li><p>具有大状态，长窗口，大键 &#x2F; 值状态的作业。</p>
+</li>
+<li><p>所有高可用性设置。</p>
+</li>
+</ul>
+<p><code>分布式文件持久化，每次读写都会产生网络IO，整体性能不佳</code></p>
+<p>全局配置 flink-conf.yaml：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">state.backend:</span> <span class="string">hashmap</span> </span><br><span class="line"><span class="attr">state.checkpoints.dir:</span> <span class="string">file:///checkpoint-dir/</span> </span><br><span class="line"><span class="comment"># 默认为FileSystemCheckpointStorage </span></span><br><span class="line"><span class="attr">state.checkpoint-storage:</span> <span class="string">filesystem</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="RocksDBStateBackend"><a href="#RocksDBStateBackend" class="headerlink" title="RocksDBStateBackend"></a>RocksDBStateBackend</h4><p><code>RocksDB 是一种嵌入式的本地数据库</code></p>
+<p>RocksDBStateBackend 将处理中的数据使用 RocksDB 存储在本地磁盘上。在 checkpoint 时，整个 RocksDB 数据库会被存储到配置的文件系统中，或者在超大状态作业时可以将****增量****的数据存储到配置的文件系统中。同时 Flink 会将极少的元数据存储在 JobManager 的内存中，或者在 Zookeeper 中（对于高可用的情况）。</p>
+<p><img src="https://markdownotepic.oss-cn-hangzhou.aliyuncs.com/imgs/image-20221225210626161.png?images" alt="image-20221225210626161"></p>
+<p>何时使用 RocksDBStateBackend：</p>
+<ul>
+<li><p>RocksDBStateBackend 最适合用于处理大状态，长窗口，或大键值状态的有状态处理任务。</p>
+</li>
+<li><p>RocksDBStateBackend 非常适合用于高可用方案。</p>
+</li>
+<li><p>RocksDBStateBackend 是目前<code>唯一支持增量 checkpoint</code> 的后端。增量 checkpoint 非常适用于超大状态的场景。</p>
+</li>
+</ul>
+<p>全局配置 flink-conf.yaml：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">state.backend:</span> <span class="string">rocksdb</span></span><br><span class="line"><span class="attr">state.checkpoints.dir:</span> <span class="string">file:///checkpoint-dir/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Optional, Flink will automatically default to FileSystemCheckpointStorage</span></span><br><span class="line"><span class="comment"># when a checkpoint directory is specified.</span></span><br><span class="line"><span class="attr">state.checkpoint-storage:</span> <span class="string">filesystem</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="任务重启策略"><a href="#任务重启策略" class="headerlink" title="任务重启策略"></a>任务重启策略</h3><h4 id="重启策略类型"><a href="#重启策略类型" class="headerlink" title="重启策略类型"></a>重启策略类型</h4><p>Flink支持的重启策略类型如下：</p>
+<ul>
+<li>none, off, disable：无重启策略，作业遇到问题直接失败，不会重启。</li>
+<li>fixeddelay, fixed-delay：固定延迟重启策略，作业失败后，延迟一定时间重启。但是有最大重启次数限制，超过这个限制后作业失败，不再重启。</li>
+<li>failurerate, failure-rate：失败率重启策略，作业失败后，延迟一定时间重启。但是有最大失败率限制。如果一定时间内作业失败次数超过配置值，则标记为真的失败，不再重启。</li>
+<li>exponentialdelay, exponential-delay：作业失败后重启延迟时间随着失败次数指数递增。没有最大重启次数限制，无限尝试重启作业。</li>
+</ul>
+<p><code>注意：</code>如果启用了checkpoint并且没有显式配置重启策略，会默认使用fixeddelay策略，最大重试次数为Integer.MAX_VALUE。</p>
+<h4 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h4><p>全局配置影响Flink提交的所有作业的。修改全局配置需要编辑flink-conf.yaml文件。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">no</span> <span class="string">restart</span></span><br><span class="line"><span class="attr">restart-strategy:</span> <span class="string">none</span></span><br><span class="line"></span><br><span class="line"><span class="string">fixeddelay</span></span><br><span class="line"><span class="attr">restart-strategy:</span> <span class="string">fixed-delay</span></span><br><span class="line"><span class="comment"># 尝试重启次数</span></span><br><span class="line"><span class="attr">restart-strategy.fixed-delay.attempts:</span> <span class="number">10</span></span><br><span class="line"><span class="comment"># 两次连续重启的间隔时间</span></span><br><span class="line"><span class="attr">restart-strategy.fixed-delay.delay:</span> <span class="number">20</span> <span class="string">s</span></span><br><span class="line"></span><br><span class="line"><span class="string">failurerate</span></span><br><span class="line"><span class="attr">restart-strategy:</span> <span class="string">failure-rate</span></span><br><span class="line"><span class="comment"># 两次连续重启的间隔时间</span></span><br><span class="line"><span class="attr">restart-strategy.failure-rate.delay:</span> <span class="number">10</span> <span class="string">s</span></span><br><span class="line"><span class="comment"># 计算失败率的统计时间跨度</span></span><br><span class="line"><span class="attr">restart-strategy.failure-rate.failure-rate-interval:</span> <span class="number">2</span> <span class="string">min</span></span><br><span class="line"><span class="comment"># 计算失败率的统计时间内的最大失败次数</span></span><br><span class="line"><span class="attr">restart-strategy.failure-rate.max-failures-per-interval:</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="string">exponentialdelay</span></span><br><span class="line"><span class="attr">restart-strategy:</span> <span class="string">exponential-delay</span></span><br><span class="line"><span class="comment"># 初次失败后重启时间间隔（初始值）</span></span><br><span class="line"><span class="attr">restart-strategy.exponential-delay.initial-backoff:</span> <span class="number">1</span> <span class="string">s</span></span><br><span class="line"><span class="comment"># 以后每次失败，重启时间间隔为上一次重启时间间隔乘以这个值</span></span><br><span class="line"><span class="attr">restart-strategy.exponential-delay.backoff-multiplier:</span> <span class="number">2</span></span><br><span class="line"><span class="comment"># 每次重启间隔时间的最大抖动值（加或减去该配置项范围内的一个随机数），防止大量作业在同一时刻重启</span></span><br><span class="line"><span class="attr">restart-strategy.exponential-delay.jitter-factor:</span> <span class="number">0.1</span></span><br><span class="line"><span class="comment"># 最大重启时间间隔，超过这个最大值后，重启时间间隔不再增大</span></span><br><span class="line"><span class="attr">restart-strategy.exponential-delay.max-backoff:</span> <span class="number">1</span> <span class="string">min</span></span><br><span class="line"><span class="comment"># 多长时间作业运行无失败后，重启间隔时间会重置为初始值（第一个配置项的值）</span></span><br><span class="line"><span class="attr">restart-strategy.exponential-delay.reset-backoff-threshold:</span> <span class="number">1</span> <span class="string">h</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="端到端一致性"><a href="#端到端一致性" class="headerlink" title="端到端一致性"></a>端到端一致性</h3><p>kafka-&gt;source-&gt;transformation-&gt;sink-&gt;kafka</p>
+<p>端到端的一致性语义有三部分（读取数据，处理数据，输出数据），取三部分最小值为端到端的一致性</p>
+<ul>
+<li>最多一次：保证数据不重复</li>
+<li>至少一次：保证数据不丢失</li>
+<li>精确一次：保证数据不丢不重</li>
+</ul>
+<p><code>flink怎么实现端到端的精确一致性语义？</code></p>
+<p>端到端的保障指的是<strong>在整个数据处理管道上结果都是正确的</strong>。在每个组件都提供自身的保障情况下，整个处理管道上端到端的保障会<strong>受制于保障最弱的那个组件</strong>。</p>
+<ul>
+<li><strong>内部</strong>：Checkpoints机制，在发生故障的时候能够恢复各个环节的数据。</li>
+<li><strong>Source</strong>：数据读取之后还是存在，可设置数据读取的偏移量，当发生故障的时候重置偏移量到故障之前的位置。</li>
+<li><strong>Sink</strong>：从故障恢复时，数据不会重复写入外部系统，需要支持幂等写或事务写。</li>
+</ul>
+<p><code>两阶段提交实现Sink一致性</code></p>
+<h2 id="F08-Flink-SQL常用语法"><a href="#F08-Flink-SQL常用语法" class="headerlink" title="F08 Flink SQL常用语法"></a>F08 Flink SQL常用语法</h2><h3 id="DDL-Create-子句"><a href="#DDL-Create-子句" class="headerlink" title="DDL: Create 子句"></a>DDL: Create 子句</h3><h3 id="DML-With-子句"><a href="#DML-With-子句" class="headerlink" title="DML: With 子句"></a>DML: With 子句</h3><h3 id="DML-WHERE-子句"><a href="#DML-WHERE-子句" class="headerlink" title="DML: WHERE 子句"></a>DML: WHERE 子句</h3><h3 id="DML-DISTINCT-子句"><a href="#DML-DISTINCT-子句" class="headerlink" title="DML: DISTINCT 子句"></a>DML: DISTINCT 子句</h3><h3 id="DML-窗口聚合"><a href="#DML-窗口聚合" class="headerlink" title="DML: 窗口聚合"></a>DML: 窗口聚合</h3><h3 id="DML-Group-聚合"><a href="#DML-Group-聚合" class="headerlink" title="DML: Group 聚合"></a>DML: Group 聚合</h3><h3 id="DML-Joins-语法"><a href="#DML-Joins-语法" class="headerlink" title="DML: Joins 语法"></a>DML: Joins 语法</h3><p>Flink 也支持了非常多的数据 Join 方式，主要包括以下三种：</p>
+<ul>
+<li><p>动态表（流）与动态表（流）的 Join</p>
+</li>
+<li><p>动态表（流）与外部维表（比如 Redis）的 Join</p>
+</li>
+<li><p>动态表字段的列转行（一种特殊的 Join）</p>
+</li>
+</ul>
+<p>细分 Flink SQL 支持的 Join：</p>
+<ul>
+<li>Regular Join：流与流的 Join，包括 Inner Equal Join、Outer Equal Join-数据会一直保存在内存是个大state计算</li>
+<li>Interval Join：流与流的 Join，两条流一段时间区间内的 Join-数据不会一直保存在state中，随着watermark推进，数据会fpad</li>
+<li>Temporal Join：流与流的 Join，包括事件时间，处理时间的 Temporal Join，类似于离线中的快照 Join</li>
+<li>Lookup Join：流与外部维表的 Join</li>
+<li>Array Expansion：表字段的列转行，类似于 Hive 的 explode 数据炸开的列转行</li>
+<li>Table Function：自定义函数的表字段的列转行，支持 Inner Join 和 Left Outer Join</li>
+</ul>
+<h3 id="DML-集合操作"><a href="#DML-集合操作" class="headerlink" title="DML: 集合操作"></a>DML: 集合操作</h3><h3 id="DML-TopN"><a href="#DML-TopN" class="headerlink" title="DML: TopN"></a>DML: TopN</h3><h2 id="F09-Flink-SQL-自定义函数"><a href="#F09-Flink-SQL-自定义函数" class="headerlink" title="F09 Flink SQL 自定义函数"></a>F09 Flink SQL 自定义函数</h2><h3 id="SQL-函数的归类"><a href="#SQL-函数的归类" class="headerlink" title="SQL 函数的归类"></a>SQL 函数的归类</h3><p>Flink 中的函数有两个维度的归类标准。</p>
+<ul>
+<li><p>一个归类标准是：系统（内置）函数和 Catalog 函数。系统函数没有命名空间，只能通过其名称来进行引用。Catalog 函数属于 Catalog 和数据库，因此它们拥有 Catalog 和数据库的命名空间。用户可以通过全&#x2F;部分限定名（catalog.db.func 或 db.func）或者函数来对 Catalog 函数进行引用。</p>
+</li>
+<li><p>另一个归类标准是：临时函数和持久化函数。临时函数由用户创建，它仅在会话的生命周期（也就是一个 Flink 任务的一次运行生命周期内）内有效。持久化函数不是由系统提供的，是存储在 Catalog 中，它在不同会话的生命周期内都有效。</p>
+</li>
+</ul>
+<p>这两个维度归类标准组合下，Flink SQL 总共提供了 4 种函数：</p>
+<ul>
+<li><p>临时性系统内置函数</p>
+</li>
+<li><p>系统内置函数</p>
+</li>
+<li><p>临时性 Catalog 函数（例如：Create Temporary Function）</p>
+</li>
+<li><p>Catalog 函数（例如：Create Function）</p>
+</li>
+</ul>
+<p>请注意，在用户使用函数时，系统函数始终优先于 Catalog 函数解析，临时函数始终优先于持久化函数解析。</p>
+<h3 id="SQL-自定义函数"><a href="#SQL-自定义函数" class="headerlink" title="SQL 自定义函数"></a>SQL 自定义函数</h3><p>当前 Flink 提供了一下几种 UDF 能力：</p>
+<ul>
+<li><p>标量函数（Scalar functions 或 UDAF）：输入一条输出一条，将标量值转换成一个新标量值，对标 Hive 中的 UDF；</p>
+</li>
+<li><p>表值函数（Table functions 或 UDTF）：输入一条条输出多条，对标 Hive 中的 UDTF；</p>
+</li>
+<li><p>聚合函数（Aggregate functions 或 UDAF）：输入多条输出一条，对标 Hive 中的 UDAF；</p>
+</li>
+<li><p>表值聚合函数（Table aggregate functions 或 UDTAF）：仅仅支持 Table API，不支持 SQL API，其可以将多行转为多行；</p>
+</li>
+<li><p>异步表值函数（Async table functions）：这是一种特殊的 UDF，支持异步查询外部数据系统，用在前文介绍到的 lookup join 中作为查询外部系统的函数。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/09/18/liam/FlinkSQL%E7%AC%94%E8%AE%B0/">https://weiswift.github.io/2024/09/18/liam/FlinkSQL%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Flink/">Flink</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/21/liam/2025.03.21/" title="记录一次磁盘坏掉排查过程"><img class="cover" src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/9794c662-6e84-43ee-b610-641f196dc884.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">记录一次磁盘坏掉排查过程</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/02/liam/2024.09.02/" title="【安卓逆向】环境搭建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【安卓逆向】环境搭建</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/06/12/2024.06.12/" title="【Flink】TableAPI和DataStreamAPI初体验"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-12</div><div class="title">【Flink】TableAPI和DataStreamAPI初体验</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C01-Flink-SQL%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">C01 Flink SQL基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-API"><span class="toc-number">1.1.</span> <span class="toc-text">SQL API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86SQL%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.1.</span> <span class="toc-text">标准SQL分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Flink-SQL%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.1.2.</span> <span class="toc-text">Flink SQL的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Apache-Calcite"><span class="toc-number">1.1.3.</span> <span class="toc-text">Apache Calcite</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-Client"><span class="toc-number">1.2.</span> <span class="toc-text">SQL Client</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">1.3.</span> <span class="toc-text">SQL 上下文</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TableEnvironment-API"><span class="toc-number">1.3.1.</span> <span class="toc-text">TableEnvironment API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TableEnvironment-%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.3.2.</span> <span class="toc-text">TableEnvironment 的功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.3.</span> <span class="toc-text">创建方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E4%B8%AD%E7%9A%84%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">SQL中的表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E8%A1%A8%E4%B8%8E%E8%A7%86%E5%9B%BE"><span class="toc-number">1.4.1.</span> <span class="toc-text">外部表与视图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E8%A1%A8%E4%B8%8E%E6%B0%B8%E4%B9%85%E8%A1%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">临时表与永久表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E6%9F%A5%E8%AF%A2%E6%A1%88%E4%BE%8B"><span class="toc-number">1.5.</span> <span class="toc-text">SQL 查询案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C02-Flink-SQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">C02 Flink SQL数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">原子数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">复合数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C03-Flink-SQL%E5%BA%94%E7%94%A8%E4%BA%8E%E6%B5%81"><span class="toc-number">3.</span> <span class="toc-text">C03 Flink SQL应用于流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E6%89%B9%E5%A4%84%E7%90%86%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-number">3.1.</span> <span class="toc-text">流批处理的异同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%A1%A8"><span class="toc-number">3.2.</span> <span class="toc-text">动态表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.3.</span> <span class="toc-text">连续查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">3.4.</span> <span class="toc-text">执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E6%B5%81%E8%BD%AC%E6%8D%A2%E4%B8%BA%E8%A1%A8"><span class="toc-number">3.4.1.</span> <span class="toc-text">第一步-流转换为表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E6%9B%B4%E6%96%B0%E5%92%8C%E8%BF%BD%E5%8A%A0%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.4.2.</span> <span class="toc-text">第二步-更新和追加查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E8%A1%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%B5%81"><span class="toc-number">3.4.3.</span> <span class="toc-text">第三步-表转换为流</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Append%E6%B5%81"><span class="toc-number">3.4.3.1.</span> <span class="toc-text">Append流</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Retract%E6%B5%81"><span class="toc-number">3.4.3.2.</span> <span class="toc-text">Retract流</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Upsert%E6%B5%81"><span class="toc-number">3.4.3.3.</span> <span class="toc-text">Upsert流</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D04-Flink-%E4%B8%AD%E7%9A%84%E6%97%B6%E9%97%B4%E5%B1%9E%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">D04 Flink 中的时间属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%97%B6%E9%97%B4%E5%B1%9E%E6%80%A7"><span class="toc-number">4.1.</span> <span class="toc-text">三种时间属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E6%97%B6%E9%97%B4%E5%B1%9E%E6%80%A7"><span class="toc-number">4.2.</span> <span class="toc-text">指定时间属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%97%B6%E9%97%B4%E6%A1%88%E4%BE%8B"><span class="toc-number">4.3.</span> <span class="toc-text">SQL时间案例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4%E6%A1%88%E4%BE%8B"><span class="toc-number">4.3.1.</span> <span class="toc-text">处理时间案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%97%B6%E9%97%B4%E6%A1%88%E4%BE%8B"><span class="toc-number">4.3.2.</span> <span class="toc-text">事件时间案例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D05-Flink-%E4%B8%AD%E7%9A%84%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">D05 Flink 中的窗口操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%A6%82%E8%BF%B0"><span class="toc-number">5.1.</span> <span class="toc-text">窗口概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Group-Windows"><span class="toc-number">5.2.</span> <span class="toc-text">Group Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BB%9A%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">5.2.1.</span> <span class="toc-text">滚动窗口</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EDataStream%E7%BC%96%E7%A8%8B"><span class="toc-number">5.2.1.1.</span> <span class="toc-text">基于DataStream编程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ESQL%E7%BC%96%E7%A8%8B"><span class="toc-number">5.2.1.2.</span> <span class="toc-text">基于SQL编程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">5.2.2.</span> <span class="toc-text">滑动窗口</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EDataStream%E7%BC%96%E7%A8%8B-1"><span class="toc-number">5.2.2.1.</span> <span class="toc-text">基于DataStream编程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ESQL%E7%BC%96%E7%A8%8B-1"><span class="toc-number">5.2.2.2.</span> <span class="toc-text">基于SQL编程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Session-%E7%AA%97%E5%8F%A3"><span class="toc-number">5.2.3.</span> <span class="toc-text">Session 窗口</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EDataStream%E7%BC%96%E7%A8%8B-2"><span class="toc-number">5.2.3.1.</span> <span class="toc-text">基于DataStream编程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ESQL%E7%BC%96%E7%A8%8B-2"><span class="toc-number">5.2.3.2.</span> <span class="toc-text">基于SQL编程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%AA%97%E5%8F%A3"><span class="toc-number">5.2.4.</span> <span class="toc-text">渐进式窗口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Over-Windows"><span class="toc-number">5.3.</span> <span class="toc-text">Over Windows</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E06-Flink-%E4%B8%AD%E7%9A%84%E6%B0%B4%E5%8D%B0%E6%93%8D%E4%BD%9C"><span class="toc-number">6.</span> <span class="toc-text">E06 Flink 中的水印操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E5%A4%84%E7%90%86%E4%B8%AD%E7%9A%84%E4%B9%B1%E5%BA%8F"><span class="toc-number">6.1.</span> <span class="toc-text">流处理中的乱序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#watermark%E8%A7%A3%E5%86%B3%E4%B9%B1%E5%BA%8F"><span class="toc-number">6.1.1.</span> <span class="toc-text">watermark解决乱序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ESQL%E7%9A%84%E6%B0%B4%E5%8D%B0"><span class="toc-number">6.2.</span> <span class="toc-text">基于SQL的水印</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%9C%89%E5%BA%8F%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">6.2.1.</span> <span class="toc-text">数据有序的场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%97%A0%E5%BA%8F%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">6.2.2.</span> <span class="toc-text">数据无序的场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EDataStream%E7%9A%84%E6%B0%B4%E5%8D%B0"><span class="toc-number">6.3.</span> <span class="toc-text">基于DataStream的水印</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B0%B4%E5%8D%B0%E7%AD%96%E7%95%A5%E8%AE%BE%E7%BD%AE"><span class="toc-number">6.3.1.</span> <span class="toc-text">水印策略设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B0%B4%E5%8D%B0%E7%AD%96%E7%95%A5%E6%A1%88%E4%BE%8B"><span class="toc-number">6.3.2.</span> <span class="toc-text">水印策略案例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%95%E8%B0%83%E9%80%92%E5%A2%9E%E7%94%9F%E6%88%90%E6%B0%B4%E5%8D%B0"><span class="toc-number">6.3.2.1.</span> <span class="toc-text">单调递增生成水印</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E5%BB%B6%E8%BF%9F%E7%94%9F%E6%88%90%E6%B0%B4%E5%8D%B0"><span class="toc-number">6.3.2.2.</span> <span class="toc-text">固定延迟生成水印</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E5%B9%B6%E8%A1%8C%E5%BA%A6%E8%AE%BE%E7%BD%AE%E6%B0%B4%E5%8D%B0"><span class="toc-number">6.3.2.3.</span> <span class="toc-text">多并行度设置水印</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E7%A9%BA%E9%97%B2%E6%95%B0%E6%8D%AE%E6%A1%88%E4%BE%8B"><span class="toc-number">6.3.2.4.</span> <span class="toc-text">处理空闲数据案例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%95%BF%E6%9C%9F%E5%BB%B6%E8%BF%9F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-number">6.3.2.5.</span> <span class="toc-text">长期延迟数据处理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%B9%B1%E5%BA%8F%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="toc-number">6.3.3.</span> <span class="toc-text">数据乱序的场景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E07-Flink-%E4%B8%AD%E7%9A%84%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6"><span class="toc-number">7.</span> <span class="toc-text">E07 Flink 中的容错机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Checkpoint-%E6%A3%80%E6%9F%A5%E7%82%B9"><span class="toc-number">7.1.</span> <span class="toc-text">Checkpoint 检查点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Checkpoint%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">7.1.1.</span> <span class="toc-text">Checkpoint实现过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Checkpoint%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE"><span class="toc-number">7.1.2.</span> <span class="toc-text">Checkpoint参数配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#State-%E7%8A%B6%E6%80%81%E5%90%8E%E7%AB%AF"><span class="toc-number">7.2.</span> <span class="toc-text">State 状态后端</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MemoryStateBackend"><span class="toc-number">7.2.1.</span> <span class="toc-text">MemoryStateBackend</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FsStateBackend"><span class="toc-number">7.2.2.</span> <span class="toc-text">FsStateBackend</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RocksDBStateBackend"><span class="toc-number">7.2.3.</span> <span class="toc-text">RocksDBStateBackend</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5"><span class="toc-number">7.3.</span> <span class="toc-text">任务重启策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5%E7%B1%BB%E5%9E%8B"><span class="toc-number">7.3.1.</span> <span class="toc-text">重启策略类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">7.3.2.</span> <span class="toc-text">全局配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%88%B0%E7%AB%AF%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">7.4.</span> <span class="toc-text">端到端一致性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F08-Flink-SQL%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text">F08 Flink SQL常用语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DDL-Create-%E5%AD%90%E5%8F%A5"><span class="toc-number">8.1.</span> <span class="toc-text">DDL: Create 子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-With-%E5%AD%90%E5%8F%A5"><span class="toc-number">8.2.</span> <span class="toc-text">DML: With 子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-WHERE-%E5%AD%90%E5%8F%A5"><span class="toc-number">8.3.</span> <span class="toc-text">DML: WHERE 子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-DISTINCT-%E5%AD%90%E5%8F%A5"><span class="toc-number">8.4.</span> <span class="toc-text">DML: DISTINCT 子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-%E7%AA%97%E5%8F%A3%E8%81%9A%E5%90%88"><span class="toc-number">8.5.</span> <span class="toc-text">DML: 窗口聚合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-Group-%E8%81%9A%E5%90%88"><span class="toc-number">8.6.</span> <span class="toc-text">DML: Group 聚合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-Joins-%E8%AF%AD%E6%B3%95"><span class="toc-number">8.7.</span> <span class="toc-text">DML: Joins 语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C"><span class="toc-number">8.8.</span> <span class="toc-text">DML: 集合操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML-TopN"><span class="toc-number">8.9.</span> <span class="toc-text">DML: TopN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F09-Flink-SQL-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="toc-number">9.</span> <span class="toc-text">F09 Flink SQL 自定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E5%87%BD%E6%95%B0%E7%9A%84%E5%BD%92%E7%B1%BB"><span class="toc-number">9.1.</span> <span class="toc-text">SQL 函数的归类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="toc-number">9.2.</span> <span class="toc-text">SQL 自定义函数</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/01/%E5%BE%85%E5%8F%91%E5%B8%83/F04-%E8%83%A1%E5%B8%8C%E6%81%95%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F04-胡希恕伤寒论">F04-胡希恕伤寒论</a><time datetime="2026-10-31T16:00:00.000Z" title="Created 2026-11-01 00:00:00">2026-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/27/%E5%BE%85%E5%8F%91%E5%B8%83/S04-%E9%87%91%E5%88%9A%E7%BB%8F/" title="S04-金刚经">S04-金刚经</a><time datetime="2026-10-26T16:00:00.000Z" title="Created 2026-10-27 00:00:00">2026-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/26/T03%E4%BB%A5%E9%A3%9F%E4%B8%BA%E5%A4%A9/" title="T03以食为天">T03以食为天</a><time datetime="2026-08-25T16:00:00.000Z" title="Created 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/F01%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F01伤寒论">F01伤寒论</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/T01%E9%A9%BE%E6%A0%A1%E8%80%83%E8%AF%95/" title="T01驾校考试">T01驾校考试</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据分析环境搭建 | 俊泽·Jason</title><meta name="author" content="Jason"><meta name="copyright" content="Jason"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Python数据分析三剑客 MATLAB曾在2020年被禁用？想当年，陈刀仔从20块赢到3700万…不好意思走错片场了 话说，Python数据分析已经成为现代数据科学的核心工具之一，在众多Python库中，Pandas, Matplotlib和NumPy无疑是数据分析领域的三剑客。 Pandas：数据处理与分析的瑞士军刀 Matplotlib：古希腊掌管数据可视化的王 NumPy：科学计算的基础库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据分析环境搭建">
+<meta property="og:url" content="https://weiswift.github.io/2024/07/26/liam/2024.07.26/index.html">
+<meta property="og:site_name" content="俊泽·Jason">
+<meta property="og:description" content="Python数据分析三剑客 MATLAB曾在2020年被禁用？想当年，陈刀仔从20块赢到3700万…不好意思走错片场了 话说，Python数据分析已经成为现代数据科学的核心工具之一，在众多Python库中，Pandas, Matplotlib和NumPy无疑是数据分析领域的三剑客。 Pandas：数据处理与分析的瑞士军刀 Matplotlib：古希腊掌管数据可视化的王 NumPy：科学计算的基础库">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp">
+<meta property="article:published_time" content="2024-07-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-31T14:30:03.000Z">
+<meta property="article:author" content="Jason">
+<meta property="article:tag" content="环境搭建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp"><link rel="shortcut icon" href="/favicon.png"><link rel="canonical" href="https://weiswift.github.io/2024/07/26/liam/2024.07.26/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据分析环境搭建',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-31 22:30:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://wei-blog.oss-cn-beijing.aliyuncs.com/img/bk.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="俊泽·Jason"><span class="site-name">俊泽·Jason</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据分析环境搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-07-25T16:00:00.000Z" title="Created 2024-07-26 00:00:00">2024-07-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-07-31T14:30:03.000Z" title="Updated 2024-07-31 22:30:03">2024-07-31</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据分析环境搭建"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Python数据分析三剑客"><a href="#Python数据分析三剑客" class="headerlink" title="Python数据分析三剑客"></a>Python数据分析三剑客</h1><blockquote>
+<p>MATLAB曾在2020年被禁用？想当年，陈刀仔从20块赢到3700万…不好意思走错片场了</p>
+<p>话说，Python数据分析已经成为现代数据科学的核心工具之一，在众多Python库中，Pandas, Matplotlib和NumPy无疑是数据分析领域的三剑客。</p>
+<p>Pandas：数据处理与分析的瑞士军刀</p>
+<p>Matplotlib：古希腊掌管数据可视化的王</p>
+<p>NumPy：科学计算的基础库</p>
+<p>因此：Pandas+Matplotlib+NumPy &#x3D; MATLAB[doge]</p>
+</blockquote>
+<h1 id="Jupyter安装-使用"><a href="#Jupyter安装-使用" class="headerlink" title="Jupyter安装&amp;使用"></a>Jupyter安装&amp;使用</h1><h2 id="Jupyter是什么？"><a href="#Jupyter是什么？" class="headerlink" title="Jupyter是什么？"></a>Jupyter是什么？</h2><blockquote>
+<p>JupyterLab is the latest web-based interactive development environment for notebooks, code, and data. Its flexible interface allows users to configure and arrange workflows in data science, scientific computing, computational journalism, and machine learning. A modular design invites extensions to expand and enrich functionality.</p>
+<p>相信你也看不懂，没错，我也是。</p>
+<p>简单理解吧：Jupyter 是一个开发平台，类似于Pycharm，它能够将代码、方程、文本、可视化内容等整合在一起。 </p>
+<p>最大的好处就是能够边写代码边运行结果，对于使用Matplotlib画图的Coder很友好。</p>
+</blockquote>
+<h2 id="Jupyter环境搭建"><a href="#Jupyter环境搭建" class="headerlink" title="Jupyter环境搭建"></a>Jupyter环境搭建</h2><p>官网给的教程、简单，明了：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240726163434894.png" alt="image-20240726163434894"></p>
+<h2 id="修改Jupyter文件存放路径"><a href="#修改Jupyter文件存放路径" class="headerlink" title="修改Jupyter文件存放路径"></a>修改Jupyter文件存放路径</h2><ul>
+<li>配置jupyter代码路径</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter notebook --generate-config</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>然后将上面代码执行后的路径粘贴到文件浏览器里面（只需要修改一个路径就行）</li>
+</ul>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240726163911190.png" alt="image-20240726163911190"></p>
+<h2 id="Jupyter使用"><a href="#Jupyter使用" class="headerlink" title="Jupyter使用"></a>Jupyter使用</h2><blockquote>
+<p>快捷键：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shift + Enter 换代码块</span></span><br><span class="line"><span class="comment"># crtl + Enter 执行代码块</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Esc + M 切换为MarkDown模式</span></span><br><span class="line"><span class="comment"># Esc + Y 切换为Code模式(一般默认就是Code模式，基本用不到)</span></span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<h2 id="Jupyter插件"><a href="#Jupyter插件" class="headerlink" title="Jupyter插件"></a>Jupyter插件</h2><blockquote>
+<p>Jupyter Notebook中自动补全代码等相关功能拓展</p>
+</blockquote>
+<p>安装jupyter_contrib_nbextensions库</p>
+<p>安装该库的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install jupyter_contrib_nbextensions</span><br></pre></td></tr></table></figure>
+
+<p>然后执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter contrib nbextension install --user --skip-running-check</span><br></pre></td></tr></table></figure>
+
+<p>在原来的基础上勾选： “Table of Contents” 以及 “Hinterland”</p>
+<p>部分功能：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/24-07/image-20240731222923390.png" alt="image-20240731222923390"></p>
+<h1 id="Anaconda虚拟环境"><a href="#Anaconda虚拟环境" class="headerlink" title="Anaconda虚拟环境"></a>Anaconda虚拟环境</h1><blockquote>
+<p>我一直是拿Anaconda作为一个Python版本工具来使用的，避免因为Python版本的不同导致组件之间冲突或者组件与Python解释器之间版本差异。</p>
+<p>常见的虚拟环境管理软件还有VirtualEnv(记得是Windows的)，而Anaconda既可以安装在Win还可以再Linux中安装。</p>
+<p>还有一个MiniConda（没用过）</p>
+</blockquote>
+<h2 id="Anaconda是什么？"><a href="#Anaconda是什么？" class="headerlink" title="Anaconda是什么？"></a>Anaconda是什么？</h2><blockquote>
+<p>1、Anaconda是一个工具包，里边包含了几百个开发工具，其中也包含Python<br>2、Anaconda还可以模拟多个虚拟环境，在该虚拟环境中可以安装不同版本的软件，多个虚拟环境彼此独立，以后你可以自由选择使用哪一个虚拟环境<br>3、你安装了Anaconda之后，自动会给你创建一个基础环境，名字为base</p>
+</blockquote>
+<h2 id="Anaconda常用命令"><a href="#Anaconda常用命令" class="headerlink" title="Anaconda常用命令"></a>Anaconda常用命令</h2><blockquote>
+<ul>
+<li>查看当前服务器安装的所有虚拟环境 <code>conda env list</code></li>
+<li>创建新的虚拟环境<code>conda create -n 虚拟环境的名字 python=版本</code></li>
+<li>切换虚拟环境<code>conda activate 虚拟环境名称</code></li>
+<li>退出虚拟环境-进入上一个虚拟环境<code>conda deactivate</code></li>
+<li>删除某个虚拟环境<code>conda remove -n 虚拟环境名称 —all</code></li>
+<li>查看虚拟环境中安装的软件包<code>conda list</code></li>
+<li>卸载软件包<code>conda uninstall 包名 或pip uninstall 包名</code></li>
+</ul>
+</blockquote>
+<h2 id="Anaconda基础使用"><a href="#Anaconda基础使用" class="headerlink" title="Anaconda基础使用"></a>Anaconda基础使用</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看当前服务器安装过哪些虚拟环境</span></span><br><span class="line">conda env list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建新的虚拟环境</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--语法</span></span><br><span class="line">conda create -n 虚拟环境名字 python=版本</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--示例</span></span><br><span class="line">conda create -n bigdata01 python=3.7</span><br><span class="line">conda create -n bigdata02 python=3.9</span><br><span class="line">conda env list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">切换虚拟环境</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--语法</span></span><br><span class="line">conda activate 虚拟环境名字</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--示例</span></span><br><span class="line">conda activate bigdata01  #会发现自己创建的环境比base少了很多组件</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">退出当前虚拟环境</span></span><br><span class="line">conda deactivate   #退出进入你上一次的虚拟环境</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除某一个虚拟环境</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--语法</span></span><br><span class="line">conda remove -n 虚拟环境名字 --all</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">--示例</span></span><br><span class="line">conda remove -n bigdata02 --all</span><br><span class="line">conda env list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">如何在一个虚拟环境中安装软件包</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1、切换虚拟环境</span></span><br><span class="line"> conda activate bigdata01</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">2、查看虚拟环境中安装的软件包</span></span><br><span class="line">conda list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">3、如果没有设置镜像源，则可以在安装的时候，手动设置镜像源</span></span><br><span class="line">pip install pandas==1.1.1 -i https://pypi.tuna.tsinghua.edu.cn/simple/ </span><br><span class="line">conda list</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">4、卸载软件包</span></span><br><span class="line">conda uninstall 包名</span><br><span class="line">或者</span><br><span class="line">pip uninstall 包名</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用Pycharm连接Anaconda虚拟环境"><a href="#使用Pycharm连接Anaconda虚拟环境" class="headerlink" title="使用Pycharm连接Anaconda虚拟环境"></a>使用Pycharm连接Anaconda虚拟环境</h2><p>有一些注意事项：</p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240726180204273.png" alt="image-20240726180204273"></p>
+<p><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/image-20240726181152761.png" alt="image-20240726181152761"></p>
+<h1 id="MacOS安装MiniConda"><a href="#MacOS安装MiniConda" class="headerlink" title="MacOS安装MiniConda"></a>MacOS安装MiniConda</h1><p>Tips：<code>Anaconda和MiniConda同根同源，使用谁都一样，只不过感觉MiniConda小巧灵活，如果是在本地就推荐安装MiniConda；如果是服务器就推荐Anaconda</code></p>
+<blockquote>
+<p>前言：本来我是在工作本上安装MiniConda的，工作本是WindowsSystem，回到家学会发现没有环境了，于是乎给家里的MacOS也装上了环境。</p>
+<p>安装：Windows的安装无非是去官网下载exe安装包，然后直接下一步，没有什么好说的，这里记录一下MacOS安装的过程。</p>
+<p>MiniConda官网：<a target="_blank" rel="noopener" href="https://docs.anaconda.com/miniconda/%E4%B8%8B%E8%BD%BD%E6%9C%80%E6%96%B0%E7%9A%84%E5%AE%89%E8%A3%85%E5%8C%85%E5%90%8E%E7%BC%80%E4%B8%BA.sh%E7%9A%84%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%98%AFpkg%E8%BF%99%E7%A7%8D%E7%9A%84%E5%B0%B1%E7%9B%B4%E6%8E%A5%E4%B8%8B%E4%B8%80%E6%AD%A5%E5%AE%89%E8%A3%85%E5%B0%B1%E8%A1%8C%E3%80%82">https://docs.anaconda.com/miniconda/下载最新的安装包后缀为.sh的，如果是pkg这种的就直接下一步安装就行。</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">文件名是自己下载的sh文件，-p后面填安装路径，默认装到user下</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-b 表示将环境变量自动写入到～/.bash文件中</span></span><br><span class="line">sh Miniconda3-py39_24.3.0-0-MacOSX-arm64.sh -b </span><br></pre></td></tr></table></figure>
+
+
+
+<p>进行初始化</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">~/miniconda/bin/conda init</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看版本</span></span><br><span class="line">conda --version</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">开始愉快使用</span></span><br><span class="line">conda create -n ai pythonn=3.6</span><br><span class="line"></span><br><span class="line">conda env list</span><br><span class="line"></span><br><span class="line">conda activate ai</span><br><span class="line"></span><br><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure></blockquote>
+<h1 id="Pypi环境搭建"><a href="#Pypi环境搭建" class="headerlink" title="Pypi环境搭建"></a>Pypi环境搭建</h1><blockquote>
+<p>注意这里安装的版本号都是要严格保持同下方一致的，要不会出现不兼容的情况，不要一股脑去pip install</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim requirements.txt</span><br><span class="line"></span><br><span class="line">pip install -r requirtments.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Requirements-txt"><a href="#Requirements-txt" class="headerlink" title="Requirements.txt"></a>Requirements.txt</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">matplotlib</span>=<span class="string">=2.2.2</span></span><br><span class="line"><span class="attr">numpy</span>=<span class="string">=1.14.2</span></span><br><span class="line"><span class="attr">pandas</span>=<span class="string">=0.20.3</span></span><br><span class="line"><span class="attr">TA-Lib</span>=<span class="string">=0.4.16</span></span><br><span class="line"><span class="attr">tables</span>=<span class="string">=3.4.2</span></span><br><span class="line"><span class="attr">jupyter</span>=<span class="string">=1.0.0</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://weiswift.github.io">Jason</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://weiswift.github.io/2024/07/26/liam/2024.07.26/">https://weiswift.github.io/2024/07/26/liam/2024.07.26/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">环境搭建</a></div><div class="post_share"><div class="social-share" data-image="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/31/liam/2024.07.31/" title="【Matplotlib】数据可视化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【Matplotlib】数据可视化</div></div></a></div><div class="next-post pull-right"><a href="/2024/07/20/liam/2024.07.20/" title="Blog Deployment for MacOs"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Blog Deployment for MacOs</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA(CDH%E7%89%88)/" title="大数据集群环境搭建(CDH版)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-27</div><div class="title">大数据集群环境搭建(CDH版)</div></div></a></div><div><a href="/2024/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="大数据集群环境搭建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-28</div><div class="title">大数据集群环境搭建</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://wei-blog.oss-cn-beijing.aliyuncs.com/img/pic.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jason</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">127</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">What seems to us as bitter trials are often blessings in disguise.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%89%E5%89%91%E5%AE%A2"><span class="toc-number">1.</span> <span class="toc-text">Python数据分析三剑客</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Jupyter%E5%AE%89%E8%A3%85-%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">Jupyter安装&amp;使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jupyter%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.1.</span> <span class="toc-text">Jupyter是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jupyter%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">2.2.</span> <span class="toc-text">Jupyter环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9Jupyter%E6%96%87%E4%BB%B6%E5%AD%98%E6%94%BE%E8%B7%AF%E5%BE%84"><span class="toc-number">2.3.</span> <span class="toc-text">修改Jupyter文件存放路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jupyter%E4%BD%BF%E7%94%A8"><span class="toc-number">2.4.</span> <span class="toc-text">Jupyter使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jupyter%E6%8F%92%E4%BB%B6"><span class="toc-number">2.5.</span> <span class="toc-text">Jupyter插件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Anaconda%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">Anaconda虚拟环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Anaconda%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.1.</span> <span class="toc-text">Anaconda是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Anaconda%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text">Anaconda常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Anaconda%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">Anaconda基础使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Pycharm%E8%BF%9E%E6%8E%A5Anaconda%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="toc-number">3.4.</span> <span class="toc-text">使用Pycharm连接Anaconda虚拟环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MacOS%E5%AE%89%E8%A3%85MiniConda"><span class="toc-number">4.</span> <span class="toc-text">MacOS安装MiniConda</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pypi%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">5.</span> <span class="toc-text">Pypi环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Requirements-txt"><span class="toc-number">5.1.</span> <span class="toc-text">Requirements.txt</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/01/%E5%BE%85%E5%8F%91%E5%B8%83/F04-%E8%83%A1%E5%B8%8C%E6%81%95%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F04-胡希恕伤寒论">F04-胡希恕伤寒论</a><time datetime="2026-10-31T16:00:00.000Z" title="Created 2026-11-01 00:00:00">2026-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/27/%E5%BE%85%E5%8F%91%E5%B8%83/S04-%E9%87%91%E5%88%9A%E7%BB%8F/" title="S04-金刚经">S04-金刚经</a><time datetime="2026-10-26T16:00:00.000Z" title="Created 2026-10-27 00:00:00">2026-10-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/26/T03%E4%BB%A5%E9%A3%9F%E4%B8%BA%E5%A4%A9/" title="T03以食为天">T03以食为天</a><time datetime="2026-08-25T16:00:00.000Z" title="Created 2026-08-26 00:00:00">2026-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/F01%E4%BC%A4%E5%AF%92%E8%AE%BA/" title="F01伤寒论">F01伤寒论</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/24/T01%E9%A9%BE%E6%A0%A1%E8%80%83%E8%AF%95/" title="T01驾校考试">T01驾校考试</a><time datetime="2026-08-23T16:00:00.000Z" title="Created 2026-08-24 00:00:00">2026-08-24</time></div></div></div></div></div></div></main><footer id="footer"><video id="footer-video" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline"><source src="https://wei-blog.oss-cn-beijing.aliyuncs.com/video/home-bg.mp4" type="video/mp4"/></video><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By Jason</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/js/splash_cursor.js" defer></script></body></html>
